@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% load static %}
+<!--modal add-->
+{% block add_modal %}
+    <script src="{% static "js/core/jquery.min.js" %}"></script>
+    <script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+{% endblock add_modal %}
+<!--datepicker-->
+{% block datepicker %}
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="{% url 'profissionais' %}">
+      <i class="material-icons">person</i>
+      <p>Profissionais</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary"data-background-color="purple">
+                  <h4 class="card-title">Dados do Profissional</h4>
+                  <p class="card-category">* Campos obrigatórios</p>
+              </div>
+                <div class="card-content">
+                   <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                    <label class="bmd-label-floating">*Nome de Usuario</label>
+                      <b style="color:red;">{{user_form.username.errors}}</b>
+                      <!--<input type="text"name="username"class="form-control">-->
+                      {{user_form.username}}
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                    <label class="bmd-label-floating">*Email</label>
+                       <b style="color:red;">{{profissional_form.email.errors}}</b>
+                      {{profissional_form.email}}
+                    </div>
+                  </div>
+                   <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Senha</label>
+                        <!--<input type="password"name="password1"class="form-control">-->
+                        {{user_form.password1}}
+                    </div>
+                  </div>
+                   <div class="col-md-2">
+                    <b style="color:red;">{{user_form.password2.errors}}</b>
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Confirmar Senha</label>
+                      <!--<input type="password"name="password2"class="form-control">-->
+                      {{user_form.password2}}
+                    </div>
+                  </div>
+                 <div class="col-md-3">
+                 <b style="color:red;">{{profissional_form.tipo.errors}}</b>
+                   <label class="bmd-label-floating">Atuação</label>
+                      <select requerid class="selectpicker"name="tipo"data-style="select-with-transition" data-size="7"id="permissao">
+                        <option value="">Escolha a Função no Sistema</option>
+                        <option value="1">Atendente</option>
+                        <option value="2">Profissional</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Nome</label>
+                       <b style="color:red;">{{profissional_form.nome.errors}}</b>
+                     {{profissional_form.nome}}
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Sobrenome</label>
+                       <b style="color:red;">{{profissional_form.sobrenome.errors}}</b>
+                     {{profissional_form.sobrenome}}
+                    </div>
+                  </div>
+                   <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Telefone</label>
+                       <b style="color:red;">{{profissional_form.telefone.errors}}</b>
+                      {{profissional_form.telefone}}
+                    </div>
+                  </div>
+                   <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Nº do Conselho</label>
+                      <b style="color:red;">{{profissional_form.registro.errors}}</b>
+                       {{profissional_form.registro}}
+                    </div>
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*CPF</label>
+                      <b style="color:red;">{{profissional_form.cpf.errors}}</b>
+                        {{profissional_form.cpf}}
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Data de Nascimento</label>
+                       <b style="color:red;">{{profissional_form.data_nascimento.errors}}</b>
+                      {{profissional_form.data_nascimento}}
+                    </div>
+                  </div>
+                  <div class="col-md-3"id="numero_atendimentos">
+                    <label class="bmd-label-floating">*Atendimentos por Dia</label>
+                      <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
+                      {{profissional_form.quantidade_atend}}
+                  </div>
+                  <div class="col-md-2">                   
+                      <label class="bmd-label-floating">*Ativo</label>
+                       <b style="color:red;">{{profissional_form.ativo.errors}}</b>
+                      {{profissional_form.ativo}}
+                  </div>
+                </div>
+                 <br/> <br/>
+                <div class="row">
+                  <div class="col-md-4">
+                    <b>ÀREA DE ATUAÇÂO</b><br/>
+                    {% for field in profissional_form.area_atuacao %}         
+                      <div class="checkbox">
+                        <label>
+                          <!-- Generates the checkbox for the field -->
+                          {{ field.tag }}
+                          <span class="checkbox-material"></span><i class="text-warning">{{ field.choice_label}}</i> 
+                          <!-- Generates the named label of the field -->
+                        </label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                 
+                  <div class="col-md-8">                   
+                      <label class="bmd-label-floating">*Atendimentos</label>
+                       <b style="color:red;">{{profissional_form.atent_categoria.errors}}</b>
+                      {{profissional_form.atent_categoria}}
+                  </div>
+                   
+                  <div class="col-md-8">    
+                  <br/>                
+                      <label class="bmd-label-floating">*Abordagem</label>
+                       <b style="color:red;">{{profissional_form.abordagem.errors}}</b>
+                      {{profissional_form.abordagem}}
+                  </div>
+                   
+                   <div class="col-md-8"> 
+                   <br/>                  
+                      <label class="bmd-label-floating">*Observação</label>
+                       <b style="color:red;">{{profissional_form.observacao.errors}}</b>
+                      {{profissional_form.observacao}}
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Dias de Atendimento</label>
+                     <b style="color:red;">{{profissional_form.horario_trabalho.errors}}</b>
+                      {{profissional_form.horario_trabalho}}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Dados Bancários</label>
+                     <b style="color:red;">{{profissional_form.conta_banco.errors}}</b>
+                      {{profissional_form.conta_banco}}
+                    </div>
+                  </div>                    
+                </div>
+                
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                <a href="{% url 'profissionais' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+                <div class="clearfix"></div>
+                </form>
+                 </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+<script>
+$(function() {
+    $('#numero_atendimentos').hide(); 
+    $('#permissao').change(function(){
+        if($('#permissao').val() == 2) {
+            $('#numero_atendimentos').show(); 
+        } else {
+            $('#numero_atendimentos').hide(); 
+        } 
+    });
+});
+ jQuery(function($){
+  $('#id_telefone').mask('(00) 00000-0000');
+  $('#id_cpf').mask('000.000.000-00', {reverse: true});
+});
+  $('#id_data_nascimento').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " - ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Custom",
+    "daysOfWeek": [
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sáb"
+    ],
+    "monthNames": [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+    ],
+    "firstDay": 0
+}});
+</script>
+{% endblock container %}
