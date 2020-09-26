@@ -1,20 +1,33 @@
 {% extends "base.html" %}
-{% block content %}
+{% load static %}
+{% block datepicker %}
+<!--datatables-->
+<script src ="{% static "tables/jquery.min.js" %}"></script>
+<style> 
+  /* coloca um cor no numero de sessões da gua*/    
+  .badge.badge-danger {
+    background-color: #f44336;
+  }
+  .badge.badge-warning {
+    background-color: orange;
+  }
+</style>
+{% endblock datepicker %}
+{% block container %}
+<div class="content">
+  <div class="container-fluid">
 
-<a href="{% url 'produto_list' %}">Voltar</a>
-
-<h1>Descrição o Ítem
-  <span class="pull-right">
-    <a href="{% url 'produto_edit' object.pk %}">
-      <button type="button" class="btn btn-success">
-        <span class="fa fa-pencil"></span> Editar
-      </button>
-    </a>
-  </span>
-</h1>
-
-<div class="col-sm-6">
-  <table class="table table-user-information">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary" data-background-color="purple">
+            <h4 class="card-title">Detalhes do Ítem 
+              <div class="ripple-container"></div>
+            </h4>
+          </div>
+          <div class="card-content">
+            <div class="material-datatables">
+                <table class="table table-user-information">
     <tbody>
       <tr>
         <th class="text-right">Produto</th>
@@ -22,7 +35,7 @@
       </tr>
       <tr>
         <th class="text-right">Validade</th>
-        <td>{{ object.data }}</td>
+        <td>{{ object.validade|date:"d/m/Y" }}</td>
       </tr>
       <tr>
         <th class="text-right">Estoque</th>
@@ -34,6 +47,14 @@
       </tr>
     </tbody>
   </table>
-</div>
+          </div>
+                      <a href="{% url 'produto_list' %}" class="btn btn-danger btn-group">Voltar</a>
+                    <div class="clearfix"></div>
 
-{% endblock content %}
+        </div><!-- end content-->
+      </div><!--  end card  -->
+    </div> <!-- end col-md-12 -->
+  </div> <!-- end row -->
+</div>
+</div>
+{% endblock container %}

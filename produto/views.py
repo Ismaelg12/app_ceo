@@ -12,7 +12,31 @@ from django.urls import reverse_lazy
 from produto.actions.export_xlsx import export_xlsx
 from .models import Produto, Categoria
 from .forms import ProdutoForm, CategoriaForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from core.decorators import staff_member_required
+from datetime import date, datetime, timedelta
 
+#############APP PRODUTOS ###############################
+
+@method_decorator(staff_member_required, name='dispatch')
+class ProdutoCreateView(LoginRequiredMixin,CreateView):
+    model         = Produto
+    template_name = 'produto_form.html'
+    form_class    = ProdutoForm
+    success_url   = reverse_lazy('produto_list')
+    #salvar e adicionar novo
+    def post(self, request, *args, **kwargs):
+        save_action = None
+        if "cancelar" in request.POST:
+            return HttpResponseRedirect(reverse('produto_list'))
+        else:
+            save_action = super(ProdutoCreateView, self).post(request, *args, **kwargs)
+        if "adicionar_outro" in request.POST:
+            messages.success(request,'Produto Cadastrado com Sucesso! ')
+            return HttpResponseRedirect(reverse('produto_add'))
+        return save_action
 
 def produto_list(request):
     template_name = 'produto_list.html'
@@ -24,11 +48,9 @@ def produto_list(request):
     return render(request, template_name, context)
 
 
-class ProdutoList(ListView):
+class ProdutoList(LoginRequiredMixin,ListView):
     model = Produto
     template_name = 'produto_list.html'
-    paginate_by = 10
-
     def get_queryset(self):
         queryset = super(ProdutoList, self).get_queryset()
         search = self.request.GET.get('search')
@@ -46,30 +68,11 @@ def produto_detail(request, pk):
     context = {'object': obj}
     return render(request, template_name, context)
 
-
-def produto_add(request):
-    form = ProdutoForm(request.POST or None)
-    template_name = 'produto_form2.html'
-
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('produto_list'))
-
-    context = {'form': form}
-    return render(request, template_name, context)
-
-
-class ProdutoCreate(CreateView):
+class ProdutoUpdate(LoginRequiredMixin,UpdateView):
     model = Produto
     template_name = 'produto_form.html'
     form_class = ProdutoForm
-
-
-class ProdutoUpdate(UpdateView):
-    model = Produto
-    template_name = 'produto_form.html'
-    form_class = ProdutoForm
+    success_url   = reverse_lazy('produto_list')
 
 
 def produto_json(request, pk):
@@ -118,7 +121,7 @@ def exportar_produtos_xlsx(request):
 
 ## Cadastro de Categoria
 
-class CategoriaCreateView(CreateView):
+class CategoriaCreateView(LoginRequiredMixin,CreateView):
     model         = Categoria
     template_name = 'categorias/categoria_add.html'
     form_class    = CategoriaForm
@@ -135,12 +138,12 @@ class CategoriaCreateView(CreateView):
             return HttpResponseRedirect(reverse('add_categoria'))
         return save_action
 
-class CategoriaListView(ListView):
+class CategoriaListView(LoginRequiredMixin,ListView):
     model = Categoria
     context_object_name = 'categorias'
     template_name = 'categorias/categoria_list.html'
 
-class CategoriaUpdateView(UpdateView):
+class CategoriaUpdateView(LoginRequiredMixin,UpdateView):
     model         = Categoria
     template_name = 'categorias/categoria_add.html'
     form_class    = CategoriaForm

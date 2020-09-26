@@ -1,12 +1,14 @@
 from django.db import models
 from django.urls import reverse_lazy
+import datetime
+from django.utils import timezone
 
 
 class Produto(models.Model):
     produto        = models.CharField(max_length=100, unique=True)
     estoque        = models.IntegerField('estoque atual')
     estoque_minimo = models.PositiveIntegerField('estoque mínimo', default=0)
-    validade           = models.DateField(null=True, blank=True)
+    validade       = models.DateField(null=True, blank=True)
     categoria      = models.ForeignKey(
         'Categoria',
         on_delete=models.SET_NULL,
@@ -30,6 +32,17 @@ class Produto(models.Model):
             'estoque': self.estoque,
         }
 
+    @property
+    def verifica_vencimento(self):
+        data_atual      = datetime.date.today()
+        futuro          = self.validade - datetime.timedelta(days=7)
+
+        if data_atual >= self.validade:
+            return "Vencido"
+        elif data_atual > futuro and data_atual < self.validade:
+            return "Alerta"
+        else:
+            return "Valido"    
 
 class Categoria(models.Model):
     categoria = models.CharField(max_length=100, unique=True)
