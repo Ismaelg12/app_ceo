@@ -119,7 +119,7 @@ def exportar_produtos_xlsx(request):
     response = export_xlsx(model, filename_final, queryset, columns)
     return response
 
-## Cadastro de Categoria
+############### Cadastro de Categoria
 
 class CategoriaCreateView(LoginRequiredMixin,CreateView):
     model         = Categoria
