@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load static %}
+{% block add_modal %}
+<script src="{% static "js/core/jquery.min.js" %}"></script>
+<script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+<!--boostrap datepicker-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet"type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock add_modal %}
+</head>
+{% block container %}
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary"data-background-color="purple">
+						<h4 class="card-title ">Agenda de Atendimento</h4>
+					</div>
+					<div class="card-content">
+						<form method="post">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Hora</label></br>
+										{{form.hora}}
+										<span class="text-danger">{{form.non_field_errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">	
+									<label>Status</label></br>							
+									{{form.status}}	
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Data</label></br>	
+										{{form.data}}
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-5">
+									<label>* Paciente</label></br>	
+									{{form.paciente}}
+									<span class="text-danger">{{form.paciente.errors}}</span>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Contato</label></br>	
+										{{form.telefone}}
+										<span class="text-danger">{{form.telefone.errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<label>* Profissional</label></br>	
+									{{form.profissional}}
+									<span class="text-danger">{{form.profissional.errors}}</span>
+								</div>						
+							</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="form-group">
+			<label>Observações:</label>
+			<div class="form-group">
+				<label class="bmd-label-floating"></label>
+				{{form.observacao}}
+			</div>
+		</div>
+	</div>
+</div>
+<button type="submit" class="btn btn-primary btn-sm pull-right"> Enviar</button>
+<a href="{% url 'agendas' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+<div class="clearfix"></div>
+</form>
+</div><!-- end content-->
+</div><!--  end card  -->
+</div> <!-- end col-md-12 -->
+</div> <!-- end row -->
+</div>
+</div>
+
+<script>
+//através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
+//https://stackoverflow.com/questions/11918397/jquery-hide-and-show-an-input-element
+
+$(document).ready(function(){
+	$('#id_status').change(function(){
+		if($(this).val() == 'CC'){
+			$("#span_alerta").show();  
+		}
+		else{
+			$("#span_alerta").hide();
+
+		} 
+	});
+
+});	      
+
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+	$('#id_hora').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+		timePicker24Hour: true,
+		timePickerIncrement: 05,
+		timePickerSeconds: false,
+		minDate: ' 08:00:00',
+		maxDate: ' 20:00:00',
+		locale: {
+			format: 'HH:mm'
+		}
+	}).on('show.daterangepicker', function (ev, picker) {
+		picker.container.find(".calendar-table").hide();
+	});
+	$('#id_data').daterangepicker({
+		singleDatePicker: true,
+		showDropdowns: true,
+		"locale": {
+			"format": "DD/MM/YYYY",
+			"separator": " - ",
+			"applyLabel": "Aplicar",
+			"cancelLabel": "Cancelar",
+			"fromLabel": "De",
+			"toLabel": "Até",
+			"customRangeLabel": "Custom",
+			"daysOfWeek": [
+			"Dom",
+			"Seg",
+			"Ter",
+			"Qua",
+			"Qui",
+			"Sex",
+			"Sáb"
+			],
+			"monthNames": [
+			"Janeiro",
+			"Fevereiro",
+			"Março",
+			"Abril",
+			"Maio",
+			"Junho",
+			"Julho",
+			"Agosto",
+			"Setembro",
+			"Outubro",
+			"Novembro",
+			"Dezembro"
+			],
+			"firstDay": 0
+		}})});
+jQuery(function($){
+// Remove o  status atender e atendido 
+$('#id_telefone').mask('(00) 00000-0000');
+$("#id_paciente").change(function() {
+//seta o contato automaticamente conforme paciente
+var pacienteContato = $(this).find('option:selected').text();
+$('#id_telefone').val(pacienteContato.split('...')[1]);
+});    		
+});
+</script>
+{% endblock container %}

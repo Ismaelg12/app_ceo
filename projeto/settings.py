@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'estoque',
     'pacientes',
     'controle_usuarios',
+    'agenda',
 ]
 
 MIDDLEWARE = [

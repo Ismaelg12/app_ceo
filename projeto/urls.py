@@ -25,4 +25,6 @@ urlpatterns = [
     path('',include('produto.urls')),
     path('',include('estoque.urls')),
     path('',include('pacientes.urls')),
+    path('',include('agenda.urls')),
+  
 ]

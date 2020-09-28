@@ -40,30 +40,6 @@ class PacienteListView(LoginRequiredMixin,ListView):
     template_name       = 'pacientes.html'
     context_object_name = 'pacientes'
     paginate_by = 50
-
-    def get_queryset(self, **kwargs):
-        queryset = Paciente.objects.prefetch_related('profissional').all()
-        if self.request.GET.get('paciente'):
-            paciente_search = self.request.GET.get('paciente')
-            queryset = Paciente.objects.filter(
-                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
-        return queryset
-
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(PacienteListView, self).get_context_data(*args, **kwargs)
-        context['profissional_logado'] = Profissional.objects.filter(
-            user=self.request.user,tipo=2
-        )
-        context['paciente_clinico'] = Paciente.objects.prefetch_related('profissional').filter(
-            profissional__user=self.request.user)
-        #if tiver busca ele filtra os meus pacientes
-        if self.request.GET.get('paciente'):
-            paciente_search = self.request.GET.get('paciente')
-            context['paciente_clinico'] = Paciente.objects.prefetch_related('profissional').filter(
-                nome__icontains=paciente_search,profissional__user=self.request.user).order_by('id')
-        return context
-
         
 class PacienteUpdateView(LoginRequiredMixin,UpdateView):
     model = Paciente

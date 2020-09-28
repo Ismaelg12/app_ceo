@@ -31,19 +31,15 @@ class Profissional(models.Model):
 	email           = models.EmailField(max_length=50,blank=True,null=True)
 	telefone        = models.CharField(max_length=15,blank=True)
 	registro        = models.CharField(max_length=16,blank=True)
-	cpf             = models.CharField(max_length=14,unique=True,null=True)
+	cpf             = models.CharField(max_length=14,unique=True,blank=True,null=True)
 	data_nascimento = models.DateField(null=True,blank=True)
 	tipo            = models.PositiveSmallIntegerField(choices=ROLE_CHOICES,verbose_name='Tipo (Permissão)',null=True)
 	area_atuacao    = models.ManyToManyField(Perfil)
-	quantidade_atend= models.IntegerField(blank=True,choices=list(zip(range(1, 11), range(1, 11))),null=True)
 	data_cadastro   = models.DateField(auto_now_add = True)
-	horario_trabalho= models.CharField('Dias de Trabalho',max_length=12,blank=True)
 	ativo           = models.BooleanField(default=True)
 	atualizado_em   = models.DateTimeField('Atualizado em', auto_now=True)
 	atent_categoria	= models.CharField('Tipos de atendimentos',max_length=200,blank=True)
-	abordagem		= models.CharField('Abordagens',max_length=200,blank=True)
 	observacao		= models.CharField('Outras Observações',max_length=200,blank=True)
-	conta_banco		= models.TextField('Contas bancarias', blank=True)
 	
 	objects = models.Manager() # The default manager.
 	#manage Sobrescrito

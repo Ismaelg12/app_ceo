@@ -11,20 +11,6 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 {% endblock datepicker %}
-{% block menu_li %}
-  <li class="nav-item">
-      <a class="nav-link" href="{% url 'home' %}">
-        <i class="material-icons">dashboard</i>
-        <p>Dashboard</p>
-      </a>
-    </li>
-  <li class="nav-item active  ">
-    <a class="nav-link" href="{% url 'profissionais' %}">
-      <i class="material-icons">person</i>
-      <p>Profissionais</p>
-    </a>
-  </li>
-{% endblock menu_li %}
 {% block container %}
   <div class="content">
     <div class="container-fluid">
@@ -124,19 +110,11 @@
                       {{profissional_form.data_nascimento}}
                     </div>
                   </div>
-                  <div class="col-md-3"id="numero_atendimentos">
-                    <label class="bmd-label-floating">*Atendimentos por Dia</label>
-                      <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
-                      {{profissional_form.quantidade_atend}}
-                  </div>
                   <div class="col-md-2">                   
                       <label class="bmd-label-floating">*Ativo</label>
                        <b style="color:red;">{{profissional_form.ativo.errors}}</b>
                       {{profissional_form.ativo}}
                   </div>
-                </div>
-                 <br/> <br/>
-                <div class="row">
                   <div class="col-md-4">
                     <b>ÀREA DE ATUAÇÂO</b><br/>
                     {% for field in profissional_form.area_atuacao %}         
@@ -150,43 +128,16 @@
                       </div>
                     {% endfor %}
                   </div>
-                 
-                  <div class="col-md-8">                   
-                      <label class="bmd-label-floating">*Atendimentos</label>
-                       <b style="color:red;">{{profissional_form.atent_categoria.errors}}</b>
-                      {{profissional_form.atent_categoria}}
-                  </div>
-                   
-                  <div class="col-md-8">    
-                  <br/>                
-                      <label class="bmd-label-floating">*Abordagem</label>
-                       <b style="color:red;">{{profissional_form.abordagem.errors}}</b>
-                      {{profissional_form.abordagem}}
-                  </div>
-                   
-                   <div class="col-md-8"> 
+                </div>
+                 <br/> <br/>
+                <div class="row">
+                   <div class="col-md-12"> 
                    <br/>                  
                       <label class="bmd-label-floating">*Observação</label>
                        <b style="color:red;">{{profissional_form.observacao.errors}}</b>
                       {{profissional_form.observacao}}
                   </div>
 
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">*Dias de Atendimento</label>
-                     <b style="color:red;">{{profissional_form.horario_trabalho.errors}}</b>
-                      {{profissional_form.horario_trabalho}}
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">*Dados Bancários</label>
-                     <b style="color:red;">{{profissional_form.conta_banco.errors}}</b>
-                      {{profissional_form.conta_banco}}
-                    </div>
-                  </div>                    
                 </div>
                 
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
@@ -200,16 +151,6 @@
   </div>
 </div>
 <script>
-$(function() {
-    $('#numero_atendimentos').hide(); 
-    $('#permissao').change(function(){
-        if($('#permissao').val() == 2) {
-            $('#numero_atendimentos').show(); 
-        } else {
-            $('#numero_atendimentos').hide(); 
-        } 
-    });
-});
  jQuery(function($){
   $('#id_telefone').mask('(00) 00000-0000');
   $('#id_cpf').mask('000.000.000-00', {reverse: true});

@@ -90,12 +90,7 @@
                        <b style="color:red;">{{profissional_form.area_atuacao.errors}}</b>
                       {{profissional_form.area_atuacao}}
                   </div>
-                  <div class="col-md-3"id="numero_atendimentos">
-                    <label class="bmd-label-floating">*Atendimentos por Dia</label>
-                      <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
-                      {{profissional_form.quantidade_atend}}
-                  </div>
-                   <div class="col-md-3">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label class="bmd-label-floating">*Tipo (Permissão)</label>
                      <b style="color:red;">{{profissional_form.tipo.errors}}</b>
@@ -110,11 +105,6 @@
                 </div>
                 {% else %}
                 <div class="row">
-                  <div class="col-md-3"id="numero_atendimentos">
-                    <label class="bmd-label-floating">*Atendimentos por Dia</label>
-                      <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
-                      {{profissional_form.quantidade_atend}}
-                  </div>
                    <div class="col-md-3">
                     <label class="bmd-label-floating">*Tipo (Permissão)</label>
                     <b style="color:red;">{{profissional_form.tipo.errors}}</b>
@@ -127,10 +117,7 @@
                        <b style="color:red;">{{profissional_form.ativo.errors}}</b>
                       {{profissional_form.ativo}}
                   </div>
-                </div>
-                <br><br>
-                  <div class="row">
-                     
+
                   <div class="col-md-4">
                      <b>ÀREA DE ATUAÇÂO</b>
                      {% for field in profissional_form.area_atuacao %}       
@@ -144,45 +131,23 @@
                       </div>
                     {% endfor %}
                   </div>
+                </div>
+                <br><br>
+                  <div class="row">
+
                   
                 {% endif %}
-                 <div class="col-md-6">                   
-                      <label class="bmd-label-floating">Atendimentos</label>
-                       <b style="color:red;">{{profissional_form.atent_categoria.errors}}</b>
-                      {{profissional_form.atent_categoria}}
-                  </div>
                   <div class="col-md-2">                   
                       <label class="bmd-label-floating">Email</label>
                        <b style="color:red;">{{profissional_form.email.errors}}</b>
                       {{profissional_form.email}}
-                  </div>
-                  <div class="col-md-8">    
-                  <br/>                
-                      <label class="bmd-label-floating">Abordagem</label>
-                       <b style="color:red;">{{profissional_form.abordagem.errors}}</b>
-                      {{profissional_form.abordagem}}
-                  </div>
-                   
-                   <div class="col-md-8"> 
+                  </div>                   
+                   <div class="col-md-12"> 
                    <br/>                  
                       <label class="bmd-label-floating">Observação</label>
                        <b style="color:red;">{{profissional_form.observacao.errors}}</b>
                       {{profissional_form.observacao}}
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">Dias de Atendimento</label>
-                     <b style="color:red;">{{profissional_form.horario_trabalho.errors}}</b>
-                      {{profissional_form.horario_trabalho}}
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">Dados Bancários</label>
-                     <b style="color:red;">{{profissional_form.conta_banco.errors}}</b>
-                      {{profissional_form.conta_banco}}
-                    </div>
-                  </div>                    
+                  </div>                   
                 </div>
                 <div class="row col-md-12 text-right">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
