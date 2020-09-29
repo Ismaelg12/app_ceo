@@ -2,6 +2,8 @@
 from django.db.models import Count
 import datetime
 from pacientes.models import Paciente
+from agenda.models import Agendamento
+from produto.models import Produto
 from django.utils import timezone
 from controle_usuarios.models import Profissional
 
@@ -26,15 +28,11 @@ class DashboardMixin(object):
 			data_nascimento__month=today.month).count()
 	
 	def agendamentos(self):
-		profissional = Profissional.objects.filter(
-			user=self.request.user,tipo=2)
 		today = timezone.now().date()
-		if profissional:
-			agenda_count = Agendamento.objects.filter(data__day=today.day,
-			data__month=today.month,profissional=profissional[0],status='AG').count()
-		else:
-			agenda_count = Agendamento.objects.filter(data__day=today.day,
+		agenda_count = Agendamento.objects.filter(data__day=today.day,
 			data__month=today.month,status='AG').count()
 		return agenda_count
 
-	
+	def produtos(self):
+		produto_count = Produto.objects.all().count()
+		return produto_count

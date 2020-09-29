@@ -42,10 +42,10 @@
         </div>
         <div class="card-content">
           <p class="category">Almoxarifado</p>
-          <h3 class="card-title"></h3>
+          <h3 class="card-title">{{view.produtos}}</h3>
         </div>
         <div class="card-footer">
-           <a href=""><span>VER LISTA COMPLETA</span> </a>
+           <a href="{% url 'produto_list' %}"><span>VER LISTA COMPLETA</span> </a>
         </div>
       </div>
     </div>
@@ -55,21 +55,15 @@
           <i class="material-icons">calendar_today</i>
         </div>
         <div class="card-content">
-          <p class="category">Agenda</p>
-          <h3 class="card-title"></h3>
+          <p class="category">Agenda do dia</p>
+         <h3 class="card-title">{{view.agendamentos}}</h3>
         </div>
         <div class="card-footer">
-           <a href=""><span>VER LISTA COMPLETA</span> </a>
+           <a href="{% url 'agendas' %}"><span>VER LISTA COMPLETA</span> </a>
         </div>
       </div>
     </div>
     </div>
-    </div>
-    <div class="col-md-12">
-      <h4>CONVÊNIOS</h4>
-      {% for convenio in convenios %}
-        <button class="btn btn-sm">{{convenio.get_nome_display}}</button>
-      {% endfor %}
     </div>
   <footer class="footer">
   <div class="container-fluid">
