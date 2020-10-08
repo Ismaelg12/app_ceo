@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
-{% block content %}
-
+{% block container %}
+<div class="container">
+  <div class="container-fluid">
 <h2>Estoque {{ titulo }}
   <span class="pull-right">
     <a href="{% url url_add %}">
@@ -38,5 +39,7 @@
 {% else %}
   <p class="alert alert-warning">Sem itens na lista.</p>
 {% endif %}
+</div>
+</div>
 
-{% endblock content %}
+{% endblock container %}

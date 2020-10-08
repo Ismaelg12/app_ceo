@@ -2,7 +2,6 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load bootstrap %}
-
 {% block css %}
 
   <style>
@@ -13,10 +12,11 @@
 
 {% endblock css %}
 
-{% block content %}
+{% block container %}
 
 <a href="{% url 'estoque_saida_list' %}">Voltar</a>
-
+<div class="content">
+  <div class="container-fluid">
 <div class="row">
   <div class="cols">
     <form method="POST" novalidate>
@@ -79,8 +79,9 @@
     </form>
   </div>
 </div>
-
-{% endblock content %}
+</div>
+</div>
+{% endblock container %}
 
 {% block js %}
 

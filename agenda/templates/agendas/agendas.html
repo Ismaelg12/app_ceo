@@ -76,7 +76,7 @@
                   {% if agenda.status == 'FN' %} <span class="badge badge-tomato">Falta não Justificada</span>{% endif%} 
                   {% if agenda.status == 'DM' %} <span class="badge badge-orange">Desmarcado</span>{% endif%}  
                 </td>
-                <td><b><a href="{% url 'agenda_detalhe' agenda.id %}">{{agenda.paciente|title}}</a></b></td>
+                <td><b>{{agenda.paciente|title}}</b></td>
                 <td>{{agenda.data|date:"d/m/Y"}}</td>
                 <td>{{agenda.profissional|title}}</td>
                 <td>{{agenda.hora}}H</td>

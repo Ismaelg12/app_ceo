@@ -13,13 +13,15 @@ MDATA = datetime.now().strftime('%Y-%m-%d')
 class ProdutoAdmin(admin.ModelAdmin):
     list_display = (
         '__str__',
-        'validade',
+        'importado',
+        'ncm',
+        'preco',
         'estoque',
         'estoque_minimo',
         'categoria',
     )
     search_fields = ('produto',)
-    list_filter = ('validade',)
+    list_filter = ('importado',)
     actions = ('export_as_csv', 'export_as_xlsx')
 
     class Media:
@@ -28,31 +30,33 @@ class ProdutoAdmin(admin.ModelAdmin):
             '/static/js/estoque_admin.js'
         )
 
-    # def export_as_csv(self, request, queryset):
+    def export_as_csv(self, request, queryset):
 
-    #     meta = self.model._meta
-    #     field_names = [field.name for field in meta.fields]
+        meta = self.model._meta
+        field_names = [field.name for field in meta.fields]
 
-    #     response = HttpResponse(content_type='text/csv')
-    #     response[
-    #         'Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
-    #     writer = csv.writer(response)
+        response = HttpResponse(content_type='text/csv')
+        response[
+            'Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        writer = csv.writer(response)
 
-    #     writer.writerow(field_names)
-    #     for obj in queryset:
-    #         row = writer.writerow([getattr(obj, field)
-    #                                for field in field_names])
+        writer.writerow(field_names)
+        for obj in queryset:
+            row = writer.writerow([getattr(obj, field)
+                                   for field in field_names])
 
-    #     return response
+        return response
 
-    # export_as_csv.short_description = "Exportar CSV"
+    export_as_csv.short_description = "Exportar CSV"
 
     def export_as_xlsx(self, request, queryset):
 
         meta = self.model._meta
         columns = (
+            'Importado',
+            'NCM',
             'Produto',
-            'Data',
+            'Preço',
             'Estoque',
             'Estoque mínimo',
             'Categoria'
@@ -76,7 +80,10 @@ class ProdutoAdmin(admin.ModelAdmin):
         default_style = xlwt.XFStyle()
 
         rows = queryset.values_list(
-            'data',
+            'importado',
+            'ncm',
+            'produto',
+            'preco',
             'estoque',
             'estoque_minimo',
             'categoria__categoria',

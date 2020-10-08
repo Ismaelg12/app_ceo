@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, ListView
 from django.urls import reverse_lazy
+from produto.actions.import_xlsx import import_xlsx as action_import_xlsx
 from produto.actions.export_xlsx import export_xlsx
 from .models import Produto, Categoria
 from .forms import ProdutoForm, CategoriaForm
@@ -18,25 +19,6 @@ from django.utils.decorators import method_decorator
 from core.decorators import staff_member_required
 from datetime import date, datetime, timedelta
 
-#############APP PRODUTOS ###############################
-
-@method_decorator(staff_member_required, name='dispatch')
-class ProdutoCreateView(LoginRequiredMixin,CreateView):
-    model         = Produto
-    template_name = 'produto_form.html'
-    form_class    = ProdutoForm
-    success_url   = reverse_lazy('produto_list')
-    #salvar e adicionar novo
-    def post(self, request, *args, **kwargs):
-        save_action = None
-        if "cancelar" in request.POST:
-            return HttpResponseRedirect(reverse('produto_list'))
-        else:
-            save_action = super(ProdutoCreateView, self).post(request, *args, **kwargs)
-        if "adicionar_outro" in request.POST:
-            messages.success(request,'Produto Cadastrado com Sucesso! ')
-            return HttpResponseRedirect(reverse('produto_add'))
-        return save_action
 
 def produto_list(request):
     template_name = 'produto_list.html'
@@ -48,9 +30,11 @@ def produto_list(request):
     return render(request, template_name, context)
 
 
-class ProdutoList(LoginRequiredMixin,ListView):
+class ProdutoList(ListView):
     model = Produto
     template_name = 'produto_list.html'
+    paginate_by = 10
+
     def get_queryset(self):
         queryset = super(ProdutoList, self).get_queryset()
         search = self.request.GET.get('search')
@@ -68,11 +52,30 @@ def produto_detail(request, pk):
     context = {'object': obj}
     return render(request, template_name, context)
 
-class ProdutoUpdate(LoginRequiredMixin,UpdateView):
+
+def produto_add(request):
+    form = ProdutoForm(request.POST or None)
+    template_name = 'produto_form2.html'
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('produto_list'))
+
+    context = {'form': form}
+    return render(request, template_name, context)
+
+
+class ProdutoCreate(CreateView):
     model = Produto
     template_name = 'produto_form.html'
     form_class = ProdutoForm
-    success_url   = reverse_lazy('produto_list')
+
+
+class ProdutoUpdate(UpdateView):
+    model = Produto
+    template_name = 'produto_form.html'
+    form_class = ProdutoForm
 
 
 def produto_json(request, pk):
@@ -89,17 +92,58 @@ def save_data(data):
     aux = []
     for item in data:
         produto = item.get('produto')
-        validade = item.get('validade')
+        ncm = str(item.get('ncm'))
+        importado = True if item.get('importado') == 'True' else False
+        preco = item.get('preco')
         estoque = item.get('estoque')
         estoque_minimo = item.get('estoque_minimo')
         obj = Produto(
             produto=produto,
-            validade=validade,
+            ncm=ncm,
+            importado=importado,
+            preco=preco,
             estoque=estoque,
             estoque_minimo=estoque_minimo,
         )
         aux.append(obj)
     Produto.objects.bulk_create(aux)
+
+
+def import_csv(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        # Lendo arquivo InMemoryUploadedFile
+        file = myfile.read().decode('utf-8')
+        reader = csv.DictReader(io.StringIO(file))
+        # Gerando uma list comprehension
+        data = [line for line in reader]
+        save_data(data)
+        return HttpResponseRedirect(reverse('produto_list'))
+
+    template_name = 'produto_import.html'
+    return render(request, template_name)
+
+
+def export_csv(request):
+    header = (
+        'importado', 'ncm', 'produto', 'preco', 'estoque', 'estoque_minimo',
+    )
+    produtos = Produto.objects.all().values_list(*header)
+    with open('fix/produtos_exportados.csv', 'w') as csvfile:
+        produto_writer = csv.writer(csvfile)
+        produto_writer.writerow(header)
+        for produto in produtos:
+            produto_writer.writerow(produto)
+    messages.success(request, 'Produtos exportados com sucesso.')
+    return HttpResponseRedirect(reverse('produto_list'))
+
+
+def import_xlsx(request):
+    filename = 'fix/produtos.xlsx'
+    action_import_xlsx(filename)
+    messages.success(request, 'Produtos importados com sucesso.')
+    return HttpResponseRedirect(reverse('produto_list'))
+
 
 def exportar_produtos_xlsx(request):
     MDATA = datetime.now().strftime('%Y-%m-%d')
@@ -108,18 +152,37 @@ def exportar_produtos_xlsx(request):
     _filename = filename.split('.')
     filename_final = f'{_filename[0]}_{MDATA}.{_filename[1]}'
     queryset = Produto.objects.all().values_list(
+        'importado',
+        'ncm',
         'produto',
-        'validade',
+        'preco',
         'estoque',
         'estoque_minimo',
         'categoria__categoria',
     )
-    columns = ('Produto', 'Validade',
+    columns = ('Importado', 'NCM', 'Produto', 'Preço',
                'Estoque', 'Estoque mínimo', 'Categoria')
     response = export_xlsx(model, filename_final, queryset, columns)
     return response
 
-############### Cadastro de Categoria ####
+
+def import_csv_with_pandas(request):
+    filename = 'fix/produtos.csv'
+    df = pd.read_csv(filename)
+    aux = []
+    for row in df.values:
+        obj = Produto(
+            produto=row[0],
+            ncm=row[1],
+            importado=row[2],
+            preco=row[3],
+            estoque=row[4],
+            estoque_minimo=row[5],
+        )
+        aux.append(obj)
+    Produto.objects.bulk_create(aux)
+    messages.success(request, 'Produtos importados com sucesso.')
+    return HttpResponseRedirect(reverse('produto_list'))
 
 class CategoriaCreateView(LoginRequiredMixin,CreateView):
     model         = Categoria

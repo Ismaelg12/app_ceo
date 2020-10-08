@@ -13,8 +13,9 @@
 
 {% endblock css %}
 
-{% block content %}
-
+{% block container %}
+<div class="container">
+  <div class="container-fluid">
 <a href="{% url 'estoque_entrada_list' %}">Voltar</a>
 
 <div class="row">
@@ -51,7 +52,7 @@
             {% for item_estoque_form in formset %}
               <div id="item-{{ forloop.counter0 }}" class="form-group">
                 {{ item_estoque_form|bootstrap }}
-              </div>              
+              </div>
             {% endfor %}
           </div>
         </div>
@@ -60,6 +61,7 @@
       <span id="add-item" class="btn btn-info" style="margin-top: 10px;">
         <i class="fa fa-plus"></i> Adicionar
       </span>
+
       <div class="row float-right">
         <div class="col-sm-12" style="margin-top: 10px;">
           <div class="form-inline buttons">
@@ -78,8 +80,10 @@
     </form>
   </div>
 </div>
+</div>
+</div>
 
-{% endblock content %}
+{% endblock container %}
 
 {% block js %}
 

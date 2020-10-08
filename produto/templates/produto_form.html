@@ -1,171 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
-{% block datepicker %}
-<script src ="{% static "tables/jquery.min.js" %}"></script>
-<script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<style type="text/css">
-<!--
-.normal { border: 1px solid #000000; }
-.destaca { border: 1px solid #ff0000; }
--->
-</style>
-{% endblock datepicker %}
+{% load widget_tweaks %}
+
 {% block container %}
-<style> 
-#valor{
-  display: none;
-}
-#numero_carteira{
-  display: none;
-}
-#validade{
-  display: none;
-}
-</style>
 <div class="content">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-primary"data-background-color="purple">
-           <h4 class="card-title ">Dados Cadastrais</h4>
-         </div>
-         <div class="card-content">
-           <form method="POST" id="paciente_form">
-            {% csrf_token %}
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="bmd-label-floating">*Nome do Produto</label>
-                  {{form.produto}}
-                  <span class="text-danger"> {{form.non_field_errors}}</span>
-                </div>
-              </div>
-               <div class="col-md-3">
-                <div class="form-group">
-                  <label class="bmd-label-floating">*Estoque</label>
-                  {{form.estoque}}
-                   {{form.estoque.errors}}
-                </div>
-              </div>
-           
-                <div class="col-md-3">
-                <div class="form-group">
-                  <label class="bmd-label-floating">*Estoque Minimo</label>
-                  {{form.estoque_minimo}}
-                 
-                </div>
-              </div>
-               </div>
-            <div class="row">  
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="bmd-label-floating">* Validade</label>
-                  {{form.validade}}
-                </div>
-              </div>
-            
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="bmd-label-floating">Categoria</label>
-                  {{form.categoria}}
-                  {{form.categoria.errors}}
-                </div>
-              </div>            
-            </div>
-        
-        <button type="submit" class="btn btn-primary pull-right" id="submitButton">Salvar</button>
-        <button type="submit" class="btn btn-success pull-right" id="submitButton1" name="adicionar_outro">Salvar E Adicionar Outro</button>
-        <a href="{% url 'produto_list' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
-        <div class="clearfix"></div>
-      </form>
-    </div><!-- end content-->
-  </div><!--  end card  -->
-</div> <!-- end col-md-12 -->
-</div> <!-- end row -->
+
+<form method="POST" novalidate>
+  {% csrf_token %}
+  {% for field in form.visible_fields %}
+    <div class="form-group{% if field.errors %} has-error {% endif%}">
+      <label for="{{ field.id_for_label }}">
+        {% if field.field.required %}
+          <span class="required">{{ field.label }} </span>
+        {% else %}
+          {{ field.label }}
+        {% endif %}
+      </label>
+      {% render_field field class="form-control" %}
+      {% for error in field.errors %}
+        <span class="text-muted">{{ error }}</span>
+      {% endfor %}
+    </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-success">Cadastrar</button>
+</form>
 </div>
 </div>
-<script>
-$('#id_validade').daterangepicker({
-  singleDatePicker: true,
-  showDropdowns: true,
-  "locale": {
-    "format": "DD/MM/YYYY",
-    "separator": " - ",
-    "applyLabel": "Aplicar",
-    "cancelLabel": "Cancelar",
-    "fromLabel": "De",
-    "toLabel": "Até",
-    "customRangeLabel": "Custom",
-    "daysOfWeek": [
-    "Dom",
-    "Seg",
-    "Ter",
-    "Qua",
-    "Qui",
-    "Sex",
-    "Sáb"
-    ],
-    "monthNames": [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro"
-    ],
-    "firstDay": 0
-  }});
-</script>
-<script>  
-  $(document).ready(function() {
-    $('#submitButton').on('click',function(){
-    $('#paciente_form').validate({
-      rules: {
-        produto: { required: true, },
-        estoque: { required: true,},
-        estoque_minimo: { required: true,},
-        categoria: { required: true,},
-        validade: { required: true,},
-      },
-      messages: {
-        produto: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        estoque: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        estoque_minimo: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        categoria: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        validade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-      },
-    });
-  });
-  });
-    $(document).ready(function() {
-    $('#submitButton1').on('click',function(){
-    $('#paciente_form').validate({
-      rules: {
-        produto: { required: true, },
-        estoque: { required: true,},
-        estoque_minimo: { required: true,},
-        categoria: { required: true,},
-        validade: { required: true,},
-      },
-      messages: {
-        produto: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        estoque: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        estoque_minimo: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        categoria: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        validade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-      },
-    });
-  });
-  });
-</script>
+
 {% endblock container %}
+
+{% block js %}
+
+<script src="{% static 'js/produto.js' %}"></script>
+
+{% endblock js %}

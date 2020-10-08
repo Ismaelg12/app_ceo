@@ -19,7 +19,7 @@ class PacienteForm(forms.ModelForm):
 			'data_nascimento': forms.DateInput(attrs={'class': 'form-control','required': 'true'}),
 			'sexo'           : forms.Select(attrs={'class': 'form-control'}),
 			'cpf'            : forms.TextInput(attrs={'class': 'form-control'}),
-			'sus'            : forms.TextInput(attrs={'class': 'form-control'}),
+			'sus'            : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
 			'telefone'       : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
 			'telefone_fixo'  : forms.TextInput(attrs={'class': 'form-control'}),
 			'observacao'     : forms.Textarea(attrs={'class': 'form-control'}),

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block container %}
 
 {% if object.movimento == 'e' %}
   <a href="{% url 'estoque_entrada_list' %}">Voltar</a>
@@ -52,4 +52,4 @@
   </tbody>
 </table>
 
-{% endblock content %}
+{% endblock container %}
