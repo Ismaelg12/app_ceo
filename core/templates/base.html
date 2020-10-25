@@ -86,11 +86,7 @@ Tip 3: you can change the color of the sidebar with data-background-color="white
 -->
 <div class="logo"align="center">
   <a href="{% url 'home' %}" class="simple-text logo-normal">
-    {% for c in clinica %}
-    <img src="{{c.logo_menu.url}}" width="80%">
-    {%empty%}
-    <img src="{% static "img/logo_menu.jpg" %}" width="80%">
-    {% endfor %}
+    <img src="{% static 'img/logo_menu.png' %}" width="80%">
   </a>
 </div>
 <div class="sidebar-wrapper">
@@ -151,12 +147,13 @@ Tip 3: you can change the color of the sidebar with data-background-color="white
         <p>Profissionais</p>
       </a>
     </li>
-    <li>
+        <li>
       <a href="{% url 'lista_espera' %}">
         <i class="material-icons">chrome_reader_mode</i>
         <p>Lista de Espera</p>
       </a>
     </li>
+    {% if request.user.is_superuser %}
     <li>
       <a data-toggle="collapse" href="#formsExamples">
         <i class="material-icons">library_add</i>
@@ -166,7 +163,7 @@ Tip 3: you can change the color of the sidebar with data-background-color="white
       </a>
       <div class="collapse" id="formsExamples">
         <ul class="nav">
-          {% if request.user.is_superuser %}
+          
           <li>
             <a href="{% url 'produto_list' %}">
               <i class="material-icons">person</i>
@@ -197,10 +194,11 @@ Tip 3: you can change the color of the sidebar with data-background-color="white
               <span class="sidebar-normal"> Gerar xlsx</span>
             </a>
           </li>
-          {% endif %}
+          
         </ul>
       </div>
     </li>
+    {% endif %}
   </ul>
 </div>
 </div>

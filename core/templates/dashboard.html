@@ -4,9 +4,11 @@
   <a class="navbar-brand" href="#"></a>
 {% endblock navbar %}
 {% block container %}
+ 
   <div class="content">
     <div class="container-fluid">
       <div class="row">
+      {% if request.user.is_superuser %}
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header" data-background-color="orange">
@@ -35,6 +37,7 @@
           </div>
         </div>
       </div>
+     
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card card-stats">
         <div class="card-header" data-background-color="red">
@@ -49,6 +52,7 @@
         </div>
       </div>
     </div>
+    
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card card-stats">
         <div class="card-header" data-background-color="blue">
@@ -63,8 +67,67 @@
         </div>
       </div>
     </div>
+    {% elif not atendente %}
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header" data-background-color="orange">
+            <i class="material-icons">cake</i>
+          </div>
+          <div class="card-content">
+            <p class="category">Aniversários</p>
+            <h3 class="card-title">{{view.birthday}}</h3>
+          </div>
+          <div class="card-footer">
+             <a href="{% url 'aniversario' %}"><span>VER LISTA COMPLETA</span> </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header" data-background-color="green">
+            <i class="material-icons">people</i>
+          </div>
+          <div class="card-content">
+            <p class="category">Pacientes</p>
+            <h3 class="card-title">{{view.clientes}}</h3>
+          </div>
+          <div class="card-footer">
+             <a href="{% url 'lista_pacientes' %}"><span>VER LISTA COMPLETA</span> </a>
+          </div>
+        </div>
+      </div>    
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="blue">
+          <i class="material-icons">calendar_today</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Agenda do dia</p>
+         <h3 class="card-title">{{view.agendamentos}}</h3>
+        </div>
+        <div class="card-footer">
+           <a href="{% url 'agendas' %}"><span>VER LISTA COMPLETA</span> </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">contact_phone</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Lista de Espera</p>
+         <h3 class="card-title">{{view.list_espera}}</h3>
+        </div>
+        <div class="card-footer">
+           <a href="{% url 'lista_espera' %}"><span>VER LISTA COMPLETA</span> </a>
+        </div>
+      </div>
+    </div>
+    {%endif%}
     </div>
     </div>
+  
   <footer class="footer">
   <div class="container-fluid">
       <p class="copyright pull-right">
@@ -73,6 +136,5 @@
       </p>
   </div>
 </footer>
-</div>
 </div>
 {% endblock container %}

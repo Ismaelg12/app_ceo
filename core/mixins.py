@@ -4,6 +4,7 @@ import datetime
 from pacientes.models import Paciente
 from agenda.models import Agendamento
 from produto.models import Produto
+from core.models import ListaEspera
 from django.utils import timezone
 from controle_usuarios.models import Profissional
 
@@ -36,3 +37,7 @@ class DashboardMixin(object):
 	def produtos(self):
 		produto_count = Produto.objects.all().count()
 		return produto_count
+
+	def list_espera(self):
+		list_espera_count = ListaEspera.objects.all().count()
+		return list_espera_count

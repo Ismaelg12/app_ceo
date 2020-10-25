@@ -18,8 +18,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from core.decorators import staff_member_required
 from datetime import date, datetime, timedelta
+from django.utils.decorators import method_decorator
+from core.decorators import staff_member_required
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def produto_list(request):
     template_name = 'produto_list.html'
     objects = Produto.objects.all()
@@ -29,7 +31,7 @@ def produto_list(request):
     context = {'object_list': objects}
     return render(request, template_name, context)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class ProdutoList(ListView):
     model = Produto
     template_name = 'produto_list.html'
@@ -45,14 +47,14 @@ class ProdutoList(ListView):
             )
         return queryset
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def produto_detail(request, pk):
     template_name = 'produto_detail.html'
     obj = Produto.objects.get(pk=pk)
     context = {'object': obj}
     return render(request, template_name, context)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def produto_add(request):
     form = ProdutoForm(request.POST or None)
     template_name = 'produto_form2.html'
@@ -65,26 +67,26 @@ def produto_add(request):
     context = {'form': form}
     return render(request, template_name, context)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class ProdutoCreate(CreateView):
     model = Produto
     template_name = 'produto_form.html'
     form_class = ProdutoForm
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class ProdutoUpdate(UpdateView):
     model = Produto
     template_name = 'produto_form.html'
     form_class = ProdutoForm
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def produto_json(request, pk):
     ''' Retorna o produto, id e estoque. '''
     produto = Produto.objects.filter(pk=pk)
     data = [item.to_dict_json() for item in produto]
     return JsonResponse({'data': data})
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def save_data(data):
     '''
     Salva os dados no banco.
@@ -108,7 +110,7 @@ def save_data(data):
         aux.append(obj)
     Produto.objects.bulk_create(aux)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def import_csv(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
@@ -123,7 +125,7 @@ def import_csv(request):
     template_name = 'produto_import.html'
     return render(request, template_name)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def export_csv(request):
     header = (
         'importado', 'ncm', 'produto', 'preco', 'estoque', 'estoque_minimo',
@@ -137,14 +139,14 @@ def export_csv(request):
     messages.success(request, 'Produtos exportados com sucesso.')
     return HttpResponseRedirect(reverse('produto_list'))
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def import_xlsx(request):
     filename = 'fix/produtos.xlsx'
     action_import_xlsx(filename)
     messages.success(request, 'Produtos importados com sucesso.')
     return HttpResponseRedirect(reverse('produto_list'))
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def exportar_produtos_xlsx(request):
     MDATA = datetime.now().strftime('%Y-%m-%d')
     model = 'Produto'
@@ -165,7 +167,7 @@ def exportar_produtos_xlsx(request):
     response = export_xlsx(model, filename_final, queryset, columns)
     return response
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def import_csv_with_pandas(request):
     filename = 'fix/produtos.csv'
     df = pd.read_csv(filename)
@@ -184,6 +186,7 @@ def import_csv_with_pandas(request):
     messages.success(request, 'Produtos importados com sucesso.')
     return HttpResponseRedirect(reverse('produto_list'))
 
+@method_decorator(staff_member_required, name='dispatch')
 class CategoriaCreateView(LoginRequiredMixin,CreateView):
     model         = Categoria
     template_name = 'categorias/categoria_add.html'
@@ -201,11 +204,13 @@ class CategoriaCreateView(LoginRequiredMixin,CreateView):
             return HttpResponseRedirect(reverse('add_categoria'))
         return save_action
 
+@method_decorator(staff_member_required, name='dispatch')
 class CategoriaListView(LoginRequiredMixin,ListView):
     model = Categoria
     context_object_name = 'categorias'
     template_name = 'categorias/categoria_list.html'
-
+    
+@method_decorator(staff_member_required, name='dispatch')
 class CategoriaUpdateView(LoginRequiredMixin,UpdateView):
     model         = Categoria
     template_name = 'categorias/categoria_add.html'
