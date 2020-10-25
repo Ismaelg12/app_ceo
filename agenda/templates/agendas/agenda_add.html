@@ -29,7 +29,7 @@
 										<span class="text-danger">{{form.non_field_errors}}</span>
 									</div>
 								</div>
-								<div class="col-md-2">	
+								<div class="col-md-2" id="ocultar_fields">	
 									<label>Status</label></br>							
 									{{form.status}}	
 								</div>
@@ -80,7 +80,15 @@
 </div> <!-- end row -->
 </div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function()
+  {
+   
+     $("#ocultar_fields").hide();
+ 
 
+  });
+</script>
 <script>
 //através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
 //https://stackoverflow.com/questions/11918397/jquery-hide-and-show-an-input-element
@@ -106,8 +114,8 @@ jQuery( document ).ready(function( $ ) {
 		timePicker24Hour: true,
 		timePickerIncrement: 05,
 		timePickerSeconds: false,
-		minDate: ' 08:00:00',
-		maxDate: ' 20:00:00',
+		minDate: ' 07:00:00',
+		maxDate: ' 17:00:00',
 		locale: {
 			format: 'HH:mm'
 		}
