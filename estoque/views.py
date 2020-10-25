@@ -6,8 +6,10 @@ from django.views.generic import ListView, DetailView
 from produto.models import Produto
 from .models import Estoque, EstoqueEntrada, EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensEntradaForm, EstoqueItensSaidaForm
+from django.utils.decorators import method_decorator
+from core.decorators import staff_member_required
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def estoque_entrada_list(request):
     template_name = 'estoque_list.html'
     objects = EstoqueEntrada.objects.all()
@@ -18,7 +20,7 @@ def estoque_entrada_list(request):
     }
     return render(request, template_name, context)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class EstoqueEntradaList(ListView):
     model = EstoqueEntrada
     template_name = 'estoque_list.html'
@@ -29,7 +31,7 @@ class EstoqueEntradaList(ListView):
         context['url_add'] = 'estoque_entrada_add'
         return context
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def estoque_entrada_detail(request, pk):
     template_name = 'estoque_detail.html'
     obj = EstoqueEntrada.objects.get(pk=pk)
@@ -39,12 +41,12 @@ def estoque_entrada_detail(request, pk):
     }
     return render(request, template_name, context)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class EstoqueDetail(DetailView):
     model = Estoque
     template_name = 'estoque_detail.html'
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def dar_baixa_estoque(form):
     # Pega os produtos a partir da instância do formulário (Estoque).
     produtos = form.estoques.all()
@@ -54,7 +56,7 @@ def dar_baixa_estoque(form):
         produto.save()
     print('Estoque atualizado com sucesso.')
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def estoque_add(request, form_inline, template_name, movimento, url):
     estoque_form = Estoque()
     item_estoque_formset = inlineformset_factory(
@@ -89,6 +91,7 @@ def estoque_add(request, form_inline, template_name, movimento, url):
 
 
 @login_required
+@method_decorator(staff_member_required, name='dispatch')
 def estoque_entrada_add(request):
     form_inline = EstoqueItensEntradaForm
     template_name = 'estoque_entrada_form.html'
@@ -99,7 +102,7 @@ def estoque_entrada_add(request):
         return HttpResponseRedirect(resolve_url(url, context.get('pk')))
     return render(request, template_name, context)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def estoque_saida_list(request):
     template_name = 'estoque_list.html'
     objects = EstoqueSaida.objects.all()
@@ -110,7 +113,7 @@ def estoque_saida_list(request):
     }
     return render(request, template_name, context)
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class EstoqueSaidaList(ListView):
     model = EstoqueSaida
     template_name = 'estoque_list.html'
@@ -121,7 +124,7 @@ class EstoqueSaidaList(ListView):
         context['url_add'] = 'estoque_saida_add'
         return context
 
-
+@method_decorator(staff_member_required, name='dispatch')
 def estoque_saida_detail(request, pk):
     template_name = 'estoque_detail.html'
     obj = EstoqueSaida.objects.get(pk=pk)
@@ -133,6 +136,7 @@ def estoque_saida_detail(request, pk):
 
 
 @login_required
+@method_decorator(staff_member_required, name='dispatch')
 def estoque_saida_add(request):
     form_inline = EstoqueItensSaidaForm
     template_name = 'estoque_saida_form.html'
