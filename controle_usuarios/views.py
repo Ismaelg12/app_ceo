@@ -67,7 +67,7 @@ def add_profissional(request):
         profissional_form.full_clean()  # Manually clean the form this time. It is implicitly called by "is_valid()" method
         profissional_form.save()  # Gracefully save the form
         messages.success(request,'Profissional Cadastrado com Sucesso! ')
-        return redirect('home')
+        return redirect('profissionais')
     return render(request, 'profissionais/add_profissional.html', {
         'user_form': user_form,
         'profissional_form': profissional_form
