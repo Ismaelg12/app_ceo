@@ -11,6 +11,15 @@ OP_CHOICES = (
 )
 
 class AgendaForm(forms.ModelForm):
+    #filtra apenas os profissionais que atendem
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['profissional'].queryset = Profissional.objects.filter(tipo=2,ativo=True)
+        self.fields['paciente'].label_from_instance = self.paciente_label
+    #metodo para override de labels do pacientes
+    @staticmethod
+    def paciente_label(self):
+        return str(self.nome[:30]) + ' -- ' + self.telefone
 
     class Meta:
         model   = Agendamento
