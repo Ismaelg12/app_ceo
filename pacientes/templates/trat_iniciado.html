@@ -33,7 +33,9 @@
                 <i class="material-icons">person_add</i>
                 <div class="ripple-container"></div>
               </a>
-              <a href="{% url 'lista_pacientes' %}" class="btn btn-success btn-group" >Tratamento Concluido</a>
+              <a href="{% url 'trat_concluido' %}" class="btn btn-success btn-group" >Tratamento Concluido</a>
+              </a>
+              <a href="{% url 'lista_pacientes' %}" class="btn btn-warning btn-group" >Mostrar Todos</a>
             </h4>              
           </div>
           <div class="card-content">
@@ -65,6 +67,7 @@
                 </thead>
                 <tbody>
                   {% for p in pacientes  %}
+                  {% if p.tratamento%} 
                   <tr>
                     <td>{{forloop.counter}}</td>
                     <td width="20%"><b>{{p.nome|title}}</b></td>
@@ -77,9 +80,7 @@
                     <td>{{p.telefone}}</td>
                     <td>{{p.cpf}}</td>
                     <td>{{p.sus}}</td>
-                    <td>{% if not p.tratamento%} 
-                      <span class="badge badge-blue">Iniciado</span>
-                    {% else %}
+                    <td>{% if p.tratamento%}           
                       <span class="badge badge-green">Concluido</span>{% endif%}</td>
                     <td>
                       <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i
@@ -87,6 +88,7 @@
                       <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                     </td>
                   </tr>
+                  {% endif%}
                   {% endfor %}
                 </tbody>
               </table>

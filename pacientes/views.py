@@ -40,6 +40,18 @@ class PacienteListView(LoginRequiredMixin,ListView):
     template_name       = 'pacientes.html'
     context_object_name = 'pacientes'
     paginate_by = 50
+
+class IniciadoListView(LoginRequiredMixin,ListView):
+    model               = Paciente
+    template_name       = 'trat_iniciado.html'
+    context_object_name = 'pacientes'
+    paginate_by = 50
+
+class ConcluidoListView(LoginRequiredMixin,ListView):
+    model               = Paciente
+    template_name       = 'trat_concluido.html'
+    context_object_name = 'pacientes'
+    paginate_by = 50
         
 class PacienteUpdateView(LoginRequiredMixin,UpdateView):
     model = Paciente
