@@ -29,6 +29,6 @@ class PacienteForm(forms.ModelForm):
 			'telefone'       : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
 			'telefone_fixo'  : forms.TextInput(attrs={'class': 'form-control'}),
 			'observacao'     : forms.Textarea(attrs={'class': 'form-control'}),
-			'tratamento'     : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control','required': 'true'}),
+			'tratamento'     : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control'}),
 		}
 

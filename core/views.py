@@ -44,6 +44,7 @@ def migrar_paciente(request,pk):
         nome=lista_espera.nome,
         data_nascimento=lista_espera.data_nascimento,
         sexo=lista_espera.sexo,
+        tratamento=lista_espera.tratamento,
     ).save()
     lista_espera.delete()
     messages.success(request,'Cadastro Migrado com Sucesso, Apenas Complete os dados ! ')
