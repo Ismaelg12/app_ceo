@@ -24,6 +24,7 @@ class Paciente(models.Model):
 	observacao        = models.TextField(max_length=500,blank=True)
 	atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
 	criado_em         = models.DateTimeField('Criado em', auto_now_add=True)
+	tratamento		  = models.BooleanField('Tratamento Concluido')
 
 
 	class Meta:

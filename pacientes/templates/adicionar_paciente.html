@@ -103,11 +103,17 @@
               {{form.telefone_fixo}}
             </div>
           </div>
+          <div class="col-md-4 data-background-color">
+            <div class="form-group">
+              <label class="bmd-label-floating">Tratamento concluído?</label>
+              {{form.tratamento}}
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-12">
               <div class="form-group">
-                <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
+                <label class="bmd-label-floating"> Informe neste campo as evoluções do paciente! Ex: Tratamento realizado, data do atendimento e Profissional</label>
                   {{form.observacao}}
               </div>
           </div>
@@ -176,12 +182,14 @@ $('#id_data_nascimento').daterangepicker({
         profissional: { required: true,},
         sus: { required: true,},
         telefone: { required: true,},
+        tratamento: { required: true,},
       },
       messages: {
         nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         sus: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
       },
     });
   });
@@ -194,12 +202,14 @@ $('#id_data_nascimento').daterangepicker({
         profissional: { required: true,},
         sus: { required: true,},
         telefone: { required: true,},
+        tratamento: { required: true,},
       },
       messages: {
         nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         sus: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
       },
     });
   });
