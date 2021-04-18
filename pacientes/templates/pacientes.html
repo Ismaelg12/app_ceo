@@ -33,8 +33,9 @@
                 <i class="material-icons">person_add</i>
                 <div class="ripple-container"></div>
               </a>
-              <a href="{% url 'trat_iniciado' %}" class="btn btn-info btn-group">Tratamento Iniciado</a>
-              <a href="{% url 'trat_concluido' %}" class="btn btn-success btn-group" >Tratamento Concluido</a>
+              <a href="{% url 'trat_iniciado' %}" class="btn btn-info btn-group btn-xs">Tratamento Iniciado</a>
+              <a href="{% url 'trat_concluido' %}" class="btn btn-success btn-group btn-xs" >Tratamento Concluido</a>
+              <a href="{% url 'ligacao' %}" class="btn btn-warning btn-group btn-xs" >Aguardando ligação</a>
             </h4>              
           </div>
           <div class="card-content">
@@ -78,10 +79,14 @@
                     <td>{{p.telefone}}</td>
                     <td>{{p.cpf}}</td>
                     <td>{{p.sus}}</td>
-                    <td>{% if not p.tratamento%} 
-                      <span class="badge badge-blue">Iniciado</span>
+                    <td>{% if p.tratamento == 'IN'%} 
+                      <span class="btn btn-info btn-group btn-xs">Iniciado</span>
+               
+                    {% elif p.tratamento == 'CO'%}
+                      <span class="btn btn-success btn-group btn-xs">Concluido</span>
                     {% else %}
-                      <span class="badge badge-green">Concluido</span>{% endif%}</td>
+                    <span class="btn btn-warning btn-group btn-xs">Ligar</span>
+                    {% endif%}</td>
                     <td>
                       <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i
                           class="material-icons">visibility</i></a>

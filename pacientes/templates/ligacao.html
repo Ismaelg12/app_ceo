@@ -33,11 +33,10 @@
                 <i class="material-icons">person_add</i>
                 <div class="ripple-container"></div>
               </a>
-              <a href="{% url 'trat_iniciado' %}" class="btn btn-info btn-group btn-xs">Tratamento Iniciado</a>
+              <a href="{% url 'trat_iniciado' %}" class="btn btn-info btn-group btn-xs" >Tratamento Iniciado</a>
               </a>
-          
-              <a href="{% url 'ligacao' %}" class="btn btn-warning btn-group btn-xs" >Aguardando Ligação</a>
-             
+              <a href="{% url 'trat_concluido' %}" class="btn btn-success btn-group btn-xs" >Tratamento Concluido</a>
+              </a>
               <a href="{% url 'lista_pacientes' %}" class="btn btn-danger btn-group btn-xs" >Mostrar Todos</a>
             </h4>              
           </div>
@@ -70,7 +69,7 @@
                 </thead>
                 <tbody>
                   {% for p in pacientes  %}
-                  {% if p.tratamento == 'CO' %} 
+                  {% if p.tratamento == 'RE'%} 
                   <tr>
                     <td>{{forloop.counter}}</td>
                     <td width="20%"><b>{{p.nome|title}}</b></td>
@@ -83,8 +82,8 @@
                     <td>{{p.telefone}}</td>
                     <td>{{p.cpf}}</td>
                     <td>{{p.sus}}</td>
-                    <td>{% if p.tratamento == 'CO'%} 
-                      <span class="btn btn-success btn-group btn-xs">Concluido</span>{% endif%}</td>
+                    <td>{% if p.tratamento == 'RE'%}           
+                      <span class="btn btn-warning btn-group btn-xs">Ligar</span>{% endif%}</td>
                     <td>
                       <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i
                           class="material-icons">visibility</i></a>

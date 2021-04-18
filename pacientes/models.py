@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from .utils import SEXO
+from .utils import SEXO, TRATAMENTO
 from core.models import *
 from controle_usuarios.models import Profissional
 from django.urls import reverse 
@@ -24,7 +24,7 @@ class Paciente(models.Model):
 	observacao        = models.TextField(max_length=500,blank=True)
 	atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
 	criado_em         = models.DateTimeField('Criado em', auto_now_add=True)
-	tratamento		  = models.BooleanField('Tratamento Concluido',blank=True)
+	tratamento		  = models.CharField('tratamento', max_length=2, choices=TRATAMENTO, blank=True, default='RE')
 
 
 	class Meta:

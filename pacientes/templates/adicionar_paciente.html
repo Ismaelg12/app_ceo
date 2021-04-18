@@ -58,20 +58,15 @@
                   <span class="text-danger"> {{form.non_field_errors}}</span>
                 </div>
               </div>
-               <div class="col-md-4">
-                <div class="form-group">
+               <div class="col-md-4">            
                   <label class="bmd-label-floating">*Profissional</label>
                   {{form.profissional}}
-                   {{form.profissional.errors}}
-                </div>
+                   {{form.profissional.errors}}               
               </div>
-            </div>
-            <div class="row">
                <div class="col-md-2">
                 <div class="form-group">
                   <label class="bmd-label-floating">CPF</label>
-                  {{form.cpf}}
-                 
+                  {{form.cpf}}                 
                 </div>
               </div>
               <div class="col-md-2">
@@ -83,21 +78,26 @@
             </div>
             <div class="row">
               <div class="col-md-2">
+                
+                  <label class="bmd-label-floating">* Sexo</label>
+                  {{form.sexo}}
+                  {{form.sexo.errors}}
+              
+              </div>
+              <div class="col-md-2">
                 <div class="form-group">
                   <label class="bmd-label-floating">* Cartão do Sus</label>
                   {{form.sus}}
                   {{form.sus.errors}}
                 </div>
               </div>            
-            </div>
-        <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="form-group">
               <label class="bmd-label-floating">* Celular</label>
               {{form.telefone}}
             </div>
           </div>
-           <div class="col-md-3">
+           <div class="col-md-2">
             <div class="form-group">
               <label class="bmd-label-floating">Tel. Fixo</label>
               {{form.telefone_fixo}}
@@ -105,15 +105,18 @@
           </div>
           <div class="col-md-4 data-background-color">
             <div class="form-group">
-              <label class="bmd-label-floating">Tratamento concluído?</label>
+              <label class="bmd-label-floating">* Status do Tratamento</label>
               {{form.tratamento}}
             </div>
           </div>
         </div>
+        <hr/>
+        <h3 class="ficha">FICHA DO PACIENTE | Informe neste campo as evoluções do paciente! Ex: Tratamento realizado, data do atendimento e Profissional</h3>
+        <hr/>
         <div class="row">
           <div class="col-md-12">
               <div class="form-group">
-                <label class="bmd-label-floating"> Informe neste campo as evoluções do paciente! Ex: Tratamento realizado, data do atendimento e Profissional</label>
+                <label class="bmd-label-floating"> </label>
                   {{form.observacao}}
               </div>
           </div>

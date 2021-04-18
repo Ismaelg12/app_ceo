@@ -32,15 +32,25 @@
                 <div class="card-content">
                   <form>
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label class="bmd-label-floating">* Nome</label>
                           <input type="text" value="{{paciente.nome}}"class="form-control" disabled>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>*Profissional</label>
+                          <input value="{{paciente.profissional}}"class="form-control" disabled>
+                        </div>
+                      </div>
                       <div class="col-md-2">
+                        <div class="form-group">
+                          <label class="bmd-label-floating"> CPF</label>
+                          <input type="text" value="{{paciente.cpf}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label>*Nascimento</label>
                           <input value="{{paciente.data_nascimento|date:"d/m/Y"}}"class="form-control" disabled>
@@ -52,33 +62,30 @@
                           <input type="text" value="{{paciente.get_sexo_display}}"class="form-control" disabled>
                         </div>
                       </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label class="bmd-label-floating"> CPF</label>
-                          <input type="text" value="{{paciente.cpf}}"class="form-control" disabled>
-                        </div>
-                      </div>
                     </div>
                      <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label class="bmd-label-floating"> SUS</label>
                           <input type="text" value="{{paciente.sus}}"class="form-control" disabled>
                         </div>
                       </div>
-                      
-                    </div>
-                    <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Nº Celular</label>
+                          <label class="bmd-label-floating"> Nº Celular</label>
                           <input type="text" value="{{paciente.telefone}}"class="form-control" disabled>
                         </div>
                       </div>
-                       <div class="col-md-3">
+                       <div class="col-md-2">
                         <div class="form-group">
                           <label class="bmd-label-floating"> Tel. Fixo</label>
                           <input type="text" value="{{paciente.telefone_fixo}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label class="bmd-label-floating"> Status do Tratamento</label>
+                          <input type="text" value="{{paciente.tratamento}}"class="form-control" disabled>
                         </div>
                       </div>
                     </div>

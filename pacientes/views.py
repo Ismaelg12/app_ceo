@@ -41,18 +41,53 @@ class PacienteListView(LoginRequiredMixin,ListView):
     context_object_name = 'pacientes'
     paginate_by = 50
 
+    def get_queryset(self, **kwargs):
+        queryset = Paciente.objects.prefetch_related('profissional').all()
+        if self.request.GET.get('paciente'):
+            paciente_search = self.request.GET.get('paciente')
+            queryset = Paciente.objects.filter(
+                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
+        return queryset
+
 class IniciadoListView(LoginRequiredMixin,ListView):
     model               = Paciente
     template_name       = 'trat_iniciado.html'
     context_object_name = 'pacientes'
     paginate_by = 50
+    def get_queryset(self, **kwargs):
+        queryset = Paciente.objects.prefetch_related('profissional').all()
+        if self.request.GET.get('paciente'):
+            paciente_search = self.request.GET.get('paciente')
+            queryset = Paciente.objects.filter(
+                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
+        return queryset
 
 class ConcluidoListView(LoginRequiredMixin,ListView):
     model               = Paciente
     template_name       = 'trat_concluido.html'
     context_object_name = 'pacientes'
     paginate_by = 50
-        
+    def get_queryset(self, **kwargs):
+        queryset = Paciente.objects.prefetch_related('profissional').all()
+        if self.request.GET.get('paciente'):
+            paciente_search = self.request.GET.get('paciente')
+            queryset = Paciente.objects.filter(
+                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
+        return queryset
+
+class LigacaoListView(LoginRequiredMixin,ListView):
+    model               = Paciente
+    template_name       = 'ligacao.html'
+    context_object_name = 'pacientes'
+    paginate_by = 50
+    def get_queryset(self, **kwargs):
+        queryset = Paciente.objects.prefetch_related('profissional').all()
+        if self.request.GET.get('paciente'):
+            paciente_search = self.request.GET.get('paciente')
+            queryset = Paciente.objects.filter(
+                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
+        return queryset
+
 class PacienteUpdateView(LoginRequiredMixin,UpdateView):
     model = Paciente
     template_name = 'adicionar_paciente.html'

@@ -3,11 +3,6 @@ from django.forms import ModelForm
 from .models import *
 from django.core.exceptions import ValidationError
 
-OP_CHOICES = (
-    ('', 'Selecione . . .'),
-    (True, 'Sim'),
-    (False, 'Não')
-)
 
 class PacienteForm(forms.ModelForm):
 	profissional = forms.ModelMultipleChoiceField(
@@ -29,6 +24,6 @@ class PacienteForm(forms.ModelForm):
 			'telefone'       : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
 			'telefone_fixo'  : forms.TextInput(attrs={'class': 'form-control'}),
 			'observacao'     : forms.Textarea(attrs={'class': 'form-control'}),
-			'tratamento'     : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control'}),
+			'tratamento'     : forms.Select(attrs={'class': 'form-control'}),
 		}
 

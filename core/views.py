@@ -40,11 +40,16 @@ class DashboardView(TemplateView,DashboardMixin):
 #view que migra o cadastro na lista de espera paera o cadastro de pacientes
 def migrar_paciente(request,pk):
     lista_espera = ListaEspera.objects.get(pk=pk)
-    Paciente.objects.create(
+    Paciente.objects.create(  
         nome=lista_espera.nome,
         data_nascimento=lista_espera.data_nascimento,
         sexo=lista_espera.sexo,
-        tratamento=lista_espera.tratamento,
+        cpf=lista_espera.cpf,            
+        sus=lista_espera.sus,             
+        telefone=lista_espera.telefone,     
+        telefone_fixo=lista_espera.telefone_fixo,  
+        observacao=lista_espera.observacao,     
+        tratamento='RE',    
     ).save()
     lista_espera.delete()
     messages.success(request,'Cadastro Migrado com Sucesso, Apenas Complete os dados ! ')

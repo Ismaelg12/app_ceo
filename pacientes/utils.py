@@ -32,7 +32,13 @@ SEXO = (
     ('M', 'Masculino'),
     ('F', 'Feminino'),
 )
-PERGUNTA = (
-    ('S', 'Sim'),
-    ('N', 'Não'),
+TRATAMENTO = (
+    ('IN', 'Iniciado'),
+    ('CO', 'Concluido'),
+    ('RE', 'NÃO ATENDE LIGAÇÃO'),    
+)
+
+URGENTE = (
+    ('U', 'Urgente'),
+    ('R', 'Rotina'),   
 )

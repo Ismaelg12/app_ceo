@@ -9,6 +9,7 @@ urlpatterns = [
 	path('deletar/paciente/<int:pk>',views.PacienteDeleteView,name='delete_paciente'),
 	path('trat_iniciado/',views.IniciadoListView.as_view(),name='trat_iniciado'),
 	path('trat_concluido/',views.ConcluidoListView.as_view(),name='trat_concluido'),
+	path('ligacao/',views.LigacaoListView.as_view(),name='ligacao'),
 
 ]
 

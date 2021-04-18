@@ -27,6 +27,7 @@
                         <th>Nascimento</th>
                         <th>Telefone</th>
                         <th>Profissional</th>
+                        <th>Atendimento</th>
                         <th>Excluir</th>
                       </thead>
                       <tbody>
@@ -41,8 +42,11 @@
                               {{prof.nome}},
                             {% endfor %}
                           </td>
+                          <td>{% if l.urgente == 'U' %} <span class="btn btn-warning btn-group btn-xs">Urgente</span>
+                            {% else %}<span class="btn btn-success btn-group btn-xs">Normal</span>
+                          {% endif%}</td>
                           <td  width="10%">
-                            <a href="{% url 'lista_espera_detalhe' l.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
+                            <a href="{% url 'lista_espera_detalhe' l.id %}" title="Migrar Cadastro"><i class="material-icons">visibility</i></a>
                             <a href="{% url 'update_lista_espera' l.id %}" title="Visualizar"><i class="material-icons text-info">update</i></a>
                             <a href="{% url 'deletar_lista_espera' l.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i></a>
                           </td>
