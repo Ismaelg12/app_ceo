@@ -60,12 +60,12 @@
                 style="width:100%">
                 <thead class=" text-primary">
                   <th>Nº</th>
+                   <th>Status</th>
                   <th>Nome</th>
                   <th>Profissional</th>
                   <th>Telefone</th>
                   <th>CPF</th>
-                  <th>Cartão SUS</th>
-                  <th>Status</th>
+                  <th>Cartão SUS</th>                 
                   <th>Ação</th>
                 </thead>
                 <tbody>
@@ -73,6 +73,8 @@
                   {% if p.tratamento == 'CO' %} 
                   <tr>
                     <td>{{forloop.counter}}</td>
+                    <td title="Tratamento Concluido">{% if p.tratamento == 'CO'%} 
+                      <span class="btn btn-success btn-group btn-xs">------</span>{% endif%}</td>
                     <td width="20%"><b>{{p.nome|title}}</b></td>
                     <td>
                       <!--exibe todos os profissionais que atendem esse paciente-->
@@ -83,8 +85,7 @@
                     <td>{{p.telefone}}</td>
                     <td>{{p.cpf}}</td>
                     <td>{{p.sus}}</td>
-                    <td>{% if p.tratamento == 'CO'%} 
-                      <span class="btn btn-success btn-group btn-xs">Concluido</span>{% endif%}</td>
+                    
                     <td>
                       <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i
                           class="material-icons">visibility</i></a>

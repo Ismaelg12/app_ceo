@@ -24,24 +24,21 @@
                       <thead class=" text-primary">
                         <th>Nº</th>
                         <th>Nome</th>
-                        <th>Nascimento</th>
-                        <th>Telefone</th>
                         <th>Profissional</th>
+                        <th>Especialidade</th>
+                        <th>Criado em</th>
                         <th>Atendimento</th>
-                        <th>Excluir</th>
+                        <th>Ação</th>
                       </thead>
                       <tbody>
                         {% for l in lista %}
                         <tr>
                           <td>{{forloop.counter}}</td>
                           <td>{{l.nome|title}}</td>
-                          <td>{{l.data_nascimento|date:'d/m/Y'}}</td>
-                          <td>{{l.telefone}}</td>
-                          <td>
-                            {% for prof in l.profissional.all %}
-                              {{prof.nome}},
-                            {% endfor %}
-                          </td>
+                          <td>{{l.profissional}}</td>
+                          <td>{{l.especialidade}}</td>
+                          <td>{{l.criado_em|date:'d/m/Y'}}</td>
+
                           <td>{% if l.urgente == 'U' %} <span class="btn btn-warning btn-group btn-xs">Urgente</span>
                             {% else %}<span class="btn btn-success btn-group btn-xs">Normal</span>
                           {% endif%}</td>

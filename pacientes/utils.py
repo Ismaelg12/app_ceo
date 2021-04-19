@@ -35,10 +35,10 @@ SEXO = (
 TRATAMENTO = (
     ('IN', 'Iniciado'),
     ('CO', 'Concluido'),
-    ('RE', 'NÃO ATENDE LIGAÇÃO'),    
+    ('RE', 'Aguardando ligação'),    
 )
 
 URGENTE = (
     ('U', 'Urgente'),
-    ('R', 'Rotina'),   
+    ('R', 'Não urgente'),   
 )
