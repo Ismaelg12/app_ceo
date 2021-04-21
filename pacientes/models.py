@@ -35,5 +35,5 @@ class Paciente(models.Model):
 	def __str__(self):
 		return self.nome
 		
-	def idade(self):
-		return int((datetime.now().date()-self.data_nascimento).days/365.25)
+	def get_idade(self):
+		return int((timezone.now()-self.data_nascimento).days)
