@@ -28,7 +28,8 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG',default=False,cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1', cast=Csv())
 
 
 # Application definition
@@ -89,7 +90,7 @@ WSGI_APPLICATION = 'projeto.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-"""
+
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.mysql',
@@ -97,14 +98,13 @@ DATABASES = {
         'USER':config('DB_USER'),
         'PASSWORD':config('DB_PASSWORD'),
         'HOST':config('DB_HOST'),
-        'PORT':'3306',
         'OPTIONS': {
         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
 }
-"""
 
+"""
 in_heroku = False
 if 'DATABASE_URL' in os.environ:
     in_heroku = True
@@ -119,7 +119,7 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-
+"""
 '''
 DATABASES = {
     'default': {
