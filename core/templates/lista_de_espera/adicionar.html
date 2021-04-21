@@ -48,6 +48,13 @@
                     {{form.urgente.errors}} 
                   </div>
                 </div>
+                <div class="col-md-4 data-background-color">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Data do Cadastro</label>
+                    {{form.criado_em}}
+                    {{form.criado_em.errors}} 
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
@@ -111,6 +118,42 @@
       ],
       "firstDay": 0
     }});
+    $('#id_criado_em').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    "locale": {
+      "format": "DD/MM/YYYY",
+      "separator": " - ",
+      "applyLabel": "Aplicar",
+      "cancelLabel": "Cancelar",
+      "fromLabel": "De",
+      "toLabel": "Até",
+      "customRangeLabel": "Custom",
+      "daysOfWeek": [
+      "Dom",
+      "Seg",
+      "Ter",
+      "Qua",
+      "Qui",
+      "Sex",
+      "Sáb"
+      ],
+      "monthNames": [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro"
+      ],
+      "firstDay": 0
+    }});
   </script>
   <script>  
     $(document).ready(function() {
@@ -121,12 +164,14 @@
             profissional: { required: true,},
             especialidade: { required: true,},
             urgente: { required: true,},
+            criado_em: { required: true,},
           },
           messages: {
             nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             especialidade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             urgente: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            criado_em: { required: '<span class="text-danger">Prencha esse Campo</span>' },
           },
         });
       });
@@ -139,12 +184,14 @@
             profissional: { required: true,},
             especialidade: { required: true,},
             urgente: { required: true,},
+            criado_em: { required: true,},
           },
           messages: {
             nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             especialidade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             urgente: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            criado_em: { required: '<span class="text-danger">Prencha esse Campo</span>' },
           },
         });
       });

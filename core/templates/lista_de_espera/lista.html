@@ -26,7 +26,7 @@
                         <th>Nome</th>
                         <th>Profissional</th>
                         <th>Especialidade</th>
-                        <th>Criado em</th>
+                        <th>Tempo de Espera</th>
                         <th>Atendimento</th>
                         <th>Ação</th>
                       </thead>
@@ -37,7 +37,12 @@
                           <td>{{l.nome|title}}</td>
                           <td>{{l.profissional}}</td>
                           <td>{{l.especialidade}}</td>
-                          <td>{{l.criado_em|date:'d/m/Y'}}</td>
+                          <td>{% if l.get_idade > 30%}
+                                <span class="btn btn-danger btn-group btn-xs">{{l.get_idade}} Dias</span>
+{%else%}
+                              {{l.get_idade}} Dias
+                              {% endif %}
+                        </td>
 
                           <td>{% if l.urgente == 'U' %} <span class="btn btn-warning btn-group btn-xs">Urgente</span>
                             {% else %}<span class="btn btn-success btn-group btn-xs">Normal</span>

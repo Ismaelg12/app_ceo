@@ -2,6 +2,8 @@ from django.db import models
 from pacientes.utils import SEXO, TRATAMENTO, URGENTE
 from controle_usuarios.models import Profissional
 from pacientes.models import Paciente
+from django.utils import timezone
+from datetime import datetime
 
 
 class TimeStampedModel(models.Model):
@@ -40,8 +42,11 @@ class ListaEspera(models.Model):
     especialidade     = models.ForeignKey(Especialidade,on_delete=models.PROTECT,null=True,blank=False)
     observacao        = models.TextField(max_length=500,blank=True)
     atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
-    criado_em         = models.DateTimeField('Criado em', auto_now_add=True)
+    criado_em         = models.DateField(blank=True,null=True)
     urgente           = models.CharField('Urgente', max_length=1, choices=URGENTE, blank=True)
+
+    def get_idade(self):
+        return int((datetime.now().date()-self.criado_em).days)
 
     class Meta:
         verbose_name = 'Lista de Espera'
