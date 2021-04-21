@@ -45,8 +45,9 @@ class ListaEspera(models.Model):
     criado_em         = models.DateField(blank=True,null=True)
     urgente           = models.CharField('Urgente', max_length=1, choices=URGENTE, blank=True)
 
-    def get_idade(self):
-        return int((datetime.now().date()-self.criado_em).days/1)
+        
+    def idade(self):
+        return int((datetime.now().date()-self.criado_em).days/365.25)
 
     class Meta:
         verbose_name = 'Lista de Espera'
