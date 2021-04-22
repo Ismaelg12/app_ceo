@@ -45,15 +45,15 @@ class ListaEspera(models.Model):
     criado_em         = models.DateTimeField(blank=True,null=True)
     urgente           = models.CharField('Urgente', max_length=1, choices=URGENTE, blank=True)
 
-    def get_idade(self):
-        return int(datetime.now().date() - datetime.now().date())
-
     class Meta:
         verbose_name = 'Lista de Espera'
         verbose_name_plural = 'Listas de Espera'
 
     def __str__(self):
         return self.nome
+
+    def idade(self):
+        return int((datetime.now().date()-self.criado_em).days/365.25)
 
 
 class Clinica(models.Model):
