@@ -47,7 +47,9 @@ class ListaEspera(models.Model):
 
         
     def get_idade(self):
-        return int((datetime.now().date()-self.criado_em).days/1)
+        d2 = datetime.now().date()
+        d1 = self.criado_em
+        return int((d2 - d1).days)
 
     class Meta:
         verbose_name = 'Lista de Espera'
