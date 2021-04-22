@@ -52,7 +52,7 @@ class ListaEspera(models.Model):
     def __str__(self):
         return self.nome
 
-    def idade(self):
+    def espera(self):
         return int((datetime.now().date()-self.criado_em).days/365.25)
 
 

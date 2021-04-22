@@ -37,10 +37,10 @@
                           <td>{{l.nome|title}}</td>
                           <td>{{l.profissional}}</td>
                           <td>{{l.especialidade}}</td>
-                          <td>{% if l.get_idade > 30%}
-                                <span class="btn btn-danger btn-group btn-xs">{{l.get_idade}} Dias</span>
+                          <td>{% if l.espera > 30%}
+                                <span class="btn btn-danger btn-group btn-xs">{{l.espera}} Dias</span>
 {%else%}
-                              {{l.get_idade}} Dias
+                              {{l.espera}} Dias
                               {% endif %}
                         </td>
 
