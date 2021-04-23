@@ -42,11 +42,11 @@ class ListaEspera(models.Model):
     especialidade     = models.ForeignKey(Especialidade,on_delete=models.PROTECT,null=True,blank=False)
     observacao        = models.TextField(max_length=500,blank=True)
     atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
-    criado_em         = models.DateField(blank=True,null=True)
+    criado_em         = models.DateTimeField(blank=True,null=True)
     urgente           = models.CharField('Urgente', max_length=1, choices=URGENTE, blank=True)
 
     def espera(self):
-        return int((datetime.now().date()-self.criado_em).days/1)
+        return int((datetime.now().date()-self.criado_em.date()).days/1)
 
     class Meta:
         verbose_name = 'Lista de Espera'
