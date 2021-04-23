@@ -36,3 +36,4 @@ class AgendaForm(forms.ModelForm):
             'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "3",}),
         }
     
+    

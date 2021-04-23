@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from agenda.models import Agendamento
 from pacientes.models import Paciente
+from core.models import ListaEspera
 from controle_usuarios.models import Profissional
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -25,6 +26,7 @@ class AgendaCreateView(LoginRequiredMixin,CreateView):
     template_name = 'agendas/agenda_add.html'
     form_class    = AgendaForm
     success_url   = reverse_lazy('agendas')
+
     #salvar e adicionar novo
     def post(self, request, *args, **kwargs):
         save_action = None
@@ -32,9 +34,11 @@ class AgendaCreateView(LoginRequiredMixin,CreateView):
             return HttpResponseRedirect(reverse('agendas'))
         else:
             save_action = super(AgendaCreateView, self).post(request, *args, **kwargs)
+            agen = ListaEspera.objects.filter(nome__id=request.POST['paciente'],
+                profissional__id=request.POST['profissional']).delete()
         if "adicionar_outro" in request.POST:
             messages.success(request,'Agendamento Cadastrado com Sucesso! ')
-            return HttpResponseRedirect(reverse('add_agenda'))
+            return HttpResponseRedirect(reverse('add_agenda'))    
         return save_action
 
 

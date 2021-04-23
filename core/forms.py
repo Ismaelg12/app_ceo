@@ -22,3 +22,10 @@ class ListaEsperaForm(forms.ModelForm):
         }
 
 
+    def clean(self):
+        nome = self.cleaned_data['nome']
+        profissional = self.cleaned_data['profissional']
+
+        lista = ListaEspera.objects.filter(nome__id=nome.id, profissional__id=profissional.id).exists()
+        if lista:
+            raise ValidationError('Paciente Já existe na base da dados!')
