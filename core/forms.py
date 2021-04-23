@@ -28,4 +28,4 @@ class ListaEsperaForm(forms.ModelForm):
 
         lista = ListaEspera.objects.filter(nome__id=nome.id, profissional__id=profissional.id).exists()
         if lista:
-            raise ValidationError('Paciente Já existe na base da dados!')
+            raise ValidationError('Paciente já esta cadastrado para este Profissional!')
