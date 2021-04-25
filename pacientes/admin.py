@@ -9,4 +9,9 @@ class PacienteAdmin(admin.ModelAdmin):
 	formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
+
+class UbsAdmin(admin.ModelAdmin):
+	list_display = ['nome']
+	search_fields  = ['nome']
 admin.site.register(Paciente,PacienteAdmin)
+admin.site.register(Ubs,UbsAdmin)

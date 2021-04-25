@@ -7,6 +7,17 @@ from django.urls import reverse
 from datetime import datetime
 
 
+
+class Ubs(models.Model):
+	nome   	= models.CharField(max_length=100,blank=True,unique=True)
+
+	class Meta:
+		verbose_name = 'Ubs'
+		verbose_name_plural = 'Ubs'
+		
+	def __str__(self):
+		return self.nome
+
 class Paciente(models.Model):
 	#informações basicas do paciente
 	nome              = models.CharField('Nome',max_length=60)
@@ -20,6 +31,7 @@ class Paciente(models.Model):
 	#complemento
 	#profissional      = models.ForeignKey(Profissional ,on_delete=models.SET_NULL,null=True)
 	profissional      = models.ManyToManyField(Profissional)
+	ubs		      	  = models.ForeignKey(Ubs,on_delete=models.PROTECT,null=True,blank=True)
 	#convenios
 	observacao        = models.TextField(max_length=500,blank=True)
 	atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)

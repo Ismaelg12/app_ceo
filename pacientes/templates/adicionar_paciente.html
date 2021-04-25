@@ -51,14 +51,19 @@
            <form method="POST" id="paciente_form">
             {% csrf_token %}
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="bmd-label-floating">*Nome Completo</label>
                   {{form.nome}}
                   <span class="text-danger"> {{form.non_field_errors}}</span>
                 </div>
               </div>
-               <div class="col-md-4">            
+              <div class="col-md-2">
+                  <label class="bmd-label-floating">*Unidade de Saúde</label>
+                  {{form.ubs}}
+                  <span class="text-danger"> {{form.non_field_errors}}</span>
+              </div>
+               <div class="col-md-3">            
                   <label class="bmd-label-floating">*Profissional</label>
                   {{form.profissional}}
                    {{form.profissional.errors}}               
@@ -186,6 +191,7 @@ $('#id_data_nascimento').daterangepicker({
         sus: { required: true,},
         telefone: { required: true,},
         tratamento: { required: true,},
+        ubs: { required: true,},
       },
       messages: {
         nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
@@ -193,6 +199,7 @@ $('#id_data_nascimento').daterangepicker({
         profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        ubs: { required: '<span class="text-danger">Prencha esse Campo</span>' },
       },
     });
   });
@@ -206,6 +213,7 @@ $('#id_data_nascimento').daterangepicker({
         sus: { required: true,},
         telefone: { required: true,},
         tratamento: { required: true,},
+        ubs: { required: true,},
       },
       messages: {
         nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
@@ -213,6 +221,7 @@ $('#id_data_nascimento').daterangepicker({
         profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
         tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        ubs: { required: '<span class="text-danger">Prencha esse Campo</span>' },
       },
     });
   });

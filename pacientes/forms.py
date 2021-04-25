@@ -24,6 +24,9 @@ class PacienteForm(forms.ModelForm):
 			'telefone'       : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
 			'telefone_fixo'  : forms.TextInput(attrs={'class': 'form-control'}),
 			'observacao'     : forms.Textarea(attrs={'class': 'form-control'}),
+			'ubs'            : forms.Select(attrs={'class':'selectpicker',
+                'data-style':'select-with-transition','data-size':7,
+                'data-live-search':'true','onchange':'showDiv(this)','id':'id_ubs','required': 'true',}),
 			'tratamento'     : forms.Select(attrs={'class': 'form-control'}),
 		}
 
