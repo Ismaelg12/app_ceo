@@ -2,7 +2,6 @@ from django.db import models
 from pacientes.utils import SEXO, TRATAMENTO, URGENTE
 from controle_usuarios.models import Profissional
 from pacientes.models import Paciente
-from django.utils import timezone
 from datetime import datetime
 
 
