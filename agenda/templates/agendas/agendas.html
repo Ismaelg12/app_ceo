@@ -71,10 +71,10 @@
                 <tr>
                 <td>
                   <!--arquivo com os devidos status da agenda-->
-                  {% if agenda.status == 'AG' %} <span class="badge badge-green">Agendado</span>{% endif%} 
-                  {% if agenda.status == 'AT' %} <span class="badge badge-blue">Atendido</span>{% endif%} 
-                  {% if agenda.status == 'FN' %} <span class="badge badge-tomato">Falta não Justificada</span>{% endif%} 
-                  {% if agenda.status == 'DM' %} <span class="badge badge-orange">Desmarcado</span>{% endif%}  
+                  {% if agenda.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%} 
+                  {% if agenda.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
+                  {% if agenda.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
+                  {% if agenda.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
                 </td>
                 <td><b>{{agenda.paciente|title}}</b></td>
                 <td>{{agenda.data|date:"d/m/Y"}}</td>

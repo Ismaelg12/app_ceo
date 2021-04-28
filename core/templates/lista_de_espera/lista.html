@@ -13,7 +13,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary"data-background-color="purple">
-                <h4 class="card-title">Tem <font size="+2">{{view.list_espera}}</font> na lista de espera <a
+                <h4 class="card-title">Tem <font size="+2">{{view.list_espera}}</font> pacientes na lista de espera <a
                 class="btn btn-success pull-right btn-round btn-fab btn-fab-mini" href="{% url 'add_lista' %}">
                 <i class="material-icons">person_add</i>
                 <div class="ripple-container"></div>
@@ -48,8 +48,8 @@
                             {% else %}<span class="btn btn-success btn-group btn-xs">Normal</span>
                           {% endif%}</td>
                           <td  width="10%">
-                            <a href="{% url 'lista_espera_detalhe' l.id %}" title="Migrar Cadastro"><i class="material-icons">visibility</i></a>
-                            <a href="{% url 'update_lista_espera' l.id %}" title="Visualizar"><i class="material-icons text-info">update</i></a>
+                            <a href="{% url 'lista_espera_detalhe' l.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
+                            <a href="{% url 'update_lista_espera' l.id %}" title="Atualizar"><i class="material-icons text-info">update</i></a>
                             <a href="{% url 'deletar_lista_espera' l.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i></a>
                           </td>
                         </tr>
