@@ -24,8 +24,8 @@ class ListaEsperaForm(forms.ModelForm):
 
     def clean(self):
         nome = self.cleaned_data['nome']
-        profissional = self.cleaned_data['profissional']
+        especialidade = self.cleaned_data['especialidade']
 
-        lista = ListaEspera.objects.filter(nome__id=nome.id, profissional__id=profissional.id).exists()
+        lista = ListaEspera.objects.filter(nome__id=nome.id, especialidade__id=especialidade.id).exists()
         if lista:
-            raise ValidationError('Paciente já esta cadastrado para este Profissional!')
+            raise ValidationError('Paciente já esta cadastrado para esta especialidade!')

@@ -22,7 +22,7 @@ class TimeStampedModel(models.Model):
 
 class Especialidade(models.Model):
     #informações basicas
-    nome              = models.CharField(max_length=100, blank=False)
+    nome              = models.CharField(max_length=100, unique=True, blank=False)
     atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
     criado_em         = models.DateTimeField('Criado em', auto_now_add=True)
 
