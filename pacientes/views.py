@@ -3,6 +3,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
 from django.urls import reverse_lazy
 from pacientes.models import Paciente
+from core.mixins import DashboardMixin
 from controle_usuarios.models import Profissional
 from django.contrib import messages
 from pacientes.forms import PacienteForm
@@ -35,7 +36,7 @@ class PacienteCreateView(LoginRequiredMixin,CreateView):
         return save_action
 
 
-class PacienteListView(LoginRequiredMixin,ListView):
+class PacienteListView(LoginRequiredMixin,ListView,DashboardMixin):
     model               = Paciente
     template_name       = 'pacientes.html'
     context_object_name = 'pacientes'
@@ -49,7 +50,7 @@ class PacienteListView(LoginRequiredMixin,ListView):
                 nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
         return queryset
 
-class IniciadoListView(LoginRequiredMixin,ListView):
+class IniciadoListView(LoginRequiredMixin,ListView,DashboardMixin):
     model               = Paciente
     template_name       = 'trat_iniciado.html'
     context_object_name = 'pacientes'
@@ -62,7 +63,7 @@ class IniciadoListView(LoginRequiredMixin,ListView):
                 nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
         return queryset
 
-class ConcluidoListView(LoginRequiredMixin,ListView):
+class ConcluidoListView(LoginRequiredMixin,ListView,DashboardMixin):
     model               = Paciente
     template_name       = 'trat_concluido.html'
     context_object_name = 'pacientes'
@@ -75,7 +76,7 @@ class ConcluidoListView(LoginRequiredMixin,ListView):
                 nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
         return queryset
 
-class LigacaoListView(LoginRequiredMixin,ListView):
+class LigacaoListView(LoginRequiredMixin,ListView,DashboardMixin):
     model               = Paciente
     template_name       = 'ligacao.html'
     context_object_name = 'pacientes'

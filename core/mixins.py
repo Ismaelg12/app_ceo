@@ -41,3 +41,15 @@ class DashboardMixin(object):
 	def list_espera(self):
 		list_espera_count = ListaEspera.objects.all().count()
 		return list_espera_count
+
+	def iniciado(self):
+		iniciado_count = Paciente.objects.filter(tratamento='IN').count()
+		return iniciado_count
+
+	def concluido(self):
+		concluido_count = Paciente.objects.filter(tratamento='CO').count()
+		return concluido_count
+
+	def liga(self):
+		liga_count = Paciente.objects.filter(tratamento='RE').count()
+		return liga_count

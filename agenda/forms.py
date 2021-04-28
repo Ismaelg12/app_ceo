@@ -2,6 +2,7 @@ from django import forms
 from agenda.models import Agendamento
 from controle_usuarios.models import Profissional
 from pacientes.models import Paciente
+from django.core.exceptions import ValidationError
 
 
 OP_CHOICES = (
@@ -36,4 +37,11 @@ class AgendaForm(forms.ModelForm):
             'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "3",}),
         }
     
-    
+    # def clean(self):
+    #     paciente = self.cleaned_data['paciente']
+    #     hora = self.cleaned_data['hora']
+    #     profissional = self.cleaned_data['profissional']
+
+    #     lista = Agendamento.objects.filter(paciente__id=paciente.id, hora=hora, profissional__id=profissional.id).exists()
+    #     if lista:
+    #         raise ValidationError('Paciente já tem um agendameno!')

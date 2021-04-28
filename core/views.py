@@ -63,7 +63,7 @@ class EsperaCreateView(LoginRequiredMixin,CreateView):
     success_url   = reverse_lazy('lista_espera')
 
 
-class EsperaListView(LoginRequiredMixin,ListView):
+class EsperaListView(LoginRequiredMixin,ListView,DashboardMixin):
     model         = ListaEspera
     context_object_name = 'lista'
     template_name = 'lista_de_espera/lista.html'
