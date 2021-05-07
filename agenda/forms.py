@@ -12,15 +12,20 @@ OP_CHOICES = (
 )
 
 class AgendaForm(forms.ModelForm):
-    #filtra apenas os profissionais que atendem
+    #filtra apenas os profissionais que trabalham como fisioterapeutas
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['profissional'].queryset = Profissional.objects.filter(tipo=2,ativo=True)
         self.fields['paciente'].label_from_instance = self.paciente_label
+        self.fields['profissional'].label_from_instance = self.profissional_label
     #metodo para override de labels do pacientes
     @staticmethod
     def paciente_label(self):
-        return str(self.nome[:30]) + ' -- ' + self.telefone
+        return str(self.nome) + '--' + self.telefone
+
+    @staticmethod
+    def profissional_label(self):
+        return str(self.nome) + '--' + str(self.especialidade)
 
     class Meta:
         model   = Agendamento
@@ -30,18 +35,12 @@ class AgendaForm(forms.ModelForm):
             'hora' 		  : forms.TimeInput(attrs={'class': 'form-control input-rounded'}),
             'paciente'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
                 'data-size':7,'data-live-search':'true','required': 'true'}),
+            'telefone'    : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
+            'especialidade'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
+                'data-size':7,'data-live-search':'true','required': 'true'}),
             'profissional': forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
                 'data-size':7,'data-live-search':'true','required': 'true'}),
-            'telefone'    : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
             'status'      : forms.Select(attrs={'class': 'selectpicker','data-style':'select-with-transition', 'required':'True'}),
-            'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "3",}),
+            'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "20", 'rows': "6",}),
         }
     
-    # def clean(self):
-    #     paciente = self.cleaned_data['paciente']
-    #     hora = self.cleaned_data['hora']
-    #     profissional = self.cleaned_data['profissional']
-
-    #     lista = Agendamento.objects.filter(paciente__id=paciente.id, hora=hora, profissional__id=profissional.id).exists()
-    #     if lista:
-    #         raise ValidationError('Paciente já tem um agendameno!')

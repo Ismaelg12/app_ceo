@@ -35,7 +35,7 @@ class AgendaCreateView(LoginRequiredMixin,CreateView):
         else:
             save_action = super(AgendaCreateView, self).post(request, *args, **kwargs)
             agen = ListaEspera.objects.filter(nome__id=request.POST['paciente'],
-                profissional__id=request.POST['profissional']).delete()
+                especialidade_id=request.POST['especialidade']).delete()
         if "adicionar_outro" in request.POST:
             messages.success(request,'Agendamento Cadastrado com Sucesso! ')
             return HttpResponseRedirect(reverse('add_agenda'))    
@@ -56,8 +56,8 @@ def agendamento(request):
 
     if profissional.exists():
         pff = Profissional.objects.get(user=request.user,tipo=2)      
-        for i in pff.area_atuacao.all():
-            lista.append(i.get_id_display())
+        # for i in pff.especialidade.all():
+        #     lista.append(i.get_id_display())
     else:
         pass
             #print (i)

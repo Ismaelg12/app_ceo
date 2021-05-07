@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
-{% block add_modal %}
-<script src="{% static "js/core/jquery.min.js" %}"></script>
+{% block datepicker %}
+<script src ="{% static "tables/jquery.min.js" %}"></script>
 <script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
-<!--boostrap datepicker-->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet"type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-{% endblock add_modal %}
-</head>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
 {% block container %}
 <div class="content">
 	<div class="container-fluid">
@@ -19,7 +17,7 @@
 						<h4 class="card-title ">Agenda de Atendimento</h4>
 					</div>
 					<div class="card-content">
-						<form method="post">
+						<form method="post" id="agendaForm">
 							{% csrf_token %}
 							<div class="row">
 								<div class="col-md-2">
@@ -39,24 +37,31 @@
 										{{form.data}}
 									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-5">
+								<div class="col-md-6">
 									<label>* Paciente</label></br>	
 									{{form.paciente}}
 									<span class="text-danger">{{form.paciente.errors}}</span>
 								</div>
-								<div class="col-md-2">
+																<div class="col-md-2">
 									<div class="form-group">
 										<label>* Contato</label></br>	
 										{{form.telefone}}
+										 {{form.nome.errors}} 
 										<span class="text-danger">{{form.telefone.errors}}</span>
 									</div>
 								</div>
+							</div>
+							<div class="row">
+
 								<div class="col-md-3">
 									<label>* Profissional</label></br>	
 									{{form.profissional}}
 									<span class="text-danger">{{form.profissional.errors}}</span>
+								</div>
+								<div class="col-md-3">
+									<label>* Especialidade</label></br>	
+									{{form.especialidade}}
+									<span class="text-danger">{{form.especialidade.errors}}</span>
 								</div>						
 							</div>
 <div class="row">
@@ -70,7 +75,7 @@
 		</div>
 	</div>
 </div>
-<button type="submit" class="btn btn-primary btn-sm pull-right"> Enviar</button>
+<button type="submit" class="btn btn-primary btn-sm pull-right" id="submitButton"> Enviar</button>
 <a href="{% url 'agendas' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
 <div class="clearfix"></div>
 </form>
@@ -90,22 +95,6 @@
   });
 </script>
 <script>
-//através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
-//https://stackoverflow.com/questions/11918397/jquery-hide-and-show-an-input-element
-
-$(document).ready(function(){
-	$('#id_status').change(function(){
-		if($(this).val() == 'CC'){
-			$("#span_alerta").show();  
-		}
-		else{
-			$("#span_alerta").hide();
-
-		} 
-	});
-
-});	      
-
 $.noConflict();
 jQuery( document ).ready(function( $ ) {
 	$('#id_hora').daterangepicker({
@@ -164,8 +153,36 @@ $('#id_telefone').mask('(00) 00000-0000');
 $("#id_paciente").change(function() {
 //seta o contato automaticamente conforme paciente
 var pacienteContato = $(this).find('option:selected').text();
-$('#id_telefone').val(pacienteContato.split('...')[1]);
+$('#id_telefone').val(pacienteContato.split('--')[1]);
+});
+$("#id_profissional").change(function() {
+//seta o contato automaticamente conforme paciente
+var profissionalEspecialidade = $(this).find('option:selected').text();
+$('#id_especialidade').val(profissionalEspecialidade.split('--')[1]);
 });    		
 });
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+      $('#submitButton').on('click',function(){
+        $('#agendaForm').validate({
+          rules: {
+            hora: { required: true, },
+            data: { required: true,},
+            telefone: { required: true,},
+            profissional: { required: true,},
+            especialidade: { required: true,},
+          },
+          messages: {
+            hora: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            data: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            especialidade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+          },
+        });
+      });
+    });
+</script>
 {% endblock container %}
+

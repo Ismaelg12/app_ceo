@@ -17,10 +17,10 @@
             <h4 class="card-title ">Adicionar Lista de Espera</h4>
           </div>
           <div class="card-content">
-            <form method="POST"id="EsperaForm" data-select-url="{% url 'ajax_load_profissionais' %}" novalidate>
+            <form method="POST"id="EsperaForm">
               {% csrf_token %}
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   
                     <label class="bmd-label-floating">*Nome Completo</label>
                     {{form.nome}}
@@ -28,12 +28,14 @@
                     <span class="text-danger"> {{form.non_field_errors}}</span>
                   
                 </div>
-                <div class="col-md-4">            
-                  <label class="bmd-label-floating">*Profissional</label>
-                  {{form.profissional}}
-                  {{form.profissional.errors}}               
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>* Contato</label></br> 
+                    {{form.telefone}}
+                    <span class="text-danger">{{form.telefone.errors}}</span>
+                  </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                
                     <label class="bmd-label-floating">Especialidade</label>
                     {{form.especialidade}}                 
@@ -158,13 +160,14 @@
   <script>  
     $(document).ready(function() {
       $('#submitButton').on('click',function(){
-        $('#paciente_form').validate({
+        $('#EsperaForm').validate({
           rules: {
             nome: { required: true, },
             profissional: { required: true,},
             especialidade: { required: true,},
             urgente: { required: true,},
             criado_em: { required: true,},
+            telefone: { required: true,},
           },
           messages: {
             nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
@@ -172,29 +175,19 @@
             profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             urgente: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             criado_em: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
           },
         });
       });
     });
-    $(document).ready(function() {
-      $('#submitButton1').on('click',function(){
-        $('#paciente_form').validate({
-          rules: {
-            nome: { required: true, },
-            profissional: { required: true,},
-            especialidade: { required: true,},
-            urgente: { required: true,},
-            criado_em: { required: true,},
-          },
-          messages: {
-            nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-            especialidade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-            profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-            urgente: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-            criado_em: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-          },
-        });
-      });
-    });
+jQuery(function($){
+// Remove o  status atender e atendido 
+$('#id_telefone').mask('(00) 00000-0000');
+$("#id_nome").change(function() {
+//seta o contato automaticamente conforme paciente
+var pacienteContato = $(this).find('option:selected').text();
+$('#id_telefone').val(pacienteContato.split('--')[1]);
+});       
+});
   </script>
   {% endblock container %}

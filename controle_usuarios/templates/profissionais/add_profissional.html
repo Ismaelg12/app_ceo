@@ -115,18 +115,10 @@
                        <b style="color:red;">{{profissional_form.ativo.errors}}</b>
                       {{profissional_form.ativo}}
                   </div>
-                  <div class="col-md-4">
-                    <b>ÀREA DE ATUAÇÂO</b><br/>
-                    {% for field in profissional_form.area_atuacao %}         
-                      <div class="checkbox">
-                        <label>
-                          <!-- Generates the checkbox for the field -->
-                          {{ field.tag }}
-                          <span class="checkbox-material"></span><i class="text-warning">{{ field.choice_label}}</i> 
-                          <!-- Generates the named label of the field -->
-                        </label>
-                      </div>
-                    {% endfor %}
+                  <div class="col-md-5">            
+                      <label class="bmd-label-floating">*Especialidade</label>
+                       <b style="color:red;">{{profissional_form.especialidade.errors}}</b>
+                      {{profissional_form.especialidade}}
                   </div>
                 </div>
                  <br/> <br/>

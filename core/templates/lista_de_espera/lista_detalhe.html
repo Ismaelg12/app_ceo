@@ -32,65 +32,41 @@
                 <div class="card-content">
                   <form>
                     <div class="row">
-                      <div class="col-md-12">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label class="bmd-label-floating">* Nome</label>
                           <input type="text" value="{{espera.nome|title}}"class="form-control" disabled>
                         </div>
                       </div>
+                                            <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Especialidade</label>
+                          <input type="text" value="{{espera.especialidade}}"class="form-control" disabled>
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-6">
                         <div class="form-group">
-                          <label>* Data de Nascimento</label>
-                          <input value="{{espera.data_nascimento|date:"d/m/Y"}}"class="form-control" disabled>
+                          <label>* Data do Cadastro</label>
+                          <input value="{{espera.criado_em|date:'d/m/Y'}}"class="form-control" disabled>
                         </div>
                       </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Sexo</label>
-                          <input type="text" value="{{espera.get_sexo_display}}"class="form-control" disabled>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
+
+                      <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating"> Telefone</label>
                           <input type="text" value="{{espera.telefone}}"class="form-control" disabled>
                         </div>
                       </div>
-                       <div class="col-md-3">
-                          <label>Turno</label>
-                          <br><br>
-                          <div>
-                            {% if espera.turno_manha %}
-                              <b>Manhã</b>
-                            {% endif %}
-                            {% if espera.turno_tarde %}
-                              <b>Tarde</b>
-                            {% endif %}
-                            {% if espera.turno_noite %}
-                              <b>Noite</b>
-                            {% endif %}
+                      </div>
+                      <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
+                            <textarea class="form-control" value="" rows="6" disabled>{{espera.observacao}}</textarea>
                           </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Profissional Desejado</label>
-                          <input type="text" value="{{espera.profissional}}"class="form-control" disabled>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Especialidade</label>
-                          <input type="text" value="{{espera.get_especialidade_display}}"class="form-control" disabled>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="bmd-label-floating"> Observação</label>
-                          <input type="text" value="{{paciente.observacao}}"class="form-control" disabled>
                         </div>
                       </div>
                     </div>

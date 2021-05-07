@@ -1,6 +1,6 @@
 from django.db import models
 from pacientes.utils import SEXO, TRATAMENTO, URGENTE
-from controle_usuarios.models import Profissional
+from controle_usuarios.models import Profissional,Especialidade
 from pacientes.models import Paciente
 from datetime import datetime
 
@@ -20,24 +20,12 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
-class Especialidade(models.Model):
-    #informações basicas
-    nome              = models.CharField(max_length=100, unique=True, blank=False)
-    atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
-    criado_em         = models.DateTimeField('Criado em', auto_now_add=True)
-
-
-    class Meta:
-        verbose_name = 'Especialidade'
-        verbose_name_plural = 'Especialidades'
-
-    def __str__(self):
-        return self.nome
         
 class ListaEspera(models.Model):
     #informações basicas
+    id                = models.AutoField(primary_key=True)
     nome              = models.ForeignKey(Paciente,on_delete=models.PROTECT,null=True,blank=False)
-    profissional      = models.ForeignKey(Profissional,on_delete=models.PROTECT,null=True,blank=False)
+    telefone          = models.CharField(max_length=15,blank=True)
     especialidade     = models.ForeignKey(Especialidade,on_delete=models.PROTECT,null=True,blank=False)
     observacao        = models.TextField(max_length=500,blank=True)
     atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)

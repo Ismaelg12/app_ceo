@@ -24,7 +24,7 @@
                       <thead class=" text-primary">
                         <th>Nº</th>
                         <th>Nome</th>
-                        <th>Profissional</th>
+                        <th>Telefone</th>
                         <th>Especialidade</th>
                         <th>Tempo de Espera</th>
                         <th>Atendimento</th>
@@ -35,7 +35,7 @@
                         <tr>
                           <td>{{forloop.counter}}</td>
                           <td>{{l.nome|title}}</td>
-                          <td>{{l.profissional}}</td>
+                          <td>{{l.telefone|title}}</td>
                           <td>{{l.especialidade}}</td>
                           <td>{% if l.espera > 30%}
                                 <span class="btn btn-danger btn-group btn-xs">{{l.espera}} Dias</span>
@@ -50,7 +50,7 @@
                           <td  width="10%">
                             <a href="{% url 'lista_espera_detalhe' l.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
                             <a href="{% url 'update_lista_espera' l.id %}" title="Atualizar"><i class="material-icons text-info">update</i></a>
-                            <a href="{% url 'deletar_lista_espera' l.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i></a>
+                            <!-- <a href="{% url 'deletar_lista_espera' l.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i></a> -->
                           </td>
                         </tr>
                         {% endfor %}

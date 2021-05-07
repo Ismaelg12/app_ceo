@@ -86,9 +86,11 @@
                 {% if atend or prof %}
                  <div class="row"style="display:none">
                    <div class="col-md-3">
-                    <label class="bmd-label-floating">*Área do profissional</label>
-                       <b style="color:red;">{{profissional_form.area_atuacao.errors}}</b>
-                      {{profissional_form.area_atuacao}}
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Especialidade</label>
+                     <b style="color:red;">{{profissional_form.especialidade.errors}}</b>
+                        {{profissional_form.especialidade}}
+                    </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
@@ -119,17 +121,11 @@
                   </div>
 
                   <div class="col-md-4">
-                     <b>ÀREA DE ATUAÇÂO</b>
-                     {% for field in profissional_form.area_atuacao %}       
-                      <div class="checkbox">
-                        <label>
-                          <!-- Generates the checkbox for the field -->
-                          {{ field.tag }}
-                          <span class="checkbox-material"></span><i class="text-warning">{{ field.choice_label}}</i> 
-                          <!-- Generates the named label of the field -->
-                        </label>
-                      </div>
-                    {% endfor %}
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Especialidade</label>
+                     <b style="color:red;">{{profissional_form.especialidade.errors}}</b>
+                        {{profissional_form.especialidade}}
+                    </div>
                   </div>
                 </div>
                 <br><br>

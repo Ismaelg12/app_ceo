@@ -2,7 +2,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from pacientes.models import Paciente
-from controle_usuarios.models import Profissional
+from controle_usuarios.models import Profissional,Especialidade
 from core.utils import STATUS
 
 
@@ -11,8 +11,9 @@ class Agendamento(models.Model):
     data          = models.DateField(null=True)
     hora 		  = models.TimeField(null=True)
     paciente      = models.ForeignKey(Paciente,on_delete=models.PROTECT)
-    profissional  = models.ForeignKey(Profissional,on_delete=models.PROTECT, blank=True)
     telefone      = models.CharField(max_length=15,blank=True)
+    profissional  = models.ForeignKey(Profissional,on_delete=models.PROTECT, blank=True)
+    especialidade = models.ForeignKey(Especialidade,on_delete=models.PROTECT, blank=True)
     observacao    = models.TextField(blank=True)
     criado_em     = models.DateTimeField('Criado em', auto_now_add=True)
     status        = models.CharField(max_length=2,choices=STATUS,default='AG',blank=True)

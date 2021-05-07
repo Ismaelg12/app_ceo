@@ -37,23 +37,23 @@ class DashboardView(TemplateView,DashboardMixin):
 +                           CRUD Lista de Espera
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '''
-#view que migra o cadastro na lista de espera paera o cadastro de pacientes
-def migrar_paciente(request,pk):
-    lista_espera = ListaEspera.objects.get(pk=pk)
-    Paciente.objects.create(  
-        nome=lista_espera.nome,
-        data_nascimento=lista_espera.data_nascimento,
-        sexo=lista_espera.sexo,
-        cpf=lista_espera.cpf,            
-        sus=lista_espera.sus,             
-        telefone=lista_espera.telefone,     
-        telefone_fixo=lista_espera.telefone_fixo,  
-        observacao=lista_espera.observacao,     
-        tratamento='RE',    
-    ).save()
-    lista_espera.delete()
-    messages.success(request,'Cadastro Migrado com Sucesso, Apenas Complete os dados ! ')
-    return redirect('lista_espera')
+# #view que migra o cadastro na lista de espera paera o cadastro de pacientes
+# def migrar_paciente(request,pk):
+#     lista_espera = ListaEspera.objects.get(pk=pk)
+#     Paciente.objects.create(  
+#         nome=lista_espera.nome,
+#         data_nascimento=lista_espera.data_nascimento,
+#         sexo=lista_espera.sexo,
+#         cpf=lista_espera.cpf,            
+#         sus=lista_espera.sus,             
+#         telefone=lista_espera.telefone,     
+#         telefone_fixo=lista_espera.telefone_fixo,  
+#         observacao=lista_espera.observacao,     
+#         tratamento='RE',    
+#     ).save()
+#     lista_espera.delete()
+#     messages.success(request,'Cadastro Migrado com Sucesso, Apenas Complete os dados ! ')
+#     return redirect('lista_espera')
 
 
 class EsperaCreateView(LoginRequiredMixin,CreateView):
@@ -68,15 +68,16 @@ class EsperaListView(LoginRequiredMixin,ListView,DashboardMixin):
     context_object_name = 'lista'
     template_name = 'lista_de_espera/lista.html'
     
-    # def get_context_data(self, **kwargs):
-    #     #pf é querysets para exibir profissionais no template para o filtro
-    #     pf            = Profissional.objects.filter(tipo=2,user=self.request.user,)
-    #     context = super(EsperaListView, self).get_context_data(**kwargs)
-    #     if pf.exists():
-    #         context['lista'] = ListaEspera.objects.filter(profissional__user=self.request.user)
-    #     else:
-    #         context['lista'] = ListaEspera.objects.all()
-    #     return context
+    def get_context_data(self, **kwargs):
+        #pf é querysets para exibir profissionais no template para o filtro
+        pf            = Profissional.objects.filter(tipo=2,user=self.request.user,)
+        context = super(EsperaListView, self).get_context_data(**kwargs)
+        if pf.exists():
+            context['lista'] = ListaEspera.objects.all()
+            # filter(profissional__user=self.request.user)
+        else:
+            context['lista'] = ListaEspera.objects.all()
+        return context
 
 class EsperaUpdateView(LoginRequiredMixin,UpdateView):
     model         = ListaEspera

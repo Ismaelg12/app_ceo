@@ -4,18 +4,24 @@ from .models import *
 from django.core.exceptions import ValidationError
 
 
-class ListaEsperaForm(forms.ModelForm):    
+class ListaEsperaForm(forms.ModelForm):  
+    #filtra apenas os profissionais que atendem
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nome'].label_from_instance = self.paciente_label
+    #metodo para override de labels do pacientes
+    @staticmethod
+    def paciente_label(self):
+        return str(self.nome) + '--' + self.telefone
     class Meta:
         model =  ListaEspera
         fields = '__all__'
         widgets = {
-            'nome'                      : forms.Select(attrs={'class':'selectpicker',
-                'data-style':'select-with-transition','data-size':7,
-                'data-live-search':'true','onchange':'showDiv(this)','id':'id_nome','required': 'true',}),
-			'profissional'              : forms.Select(attrs={'class':'selectpicker',
-                'data-style':'select-with-transition','data-size':7,
-                'data-live-search':'true','onchange':'showDiv(this)','id':'id_profissional','required': 'true',}),
-			'especialidade'             : forms.Select(attrs={'class': 'form-control'}),
+            'nome'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
+                'data-size':7,'data-live-search':'true','required': 'true','id':'id_nome',}),
+			'telefone'    : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
+			'especialidade'             : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
+                'data-size':7,'data-live-search':'true','required': 'true','id':'id_especialidade',}),
 			'observacao'                : forms.Textarea(attrs={'class': 'form-control'}), 
             'urgente'                   : forms.Select(attrs={'class': 'form-control','required': 'true'}),
             'criado_em'                 : forms.DateInput(attrs={'class': 'form-control'}),

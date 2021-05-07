@@ -1,9 +1,14 @@
 from django.contrib import admin
-from controle_usuarios.models import Profissional,Perfil
+from controle_usuarios.models import Profissional,Especialidade
 
 
 class ProfissionalAdmin(admin.ModelAdmin):
-	list_display = ['user','nome','sobrenome','tipo','data_cadastro','email', 'ativo'] 
+	list_display = ['user','nome','sobrenome','tipo','email', 'ativo'] 
 	search_fields = ['nome']
+
+class EspecialidadeAdmin(admin.ModelAdmin):
+	list_display = ['id','especialidade'] 
+
 admin.site.register(Profissional,ProfissionalAdmin)
-admin.site.register(Perfil)
+admin.site.register(Especialidade,EspecialidadeAdmin)
+

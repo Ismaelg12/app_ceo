@@ -30,7 +30,7 @@
                    <h4 class="card-title ">Dados Cadastrais</h4>
               </div>
                 <div class="card-content">
-                  <form>
+              
                     <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
@@ -91,24 +91,57 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label class="bmd-label-floating"> Status do Tratamento</label>
-                          <input type="text" value="{{paciente.tratamento}}"class="form-control" disabled>
+                          <input type="text" value="{{paciente.get_tratamento_display}}"class="form-control" disabled>
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label>Outras informações</label>
                           <div class="form-group">
                             <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
-                            <textarea class="form-control" value="{{paciente.observacao}}"rows="5" disabled></textarea>
+                            <textarea class="form-control" value="" rows="10" disabled>{{paciente.observacao}}</textarea>
                           </div>
                         </div>
                       </div>
                     </div>
                     <a href="{% url 'lista_pacientes' %}" class="btn btn-primary btn-group">Voltar</a>
                     <div class="clearfix"></div>
-                  </form>
+                  <hr>
+                    <h3 class="text-center"><i class="material-icons">people</i>  Histórico de Atendimentos de {{paciente.nome}}</h3>
+                    <div class="tab-pane active show" id="profile">
+                       <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+              <thead class="text-primary">
+                <th>Status</th>
+                <th>Paciente</th>
+                <th>Data</th>
+                <th>Profissional</th>
+                <th>Horário</th>
+                <th>Ações</th>
+              </thead>
+              <tbody>
+                {% for ag  in agenda %}
+                <tr>
+                <td>
+                  <!--arquivo com os devidos status da ag-->
+                  {% if ag.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">agdo</span>{% endif%} 
+                  {% if ag.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
+                  {% if ag.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
+                  {% if ag.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
+                </td>
+                <td><b>{{ag.paciente|title}}</b></td>
+                <td>{{ag.data|date:"d/m/Y"}}</td>
+                <td>{{ag.profissional|title}}</td>
+                <td>{{ag.hora}}H</td>
+                <td width="15%"> 
+                      <a href="{% url 'update_agenda' ag.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
+                   
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
                   </div><!-- end content-->
                 </div><!--  end card  -->
             </div> <!-- end col-md-12 -->

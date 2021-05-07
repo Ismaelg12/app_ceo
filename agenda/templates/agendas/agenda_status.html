@@ -51,19 +51,28 @@
 										<span class="text-danger">{{form.telefone.errors}}</span>
 									</div>
 								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Especialidade</label></br>	
+										{{form.especialidade}}
+										<span class="text-danger">{{form.especialidade.errors}}</span>
+									</div>
+								</div>
 								<div class="col-md-3">
 									<label>* Profissional</label></br>	
 									{{form.profissional}}
 									<span class="text-danger">{{form.profissional.errors}}</span>
-								</div>						
+								</div>	
+							</div>	
+							<div class="row">	
+							        <hr/>
+        <h3 class="ficha">FICHA DO PACIENTE | Informe neste campo as evoluções do paciente! Ex: Tratamento realizado, data do atendimento e Profissional</h3>
+        <hr/>					
 								<div class="col-md-12">
-									<div class="form-group">
-										<label>Observações:</label>
 										<div class="form-group">
 											<label class="bmd-label-floating"></label>
 											{{form.observacao}}
 										</div>
-									</div>
 								</div>
 							</div>
 <button type="submit" id="salvar" class="btn btn-primary btn-sm pull-right"> Enviar</button>
@@ -157,7 +166,8 @@ $('#id_telefone').val(pacienteContato.split('...')[1]);
 			$("#id_paciente").prop( "disabled", true );  
 			$("#id_telefone").prop( "disabled", true );   
 			$("#id_profissional").prop("disabled", true);  
-			$("#id_observacao").prop( "disabled", true );  
+			$("#id_especialidade").prop("disabled", true);  
+			$("#id_observacao").prop( "disabled", false );  
  
 		});
 		$("#salvar").click(function(){
@@ -167,6 +177,7 @@ $('#id_telefone').val(pacienteContato.split('...')[1]);
 			$("#id_paciente").prop( "disabled", false );  
 			$("#id_telefone").prop( "disabled", false );   
 			$("#id_profissional").prop("disabled", false);  
+			$("#id_especialidade").prop("disabled", false);  
 			$("#id_observacao").prop( "disabled", false );   
 		});
 		</script>

@@ -14,22 +14,36 @@
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
 {% endblock datepicker %}
+{% block menu_li %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'home' %}">
+    <i class="material-icons">dashboard</i>
+    <p>Dashboard</p>
+  </a>
+</li>
+<li class="nav-item active  ">
+  <a class="nav-link" href="#">
+   <i class="material-icons">calendar_today</i>
+   <p>Agenda</p>
+ </a>
+</li>
+{% endblock menu_li %}
 {% block container %}
 <div class="content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header card-header-primary" data-background-color="purple">
-            <h4 class="card-title">Agendamento do dia<a
-                class="btn btn-success pull-right btn-round btn-fab btn-fab-mini" href="{% url 'add_agenda' %}">
-                <i class="material-icons">person_add</i>
-                <div class="ripple-container"></div>
-              </a></h4>
-          </div>
+          <div class="card-header card-header-primary"data-background-color="purple">
+            <h4 class="card-title"> Agenda de Atendimentos do Dia  
+              <a class="btn btn-raised btn-success btn-xs pull-right" href="{% url 'add_agenda' %}">
+                <i class="material-icons">calendar_today</i> Novo</a>
+              </h4>
+
+            </div>
             <div class="card-content">
              <div class="col-md-12">
-                            <form method="GET"name="search">
+              <form method="GET"name="search">
                 <div class="row">
                   <div class="col-md-3 col-sm-3">
                     <div class="form-group">
@@ -38,7 +52,7 @@
                   </div>
                   {% if not profissional %}
                   <!--se quem estiver logado não for profissional ele mostra o select -->
-                  <div class="col-md-4 col-sm-3">
+                  <div class="col-md-3 col-sm-3">
                     <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7"data-live-search="true">
                       <option value="">Selecione o Profissional</option>
                       {% for p in pf %}
@@ -47,7 +61,12 @@
                     </select>
                   </div>
                   {% endif %}
-                  <div class="col-md-4">
+                  <div class="col-md-2">
+                    <select class="selectpicker" name="status"data-style="select-with-transition" title="status" data-size="7">
+                      <option value=""disabled selected>Todos</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
                    <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente"value="{{request.GET.paciente}}">
                  </div>
                  <div class="col-md-1 col-sm-1">
@@ -61,14 +80,17 @@
               <thead class="text-primary">
                 <th>Status</th>
                 <th>Paciente</th>
+                <th>Telefone</th>
                 <th>Data</th>
                 <th>Profissional</th>
                 <th>Horário</th>
                 <th>Ações</th>
               </thead>
+              {% if not profissional %}
+              <!--se quem estiver logado não for profissional ele exibe uma tabela diferente  -->
               <tbody>
                 {% for agenda  in agendamentos %}
-                <tr>
+                </tr>
                 <td>
                   <!--arquivo com os devidos status da agenda-->
                   {% if agenda.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%} 
@@ -77,6 +99,7 @@
                   {% if agenda.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
                 </td>
                 <td><b>{{agenda.paciente|title}}</b></td>
+                <td>{{agenda.telefone}}</td>
                 <td>{{agenda.data|date:"d/m/Y"}}</td>
                 <td>{{agenda.profissional|title}}</td>
                 <td>{{agenda.hora}}H</td>
@@ -84,11 +107,42 @@
                       <a href="{% url 'update_agenda' agenda.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                         <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
                         <a href="{% url 'agenda_status' agenda.id %}" title="Finalizar" ><i class="material-icons  text-success">touch_app</i></a>
+                        <a href="{% url 'agenda_detalhe' agenda.id %}" title="Visualizar Atendimento"><i class="material-icons">visibility</i></a>
                     
                   </td>
-                </tr>
+                  </tr>
                 {% endfor %}
               </tbody>
+              {% else %}
+              <tbody>
+                {% for agenda  in af %}
+                </tr>
+                <td>
+                  <!--arquivo com os devidos status da agenda-->
+                  {% if agenda.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%} 
+                  {% if agenda.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
+                  {% if agenda.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
+                  {% if agenda.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
+                </td>
+                <td><b>{{agenda.paciente|title}}</b></td>
+                <td>{{agenda.telefone}}</td>
+                <td>{{agenda.data|date:"d/m/Y"}}</td>
+                <td>{{agenda.profissional|title}}</td>
+                <td>{{agenda.hora}}H</td>
+                <td width="15%">
+                {% if agenda.status == 'AG' %} 
+                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar Agendamento"><i class="material-icons text-info">update</i></a>
+                        <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar Agendamento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
+                        <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
+                {%else%}
+                  <a href="{% url 'agenda_detalhe' agenda.id %}" title="Visualizar Atendimento"><i class="material-icons">visibility</i></a>
+                        {%endif%}
+                    
+                  </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+              {% endif %}
             </table>
 
           </div>
@@ -99,7 +153,30 @@
 </div>
 </div>
 <script type="text/javascript">
+  /*
+  function liberarPaciente(){
+    confirm('Liberar paciente e imprimir confirmação!');
+    swal({ title:"Pré Atendimento", 
+      text:"Ação Executada com Sucesso! ",
+      type:"success",
+      showConfirmButton: true,
+      allowOutsideClick: false,
+    }).then(function(){
+      window.location.reload(true);
+    })
 
+  }
+  function reiprimirPDF(){
+    swal({ 
+      text:"Impressão Executada com Sucesso! ",
+      type:"success",
+      showConfirmButton: true,
+      allowOutsideClick: false,
+    }).then(function(){
+      window.location.reload(true);
+    })
+  }
+  */
 $('input[name="date_ranger"]').daterangepicker({
   "timePicker": false,
   "startDate": moment(),

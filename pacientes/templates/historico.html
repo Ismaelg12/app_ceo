@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+<script src ="{% static "tables/jquery.min.js" %}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'home' %}">
+    <i class="material-icons">dashboard</i>
+    <p>Dashboard</p>
+  </a>
+</li>
+<li class="nav-item active  ">
+  <a class="nav-link" href="{% url 'lista_pacientes' %}">
+    <i class="material-icons">accessible</i>
+    <p>Pacientes</p>
+  </a>
+</li>
+{% endblock menu_li %}
+{% block container %}
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div>
+            <ul class="nav nav-tabs" data-tabs="tabs"data-background-color="green">
+              {% if request.user.is_superuser or profissional %}
+              <li class="active">
+                <a href="#evolucoes" role="tab" data-toggle="tab" aria-expanded="true">
+                  <i class="material-icons">show_chart</i>Linha do Tempo
+                </a>
+              </li>
+              <li class="">
+                <a href="#prontuario" role="tab" data-toggle="tab" aria-expanded="true">
+                  <i class="material-icons">dns</i> Prontuario do Cidadão
+                </a>
+              </li>
+              {% endif %}
+              <li class="">
+                <h4><b>{{paciente.nome|upper}}</b></h4>
+              </li>
+              <li class="pull-right">
+                <a href=""target="_blank"><i class="material-icons pull-right"> print </i> </a>
+              </li>
+            </ul>              
+          </div>
+          <div class="card-content">
+            <div class="tab-content">
+              <div class="tab-pane active" id="evolucoes">
+                <div class="tab-pane">
+                  <div class="row">
+                    <style>
+                    ul.timelinep {
+                      list-style-type: none;
+                      position: relative;
+                    }
+                    ul.timelinep:before {
+                      content: ' ';
+                      background: #d4d9df;
+                      display: inline-block;
+                      position: absolute;
+                      left: 29px;
+                      width: 2px;
+                      height: 100%;
+                      z-index: 400;
+                    }
+                    ul.timelinep > li {
+                      margin: 20px 0;
+                      padding-left: 20px;
+                    }
+                    ul.timelinep > li:before {
+                      content: ' ';
+                      background: white;
+                      display: inline-block;
+                      position: absolute;
+                      border-radius: 50%;
+                      border: 4px solid green;
+                      left: 20px;
+                      width: 20px;
+                      height: 20px;
+                      z-index: 400;
+                    }
+                    </style>
+                    <div class="col-md-12 ">
+                      <h4 class="text-center"><b>Linha do Tempo de Atendimentos</b><a href=""><i class="material-icons pull-right">print</i></a></h4>
+                      <ul class="timelinep">
+                        {% for agenda in linha_do_tempo %} 
+                        <li>
+                          <b>
+                            <a href="{% url 'agenda_detalhe' agenda.id %}">
+                              {% if agenda.status == "AT" %}
+                              <span class="pull-left text-info">Atendido - dia {{agenda.data|date:'d/m/Y'}}</span>
+                              {% elif agenda.status == "FN" %}
+                              Falta Não Justificada -  dia {{agenda.data|date:'d/m/Y'}}
+                              {% elif agenda.status == "DM" %}
+                              Desmarcado -  dia {{agenda.data|date:'d/m/Y'}}
+                              {% else %}
+                              <span class="pull-left text-success">Agendado - dia {{agenda.data|date:'d/m/Y'}} </span>
+                              {% endif %}
+                            </a> &nbsp;&nbsp;&nbsp;
+                          </b>
+                          <a href="#"class="float-right"><font color="black"> às {{agenda.hora}}H</font></a><br>
+                          <b class="pull-left">Profissional:</b> <b class="pull-right">{{agenda.profissional}}</b><br>
+                        <br>
+                        </li>
+                        <br>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>               
+              <div class="tab-pane" id="prontuario">
+                <div class="box box-info">
+                  <div class="box-body box-profile">
+                    <div class="col-md-6 ">
+                      <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-mars margin-r-5"></i> Idade</strong> <span class="pull-right">{{paciente.idade}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-mars margin-r-5"></i> Sexo</strong> <span class="pull-right">{{paciente.get_sexo_display}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-map-marker margin-r-5"></i> Endereço</strong><span class="pull-right">{{paciente.cpf}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-map-marker margin-r-5"></i> CEP</strong> <span class="pull-right">{{paciente.sus}}</span>
+                        </li>
+
+                        <li class="list-group-item"> <strong><i class="fa fa-phone margin-r-5"></i> Celular</strong><span class="pull-right">{{paciente.telefone}}</span></li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6 ">
+                      <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                          <b>Total de Agendamentos</b> 
+                          <span class="pull-right">{{agendamentos}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Não Justificada</b> <span class="pull-right">{{agendamentos_FN_count}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Desmarcado</b> <span class="pull-right">{{agendamentos_DM_count}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Total de Atendimentos</b> <span class="pull-right">{{agendamentos_AT_count}}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                	<ul class="list-group list-group-unbordered">
+                	<li>
+                		
+                          <h4 class="text-center"><b>Atendimentos de {{paciente.nome}}</b><a href=""><i class="material-icons pull-right">print</i></a></h4>
+                          {% for ag_obs in agenda_obs%}
+                          	<p align="justify"><strong>Atendimento dia {{ag_obs.data}} às {{ag_obs.hora}}</strong> <br/><br/>{{ag_obs.observacao}}</p>
+                          	{%endfor%}
+                        </li>
+                        </ul>
+                </div>
+              </div>
+            </div>
+          </div><!-- end content-->
+        </div><!--  end card  -->
+      </div> <!-- end col-md-12 -->
+    </div> <!-- end row -->
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.datatables').DataTable({
+    "pagingType": "full_numbers",
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    responsive: true,
+    searching: true, 
+    "language": {
+      "sProcessing":   "Processando...",
+      "sLengthMenu":   " _MENU_ ",
+      "sZeroRecords":  "<b><center>Não foram encontrados resultados</center><b>",
+      "info": "Pág _PAGE_ de _PAGES_",
+      "sInfoEmpty":    "",
+      "sInfoFiltered": "",
+      "sInfoPostFix":  "",
+      "sSearch":       "Busca",
+      "sUrl":          "",
+      "oPaginate": {
+        "sFirst":    "Primeiro",
+        "sPrevious": "",
+        "sNext":     "",
+        "sLast":     "Último"
+      }
+    }
+  });
+
+
+  var table = $('.datatables').DataTable();
+
+// Edit record
+table.on( 'click', '.edit', function () {
+  $tr = $(this).closest('tr');
+
+  var data = table.row($tr).data();
+  alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
+} );
+
+// Delete a record
+table.on( 'click', '.remove', function (e) {
+  $tr = $(this).closest('tr');
+  table.row($tr).remove().draw();
+  e.preventDefault();
+} );
+
+//Like record
+table.on( 'click', '.like', function () {
+  alert('You clicked on Like button');
+});
+
+$('.card .material-datatables label').addClass('form-group');
+});
+
+</script>
+{% endblock container %}

@@ -11,12 +11,17 @@ class ProfissinalManager(models.Manager):
 	def get_queryset(self):
 		return super().get_queryset().filter(ativo=True).exclude(user__username="admin")
 
-#Modelo para a area de atuação de cada Profissional
-class Perfil(models.Model):
-	id = models.PositiveSmallIntegerField(choices=AREA,primary_key=True)
+class Especialidade(models.Model):
 
-	def __str__(self): 
-		return self.get_id_display()
+    especialidade   = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = 'Especialidades '
+        verbose_name_plural = 'Especialidade'
+        
+    def __str__(self):
+        return self.especialidade
+
 
 class Profissional(models.Model):
 	ATENDENTE = 1
@@ -34,11 +39,10 @@ class Profissional(models.Model):
 	cpf             = models.CharField(max_length=14,unique=True,blank=True,null=True)
 	data_nascimento = models.DateField(null=True,blank=True)
 	tipo            = models.PositiveSmallIntegerField(choices=ROLE_CHOICES,verbose_name='Tipo (Permissão)',null=True)
-	area_atuacao    = models.ManyToManyField(Perfil)
+	especialidade   = models.ForeignKey(Especialidade,on_delete=models.PROTECT,null=True,blank=False)
 	data_cadastro   = models.DateField(auto_now_add = True)
 	ativo           = models.BooleanField(default=True)
 	atualizado_em   = models.DateTimeField('Atualizado em', auto_now=True)
-	atent_categoria	= models.CharField('Tipos de atendimentos',max_length=200,blank=True)
 	observacao		= models.CharField('Outras Observações',max_length=200,blank=True)
 	
 	objects = models.Manager() # The default manager.

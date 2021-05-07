@@ -3,6 +3,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
 from django.urls import reverse_lazy
 from pacientes.models import Paciente
+from agenda.models import Agendamento
 from core.mixins import DashboardMixin
 from controle_usuarios.models import Profissional
 from django.contrib import messages
@@ -107,7 +108,61 @@ def PacienteDeleteView(request,pk):
     return redirect('lista_pacientes')
 
 
-class PacienteDetailView(LoginRequiredMixin,DetailView):
-    model = Paciente
-    template_name = 'paciente_detalhe.html'
-    context_object_name = 'paciente'
+# class PacienteDetailView(LoginRequiredMixin,DetailView):
+#     model = Paciente
+#     template_name = 'paciente_detalhe.html'
+#     context_object_name = 'paciente'
+
+@login_required
+def PacienteDetailView(request,pk):
+    agendamento      = get_object_or_404(Agendamento,pk=pk)
+    paciente = Paciente.objects.get(pk=pk)
+    profissional = ""
+    agenda = Agendamento.objects.filter(paciente=paciente)
+    context = {
+        'paciente':paciente,
+        'agenda':agenda,
+    }
+    print(context,"Agenda de pacientes cadastrados no sistema")
+    return render(request,'paciente_detalhe.html',context)
+
+@login_required 
+def paciente_historico(request,pk):
+    profissional = ""
+    atendente    = Profissional.prof_objects.filter(user=request.user,tipo=1)
+    paciente              = get_object_or_404(Paciente,pk=pk)
+    agenda_obs= Agendamento.objects.filter(paciente=paciente)
+    ######################################################
+
+    #quesyset apenas para condição no template
+    if atendente.exists() or request.user.is_superuser:
+        #não faz nada :)
+        pass
+    else:
+        profissional = Profissional.prof_objects.get(user=request.user,tipo=2)
+
+    #lista todos os atendimentos na 1ª aba e 2ª aba linha do tempo
+    if profissional:
+        atendimentos    = Agendamento.objects.filter(paciente=paciente,profissional_id=profissional.id)
+    else:
+        atendimentos      = Agendamento.objects.filter(paciente=paciente)
+
+    agendamentos_count    = Agendamento.objects.filter(paciente=paciente).count()
+    agendamentos_AG_count = Agendamento.objects.filter(paciente=paciente,status='AG').count()
+    agendamentos_AT_count = Agendamento.objects.filter(paciente=paciente,status='AT').count()
+    agendamentos_FN_count = Agendamento.objects.filter(paciente=paciente,status='FN').count()
+    agendamentos_DM_count = Agendamento.objects.filter(paciente=paciente,status='DM').count()
+
+
+    context = {
+        'profissional':profissional,
+        'paciente':paciente,
+        'agendamentos':agendamentos_count,
+        'agendamentos_AG_count':agendamentos_AG_count,
+        'agendamentos_AT_count':agendamentos_AT_count,
+        'agendamentos_FN_count':agendamentos_FN_count,
+        'agendamentos_DM_count':agendamentos_DM_count,
+        'linha_do_tempo':atendimentos,
+        'agenda_obs':agenda_obs,
+    }
+    return render(request,'historico.html',context)

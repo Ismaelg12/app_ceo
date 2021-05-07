@@ -26,21 +26,18 @@
 	                 <div class="col-md-12">
 				          <form>
 						    <div class="row">
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<div class="form-group">	
 									  <label>* Data</label></br>
 									  <input value="{{agenda.data|date:"d/m/Y"}}"class="form-control"disabled>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<div class="form-group">
 										<label>* Hora</label></br>
 										<input type="time" value="{{agenda.hora}}"class="form-control" disabled>
 									</div>
 								</div>
-
-							</div>
-				            <div class="row">
 				              <div class="col-md-8">
 								<div class="form-group">
 									<label class="bmd-label-floating">Paciente</label>
@@ -70,12 +67,6 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="bmd-label-floating">Telefone</label>
-										<input type="text" value="{{agenda.telefone}}"class="form-control" disabled>
-				                	</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
 										<label class="bmd-label-floating">Data de Registro</label>
 										<input type="text" value="{{agenda.criado_em|date:'d/m/Y'}}"class="form-control" disabled>
 				                	</div>
@@ -98,7 +89,7 @@
 									</div>
 								</div>
 				            </div>
-							<a href="{% url 'agendamentos' %}" class="btn btn-info btn-group pull-right" onclick="return confirm('Deseja realmente cancelar?');">Voltar</a>
+							<a href="{% url 'agendas' %}" class="btn btn-info btn-group pull-right" onclick="return confirm('Deseja realmente cancelar?');">Voltar</a>
 				            <div class="clearfix"></div>
 				          </form>
 				        </div>
