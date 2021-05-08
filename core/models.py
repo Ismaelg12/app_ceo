@@ -25,7 +25,7 @@ class ListaEspera(models.Model):
     #informações basicas
     id                = models.AutoField(primary_key=True)
     nome              = models.ForeignKey(Paciente,on_delete=models.PROTECT,null=True,blank=False)
-    telefone          = models.CharField(max_length=15,blank=True)
+    telefone          = models.CharField(max_length=16,blank=True)
     especialidade     = models.ForeignKey(Especialidade,on_delete=models.PROTECT,null=True,blank=False)
     observacao        = models.TextField(max_length=500,blank=True)
     atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
