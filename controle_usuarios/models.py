@@ -13,7 +13,7 @@ class ProfissinalManager(models.Manager):
 
 class Especialidade(models.Model):
 
-    especialidade   = models.CharField(max_length=50)
+    especialidade   = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = 'Especialidades '
