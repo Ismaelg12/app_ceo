@@ -115,7 +115,6 @@ def PacienteDeleteView(request,pk):
 
 @login_required
 def PacienteDetailView(request,pk):
-    agendamento      = get_object_or_404(Agendamento,pk=pk)
     paciente = Paciente.objects.get(pk=pk)
     profissional = ""
     agenda = Agendamento.objects.filter(paciente=paciente)
@@ -123,7 +122,6 @@ def PacienteDetailView(request,pk):
         'paciente':paciente,
         'agenda':agenda,
     }
-    print(context,"Agenda de pacientes cadastrados no sistema")
     return render(request,'paciente_detalhe.html',context)
 
 @login_required 
