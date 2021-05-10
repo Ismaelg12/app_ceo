@@ -106,7 +106,7 @@
                 <td width="15%"> 
                       <a href="{% url 'update_agenda' agenda.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                         <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
-                        <a href="{% url 'agenda_status' agenda.id %}" title="Finalizar" ><i class="material-icons  text-success">touch_app</i></a>
+                        <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
                         <a href="{% url 'agenda_detalhe' agenda.id %}" title="Visualizar Atendimento"><i class="material-icons">visibility</i></a>
                     
                   </td>
