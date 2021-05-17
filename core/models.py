@@ -23,7 +23,6 @@ class TimeStampedModel(models.Model):
         
 class ListaEspera(models.Model):
     #informações basicas
-    id                = models.AutoField(primary_key=True)
     nome              = models.ForeignKey(Paciente,on_delete=models.PROTECT,null=True,blank=False)
     telefone          = models.CharField(max_length=16,blank=True)
     especialidade     = models.ForeignKey(Especialidade,on_delete=models.PROTECT,null=True,blank=False)
