@@ -4,6 +4,7 @@ from django.views.generic import ListView,CreateView,TemplateView,UpdateView,Del
 from django.urls import reverse_lazy
 from core.mixins import DashboardMixin
 from django.utils import timezone
+from datetime import date, datetime, timedelta
 from core.models import Clinica,ListaEspera
 from controle_usuarios.models import Profissional
 from pacientes.models import Paciente
@@ -13,6 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from core.decorators import staff_member_required
+from django.core.exceptions import ValidationError
 
 
 class DashboardView(TemplateView,DashboardMixin):
@@ -37,31 +39,26 @@ class DashboardView(TemplateView,DashboardMixin):
 +                           CRUD Lista de Espera
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '''
-# #view que migra o cadastro na lista de espera paera o cadastro de pacientes
-# def migrar_paciente(request,pk):
-#     lista_espera = ListaEspera.objects.get(pk=pk)
-#     Paciente.objects.create(  
-#         nome=lista_espera.nome,
-#         data_nascimento=lista_espera.data_nascimento,
-#         sexo=lista_espera.sexo,
-#         cpf=lista_espera.cpf,            
-#         sus=lista_espera.sus,             
-#         telefone=lista_espera.telefone,     
-#         telefone_fixo=lista_espera.telefone_fixo,  
-#         observacao=lista_espera.observacao,     
-#         tratamento='RE',    
-#     ).save()
-#     lista_espera.delete()
-#     messages.success(request,'Cadastro Migrado com Sucesso, Apenas Complete os dados ! ')
-#     return redirect('lista_espera')
-
-
-class EsperaCreateView(LoginRequiredMixin,CreateView):
-    model         = ListaEspera
-    template_name = 'lista_de_espera/adicionar.html'
-    form_class    = ListaEsperaForm
-    success_url   = reverse_lazy('lista_espera')
-
+@login_required
+def EsperaCreateView(request):
+    form = ListaEsperaForm(request.POST or None)
+    if form.is_valid():
+        new                  = ListaEspera()
+        new.criado_em        = form.cleaned_data.get('criado_em')
+        new.nome             = form.cleaned_data.get('nome')
+        new.telefone         = form.cleaned_data.get('telefone')
+        new.especialidade    = form.cleaned_data.get('especialidade')
+        new.observacao       = form.cleaned_data.get('observacao')
+        new.urgente          = form.cleaned_data.get('urgente')
+        lista = ListaEspera.objects.filter(nome=new.nome, especialidade=new.especialidade).exists()
+        if lista:
+            messages.error(request,'Erro: Paciente Já Existente na Base de Dados! ')
+            return redirect('add_lista')
+        else:
+            new.save()
+        messages.success(request,'Paciente Adicionado com Sucesso! ')
+        return redirect('lista_espera')
+    return render(request,'lista_de_espera/adicionar.html',{'form':form})    
 
 class EsperaListView(LoginRequiredMixin,ListView,DashboardMixin):
     model         = ListaEspera
@@ -79,11 +76,22 @@ class EsperaListView(LoginRequiredMixin,ListView,DashboardMixin):
             context['lista'] = ListaEspera.objects.all()
         return context
 
-class EsperaUpdateView(LoginRequiredMixin,UpdateView):
-    model         = ListaEspera
-    template_name = 'lista_de_espera/adicionar.html'
-    form_class    = ListaEsperaForm
-    success_url   = reverse_lazy('lista_espera')
+def EsperaUpdateView(request,pk):
+    new                  = ListaEspera()
+    new.criado_em        = request.POST.get('criado_em',None)
+    new.nome             = request.POST.get('nome',None)
+    new.telefone         = request.POST.get('telefone',None)
+    new.especialidade    = request.POST.get('especialidade',None)
+    new.observacao       = request.POST.get('observacao',None)
+    new.urgente          = request.POST.get('urgente',None)
+    lista = ListaEspera.objects.filter(nome=new.nome, especialidade=new.especialidade).exists()
+    if lista:
+        messages.error(request,'Erro: Paciente Já Existente na Base de Dados! ')
+        return redirect('add_lista')
+    else:
+        new.save()
+    messages.success(request,'Paciente Adicionado com Sucesso! ')
+    return redirect('lista_espera')
 
 
 class EsperaDetailView(LoginRequiredMixin,DetailView):
