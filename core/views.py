@@ -56,7 +56,7 @@ def EsperaCreateView(request):
             return redirect('add_lista')
         else:
             new.save()
-        messages.success(request,'Paciente Adicionado com Sucesso! ')
+        messages.success(request,'Paciente adicionado com sucesso! ')
         return redirect('lista_espera')
     return render(request,'lista_de_espera/adicionar.html',{'form':form})    
 
@@ -76,22 +76,11 @@ class EsperaListView(LoginRequiredMixin,ListView,DashboardMixin):
             context['lista'] = ListaEspera.objects.all()
         return context
 
-def EsperaUpdateView(request,pk):
-    new                  = ListaEspera()
-    new.criado_em        = request.POST.get('criado_em',None)
-    new.nome             = request.POST.get('nome',None)
-    new.telefone         = request.POST.get('telefone',None)
-    new.especialidade    = request.POST.get('especialidade',None)
-    new.observacao       = request.POST.get('observacao',None)
-    new.urgente          = request.POST.get('urgente',None)
-    lista = ListaEspera.objects.filter(nome=new.nome, especialidade=new.especialidade).exists()
-    if lista:
-        messages.error(request,'Erro: Paciente Já Existente na Base de Dados! ')
-        return redirect('add_lista')
-    else:
-        new.save()
-    messages.success(request,'Paciente Adicionado com Sucesso! ')
-    return redirect('lista_espera')
+class EsperaUpdateView(LoginRequiredMixin,UpdateView):
+    model         = ListaEspera
+    template_name = 'lista_de_espera/adicionar.html'
+    form_class    = ListaEsperaForm
+    success_url   = reverse_lazy('lista_espera')
 
 
 class EsperaDetailView(LoginRequiredMixin,DetailView):
