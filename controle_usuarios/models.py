@@ -12,13 +12,10 @@ class ProfissinalManager(models.Manager):
 		return super().get_queryset().filter(ativo=True).exclude(user__username="admin")
 
 class Especialidade(models.Model):
-
     especialidade   = models.CharField(max_length=100)
-
     class Meta:
-        verbose_name = 'Especialidades '
-        verbose_name_plural = 'Especialidade'
-        
+        verbose_name = 'Especialidades'
+        verbose_name_plural = 'Especialidade'        
     def __str__(self):
         return self.especialidade
 

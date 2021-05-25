@@ -3,7 +3,7 @@ from controle_usuarios.models import Profissional,Especialidade
 
 
 class ProfissionalAdmin(admin.ModelAdmin):
-	list_display = ['user','nome','sobrenome','tipo','email', 'ativo'] 
+	list_display = ['user','nome','sobrenome','tipo','email', 'ativo','especialidade'] 
 	search_fields = ['nome']
 
 class EspecialidadeAdmin(admin.ModelAdmin):
