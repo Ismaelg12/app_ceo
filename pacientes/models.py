@@ -23,7 +23,7 @@ class Paciente(models.Model):
 	nome              = models.CharField('Nome',max_length=60)
 	data_nascimento   = models.DateField(blank=True,null=True)
 	sexo              = models.CharField('Sexo', max_length=1, choices=SEXO, blank=True)
-	cpf               = models.CharField(max_length=14,blank=True,null=True)
+	cpf               = models.CharField(max_length=14,unique=True,blank=True,null=True)
 	sus               = models.CharField(max_length=18,unique=True,blank=True,null=True)
 	#endereco
 	telefone          = models.CharField('Telefone Principal',max_length=20)

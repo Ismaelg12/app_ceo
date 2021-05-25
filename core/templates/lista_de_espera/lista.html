@@ -28,6 +28,7 @@
                         <th>Especialidade</th>
                         <th>Tempo de Espera</th>
                         <th>Atendimento</th>
+                        <th>Ligação</th>
                         <th>Ação</th>
                       </thead>
                       <tbody>
@@ -46,6 +47,9 @@
 
                           <td>{% if l.urgente == 'U' %} <span class="btn btn-warning btn-group btn-xs">Urgente</span>
                             {% else %}<span class="btn btn-success btn-group btn-xs">Normal</span>
+                          {% endif%}</td>
+                          <td>{% if l.ligacao == 'A' %} <span class="btn btn-warning btn-group btn-xs">Aguardando</span>
+                            {% else %}<span class="btn btn-danger btn-group btn-xs">Não atendeu</span>
                           {% endif%}</td>
                            {% if request.user.is_superuser %}
                           <td  width="10%">

@@ -24,6 +24,7 @@ class ListaEsperaForm(forms.ModelForm):
                 'data-size':7,'data-live-search':'true','required': 'true','id':'id_especialidade',}),
 			'observacao'                : forms.Textarea(attrs={'class': 'form-control'}), 
             'urgente'                   : forms.Select(attrs={'class': 'form-control','required': 'true'}),
+            'ligacao'                   : forms.Select(attrs={'class': 'form-control','required': 'true'}),
             'criado_em'                 : forms.DateInput(attrs={'class': 'form-control','required': 'true'}),
         }
 

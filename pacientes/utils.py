@@ -42,3 +42,7 @@ URGENTE = (
     ('U', 'Urgente'),
     ('R', 'Não urgente'),   
 )
+LIGACAO = (
+    ('A', 'Aguardando'),
+    ('N', 'Não atendeu'),   
+)

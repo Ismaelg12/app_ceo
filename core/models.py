@@ -1,5 +1,5 @@
 from django.db import models
-from pacientes.utils import SEXO, TRATAMENTO, URGENTE
+from pacientes.utils import SEXO, TRATAMENTO, URGENTE , LIGACAO
 from controle_usuarios.models import Profissional,Especialidade
 from pacientes.models import Paciente
 from datetime import datetime
@@ -30,6 +30,7 @@ class ListaEspera(models.Model):
     atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
     criado_em         = models.DateField(blank=True,null=True)
     urgente           = models.CharField('Urgente', max_length=1, choices=URGENTE, blank=True)
+    ligacao           = models.CharField('Ligacao', max_length=1, choices=LIGACAO, blank=True, default='A')
 
     def espera(self):
         return int((datetime.now().date()-self.criado_em).days)
