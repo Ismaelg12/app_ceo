@@ -35,7 +35,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary"data-background-color="purple">
-            <h4 class="card-title"> Agenda de Atendimentos do Dia  
+            <h4 class="card-title"> Agendamentos não finalizados  
               <a class="btn btn-raised btn-success btn-xs pull-right" href="{% url 'add_agenda' %}">
                 <i class="material-icons">calendar_today</i> Novo</a>
               </h4>
@@ -43,37 +43,6 @@
             </div>
             <div class="card-content">
              <div class="col-md-12">
-              <form method="GET"name="search">
-                <div class="row">
-                  <div class="col-md-3 col-sm-3">
-                    <div class="form-group">
-                      <input name="date_ranger"class="form-control"required>
-                    </div>
-                  </div>
-                  {% if not profissional %}
-                  <!--se quem estiver logado não for profissional ele mostra o select -->
-                  <div class="col-md-3 col-sm-3">
-                    <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7"data-live-search="true">
-                      <option value="">Selecione o Profissional</option>
-                      {% for p in pf %}
-                      <option value="{{p.nome}}">{{p.nome}} {{p.sobrenome}}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                  {% endif %}
-                  <div class="col-md-2">
-                    <select class="selectpicker" name="status"data-style="select-with-transition" title="status" data-size="7">
-                      <option value=""disabled selected>Todos</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                   <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente"value="{{request.GET.paciente}}">
-                 </div>
-                 <div class="col-md-1 col-sm-1">
-                   <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
-                 </div>
-               </div>
-             </form>
            </div>
            <div class="material-datatables">
             <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
@@ -89,62 +58,28 @@
               {% if not profissional %}
               <!--se quem estiver logado não for profissional ele exibe uma tabela diferente  -->
               <tbody>
-                {% for agenda  in agendamentos %}
+                {% for ag in agenda %}
                 </tr>
                 <td>
                   <!--arquivo com os devidos status da agenda-->
-                  {% if agenda.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%} 
-                  {% if agenda.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
-                  {% if agenda.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
-                  {% if agenda.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
+                  {% if ag.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%}  
                 </td>
-                <td><b>{{agenda.paciente|title}}</b></td>
-                <td>{{agenda.telefone}}</td>
-                <td>{{agenda.data|date:"d/m/Y"}}</td>
-                <td>{{agenda.profissional|title}}</td>
-                <td>{{agenda.hora}}H</td>
+                <td><b>{{ag.paciente|title}}</b></td>
+                <td>{{ag.telefone}}</td>
+                <td>{{ag.data|date:"d/m/Y"}}</td>
+                <td>{{ag.profissional|title}}</td>
+                <td>{{ag.hora}}H</td>
                 <td width="15%"> 
-                {% if agenda.status == 'AG' %} 
-                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
-                        <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
-                        <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
-                {%else%}
-                  <a href="{% url 'agenda_detalhe' agenda.id %}" title="Visualizar Atendimento"><i class="material-icons">visibility</i></a>
-                {%endif%}
+          
+                      <a href="{% url 'agenda_open_status' ag.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
+                        <a href="{% url 'deletar_agenda_open' ag.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
+               
                     
                   </td>
                   </tr>
                 {% endfor %}
               </tbody>
-              {% else %}
-              <tbody>
-                {% for agenda  in af %}
-                </tr>
-                <td>
-                  <!--arquivo com os devidos status da agenda-->
-                  {% if agenda.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%} 
-                  {% if agenda.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
-                  {% if agenda.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
-                  {% if agenda.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
-                </td>
-                <td><b>{{agenda.paciente|title}}</b></td>
-                <td>{{agenda.telefone}}</td>
-                <td>{{agenda.data|date:"d/m/Y"}}</td>
-                <td>{{agenda.profissional|title}}</td>
-                <td>{{agenda.hora}}H</td>
-                <td width="15%">
-                {% if agenda.status == 'AG' %} 
-                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar Agendamento"><i class="material-icons text-info">update</i></a>
-                        <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar Agendamento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
-                        <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
-                {%else%}
-                  <a href="{% url 'agenda_detalhe' agenda.id %}" title="Visualizar Atendimento"><i class="material-icons">visibility</i></a>
-                        {%endif%}
-                    
-                  </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
+             
               {% endif %}
             </table>
 
@@ -235,7 +170,7 @@ $(document).ready(function() {
     "pagingType": "full_numbers",
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     responsive: true,
-    searching: false, 
+    searching: true, 
     "language": {
       "sProcessing":   "Processando...",
       "sLengthMenu":   " _MENU_ ",
@@ -244,7 +179,7 @@ $(document).ready(function() {
       "sInfoEmpty":    "",
       "sInfoFiltered": "",
       "sInfoPostFix":  "",
-      "sSearch":       "",
+      "sSearch":       "Pesquise pelo Nome | Telefone ou Profissinal: ",
       "sUrl":          "",
       "oPaginate": {
         "sFirst":    "Primeiro",

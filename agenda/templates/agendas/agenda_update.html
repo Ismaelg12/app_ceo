@@ -14,7 +14,7 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header card-header-primary"data-background-color="purple">
-						<h4 class="card-title ">Adicionando Agendamento</h4>
+						<h4 class="card-title ">Atualizando Agendamento</h4>
 					</div>
 					<div class="card-content">
 						<form method="post" id="agendaForm">
@@ -55,7 +55,6 @@
 								</div>
 							</div>
 							<div class="row">
-
 								<div class="col-md-3">
 									<label>* Profissional</label></br>	
 									{{form.profissional}}
@@ -72,10 +71,10 @@
 									<span class="text-danger">{{form.ubs.errors}}</span>
 								</div>
 								<div class="col-md-6">
-									<label>* Tipo de Consulta)</label></br>	
+									<label>* Tipo de Consulta</label></br>	
 									{{form.tipoconsulta}}
 									<span class="text-danger">{{form.tipoconsulta.errors}}</span>
-								</div>						
+								</div>		
 							</div>
 
 <button type="submit" class="btn btn-primary btn-sm pull-right" id="submitButton"> Enviar</button>
@@ -88,28 +87,17 @@
 </div> <!-- end row -->
 </div>
 </div>
-<script type="text/javascript">
-document.querySelector("#id_vigilancia_6").checked = true;
-</script>
-<script type="text/javascript">
-var text = 'Avaliação';
-var select = document.querySelector('#id_procedimento');
-for (var i = 0; i < select.options.length; i++) {
-    if (select.options[i].text === text) {
-        select.selectedIndex = i;
-        break;
+<script>
+function mostrar(){
+    let show = document.getElementById('#id_tipoconsulta_0')
+    if(show.style.display == 'none'){
+        show.style.display = 'block'
+    }
+    else{
+        show.style.display = 'none'
     }
 }
-</script>
-<script type="text/javascript">
-var text = 'Avaliação';
-var select = document.querySelector('#id_odontograma');
-for (var i = 0; i < select.options.length; i++) {
-    if (select.options[i].text === text) {
-        select.selectedIndex = i;
-        break;
-    }
-}
+
 </script>
 <script type="text/javascript">
 	$(document).ready(function()
@@ -117,7 +105,7 @@ for (var i = 0; i < select.options.length; i++) {
    
      $("#ocultar_fields").hide();
      $("#id_tipoconsulta_0").hide();
- 
+
 
   });
 </script>
@@ -196,22 +184,16 @@ $('#id_especialidade').val(profissionalEspecialidade.split('--')[1]);
           rules: {
             hora: { required: true, },
             data: { required: true,},
-            paciente : { required: true,},
             telefone: { required: true,},
             profissional: { required: true,},
             especialidade: { required: true,},
-            ubs : { required: true,},
-            tipoconsulta : { required: true,},
           },
           messages: {
             hora: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             data: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-            paciente: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
             especialidade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-            ubs: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-            tipoconsulta: { required: '<span class="text-danger">Prencha esse Campo</span>' },
           },
         });
       });

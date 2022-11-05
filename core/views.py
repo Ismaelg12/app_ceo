@@ -64,17 +64,15 @@ class EsperaListView(LoginRequiredMixin,ListView,DashboardMixin):
     model         = ListaEspera
     context_object_name = 'lista'
     template_name = 'lista_de_espera/lista.html'
+    paginate_by = 50
     
-    def get_context_data(self, **kwargs):
-        #pf é querysets para exibir profissionais no template para o filtro
-        pf            = Profissional.objects.filter(tipo=2,user=self.request.user,)
-        context = super(EsperaListView, self).get_context_data(**kwargs)
-        if pf.exists():
-            context['lista'] = ListaEspera.objects.all()
-            # filter(profissional__user=self.request.user)
-        else:
-            context['lista'] = ListaEspera.objects.all()
-        return context
+    def get_queryset(self, **kwargs):
+        queryset = ListaEspera.objects.all()
+        if self.request.GET.get('paciente'):
+            paciente_search = self.request.GET.get('paciente')
+            queryset = ListaEspera.objects.filter(
+                nome__icontains=paciente_search).order_by('id')
+        return queryset
 
 class EsperaUpdateView(LoginRequiredMixin,UpdateView):
     model         = ListaEspera

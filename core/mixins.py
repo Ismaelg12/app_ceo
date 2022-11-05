@@ -3,7 +3,6 @@ from django.db.models import Count
 import datetime
 from pacientes.models import Paciente
 from agenda.models import Agendamento
-from produto.models import Produto
 from core.models import ListaEspera
 from django.utils import timezone
 from controle_usuarios.models import Profissional
@@ -34,10 +33,6 @@ class DashboardMixin(object):
 			data__month=today.month,status='AG').count()
 		return agenda_count
 
-	def produtos(self):
-		produto_count = Produto.objects.all().count()
-		return produto_count
-
 	def list_espera(self):
 		list_espera_count = ListaEspera.objects.all().count()
 		return list_espera_count
@@ -53,3 +48,11 @@ class DashboardMixin(object):
 	def liga(self):
 		liga_count = Paciente.objects.filter(tratamento='RE').count()
 		return liga_count
+
+	def atendimentos_cont(self):
+		atend_count = Agendamento.objects.filter(status='AT').count()
+		return atend_count
+
+	def agenda_cont(self):
+		agend_count = Agendamento.objects.filter(status='AG').count()
+		return agend_count

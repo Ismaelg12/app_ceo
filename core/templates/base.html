@@ -35,6 +35,9 @@
              padding-top: 3px;   
              height:30px;              
         }
+        ul{
+  list-style-type: none;
+  }
     </style>
   {% block add_modal %} 
   {% endblock add_modal %}
@@ -127,52 +130,6 @@ Tip 3: you can change the color of the sidebar with data-background-color="white
         <p>Lista de Espera</p>
       </a>
     </li>
-    {% if request.user.is_superuser %}
-    <li>
-      <a data-toggle="collapse" href="#formsExamples">
-        <i class="material-icons">library_add</i>
-        <p>  Almoxarifado
-          <b class="caret"></b>
-        </p>
-      </a>
-      <div class="collapse" id="formsExamples">
-        <ul class="nav">
-          
-          <li>
-            <a href="{% url 'produto_list' %}">
-              <i class="material-icons">person</i>
-              <span class="sidebar-normal"> Produtos</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'categorias' %}">
-              <i class="material-icons">person</i>
-              <span class="sidebar-normal"> Categorias</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'estoque_entrada_list' %}">
-              <i class="material-icons">sync</i>
-              <span class="sidebar-normal"> Entrada</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'estoque_saida_list' %}">
-              <i class="material-icons">meeting_room</i>
-              <span class="sidebar-normal"> Saída</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'export_xlsx' %}">
-              <i class="material-icons">apps</i>
-              <span class="sidebar-normal"> Gerar xlsx</span>
-            </a>
-          </li>
-          
-        </ul>
-      </div>
-    </li>
-    {% endif %}
   </ul>
 </div>
 </div>

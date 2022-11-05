@@ -100,12 +100,12 @@
                         <div class="form-group">
                           <div class="form-group">
                             <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
-                            <textarea class="form-control" value="" rows="10" disabled>{{paciente.observacao}}</textarea>
+                            <textarea class="form-control" value="" rows="6" disabled>{{paciente.observacao}}</textarea>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <a href="{% url 'lista_pacientes' %}" class="btn btn-primary btn-group">Voltar</a>
+                    <a href="javascript: history.back()" class="btn btn-primary btn-group">Voltar</a>
                     <div class="clearfix"></div>
                   <hr>
                     <h3 class="text-center"><i class="material-icons">people</i>  Histórico de Atendimentos de {{paciente.nome}}</h3>
@@ -121,10 +121,11 @@
               </thead>
               <tbody>
                 {% for ag  in agenda %}
+                {% if ag.status != 'AG'%}
                 <tr>
                 <td>
                   <!--arquivo com os devidos status da ag-->
-                  {% if ag.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">agdo</span>{% endif%} 
+                  {% if ag.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">agendado</span>{% endif%} 
                   {% if ag.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
                   {% if ag.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
                   {% if ag.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
@@ -134,10 +135,11 @@
                 <td>{{ag.profissional|title}}</td>
                 <td>{{ag.hora}}H</td>
                 <td width="15%"> 
-                      <a href="{% url 'update_agenda' ag.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
+                      <a href="{% url 'agenda_detalhe' ag.id %}" title="Visualizar"><i class="material-icons text-purple">visibility</i></a>
                    
                   </td>
                 </tr>
+                {%endif%}
                 {% endfor %}
               </tbody>
             </table>
@@ -148,4 +150,58 @@
         </div> <!-- end row -->
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#datatables').DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+      responsive: true,
+      searching: false,
+      bPaginate:false,
+      "language": {
+        "sProcessing": "Processando...",
+        "sLengthMenu": " _MENU_ ",
+        "sZeroRecords": "<b><center>Não foram encontrados resultados</center><b>",
+        "info": "",
+        "sInfoEmpty": "",
+        "sInfoFiltered": "",
+        "sInfoPostFix": "",
+        "sSearch": "",
+        "sUrl": "",
+        "oPaginate": {
+          "sFirst": "Primeiro",
+          "sPrevious": "",
+          "sNext": "",
+          "sLast": "Último"
+        }
+      }
+    });
+
+
+    var table = $('#datatables').DataTable();
+
+    // Edit record
+    table.on('click', '.edit', function () {
+      $tr = $(this).closest('tr');
+
+      var data = table.row($tr).data();
+      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+    });
+
+    // Delete a record
+    table.on('click', '.remove', function (e) {
+      $tr = $(this).closest('tr');
+      table.row($tr).remove().draw();
+      e.preventDefault();
+    });
+
+    //Like record
+    table.on('click', '.like', function () {
+      alert('You clicked on Like button');
+    });
+
+    $('.card .material-datatables label').addClass('form-group');
+  });
+
+</script>
 {% endblock container %}

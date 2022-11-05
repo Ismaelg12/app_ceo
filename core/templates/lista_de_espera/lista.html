@@ -69,6 +69,27 @@
                        </tbody>
                     </table>
                  </div><!-- end content-->
+                 {% if is_paginated %}
+            <ul class="pagination">
+              {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+              {% else %}
+              <li class="disabled"><span>&laquo;</span></li>
+              {% endif %}
+              {% for i in paginator.page_range %}
+              {% if page_obj.number == i %}
+              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+              <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+              {% endfor %}
+              {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+              {% else %}
+              <li class="disabled"><span>&raquo;</span></li>
+              {% endif %}
+            </ul>
+            {% endif %}
                 </div><!--  end card  -->
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
@@ -81,22 +102,23 @@
       "pagingType": "full_numbers",
       "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
       responsive: true,
-      searching: true, 
+      searching: true,
+      bPaginate:false,
       "language": {
-          "sProcessing":   "Processando...",
-          "sLengthMenu":   " _MENU_ ",
-          "sZeroRecords":  "<b><center>Não foram encontrados resultados</center><b>",
-          "info": "Pág _PAGE_ de _PAGES_",
-          "sInfoEmpty":    "",
-          "sInfoFiltered": "",
-          "sInfoPostFix":  "",
-          "sSearch":       "Busca",
-          "sUrl":          "",
-          "oPaginate": {
-              "sFirst":    "Primeiro",
-              "sPrevious": "",
-              "sNext":     "",
-              "sLast":     "Último"
+        "sProcessing": "Processando...",
+        "sLengthMenu": " _MENU_ ",
+        "sZeroRecords": "<b><center>Não foram encontrados resultados</center><b>",
+        "info": "",
+        "sInfoEmpty": "",
+        "sInfoFiltered": "",
+        "sInfoPostFix": "",
+        "sSearch": "Pesquise pelo Nome | Telefone ou Especialidade: ",
+        "sUrl": "",
+        "oPaginate": {
+          "sFirst": "Primeiro",
+          "sPrevious": "",
+          "sNext": "",
+          "sLast": "Último"
           }
       }
     });

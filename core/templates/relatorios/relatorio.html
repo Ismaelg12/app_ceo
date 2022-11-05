@@ -29,30 +29,28 @@
 </li>
 {% endblock menu_li %}
 {% block container %}
-<div class="content">
+<div class="content" style="margin: 10%;">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary"data-background-color="purple">
-            <h4 class="card-title"> Agenda de Atendimentos do Dia  
-              <a class="btn btn-raised btn-success btn-xs pull-right" href="{% url 'add_agenda' %}">
-                <i class="material-icons">calendar_today</i> Novo</a>
-              </h4>
-
+            <h4 class="card-title"> Relatório de atendimento individual</h4>
+            
+            
             </div>
             <div class="card-content">
              <div class="col-md-12">
               <form method="GET"name="search">
                 <div class="row">
-                  <div class="col-md-3 col-sm-3">
+                  <div class="col-md-4 col-sm-3">
                     <div class="form-group">
-                      <input name="date_ranger"class="form-control"required>
+                      <input name="date_ranger" class="form-control"required>
                     </div>
                   </div>
                   {% if not profissional %}
                   <!--se quem estiver logado não for profissional ele mostra o select -->
-                  <div class="col-md-3 col-sm-3">
+                  <div class="col-md-6 col-sm-3">
                     <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7"data-live-search="true">
                       <option value="">Selecione o Profissional</option>
                       {% for p in pf %}
@@ -61,92 +59,135 @@
                     </select>
                   </div>
                   {% endif %}
-                  <div class="col-md-2">
-                    <select class="selectpicker" name="status"data-style="select-with-transition" title="status" data-size="7">
-                      <option value=""disabled selected>Todos</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                   <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente"value="{{request.GET.paciente}}">
-                 </div>
-                 <div class="col-md-1 col-sm-1">
-                   <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
+             
+                 <div class="col-md-2 col-sm-1">
+                   <button type="submit" class="btn btn-primary pull-right btn-round">Buscar</i>
+                   <a href="{% url 'rel_pdf' %}" target="_blank"><i class="material-icons pull-right">print</i></a>
                  </div>
                </div>
              </form>
            </div>
-           <div class="material-datatables">
-            <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+           <div class="col-md-12">
+  <font size="+1"><strong>Prefeitura Municipal de Parnaíba</strong></font><br>
+  <font size="+1"><strong>Secretaria Municipal da Saúde</strong></font><br>
+  <font style="text-align: center;" size="+1"><strong>{{clinica}}</strong></font>
+  <h4 style="text-align: center;">Relatório de Atendimento</h4>
+  <hr>
+  {% if profissional_search == '' %}
+  <font><strong>Período</strong>:{{dt_inc}} à {{dt_fim}} | <strong>Profissional: </strong> Todos</font>  <p>&nbsp;</p>
+  {%else%}
+  <font><strong>Período</strong>:{{dt_inc}} à {{dt_fim}} | <strong>Profissional: </strong> {{profissional_search}}</font>  <p>&nbsp;</p>
+  {%endif%}
+
+</div>
+
+          <div class="material-datatables">
+          <div class="col-md-6">
+            <p><strong>Resumo da Produção</strong></p>
+            <table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
               <thead class="text-primary">
-                <th>Status</th>
-                <th>Paciente</th>
-                <th>Telefone</th>
-                <th>Data</th>
-                <th>Profissional</th>
-                <th>Horário</th>
-                <th>Ações</th>
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC"><strong>Descrição</strong></th> 
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC" align="center" width="10%"><strong>Valor</strong></th>      
               </thead>
               {% if not profissional %}
               <!--se quem estiver logado não for profissional ele exibe uma tabela diferente  -->
-              <tbody>
-                {% for agenda  in agendamentos %}
+              <tbody>                
+                <tr>                
+                <td>Registros identificados</td>
+                <td align="center">{{atendimentos_cont}}</td>
                 </tr>
-                <td>
-                  <!--arquivo com os devidos status da agenda-->
-                  {% if agenda.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%} 
-                  {% if agenda.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
-                  {% if agenda.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
-                  {% if agenda.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
-                </td>
-                <td><b>{{agenda.paciente|title}}</b></td>
-                <td>{{agenda.telefone}}</td>
-                <td>{{agenda.data|date:"d/m/Y"}}</td>
-                <td>{{agenda.profissional|title}}</td>
-                <td>{{agenda.hora}}H</td>
-                <td width="15%"> 
-                {% if agenda.status == 'AG' %} 
-                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
-                        <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
-                        <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
-                {%else%}
-                  <a href="{% url 'agenda_detalhe' agenda.id %}" title="Visualizar Atendimento"><i class="material-icons">visibility</i></a>
-                {%endif%}
-                    
-                  </td>
-                  </tr>
-                {% endfor %}
+                <tr>
+                <td>Registros Cancelados</td>                
+                <td align="center">{{cancelados_cont}}</td>
+                </tr>                
               </tbody>
-              {% else %}
-              <tbody>
-                {% for agenda  in af %}
+            
+            </table>
+
+          </div>
+          <div class="col-md-6">
+            <p><strong>Por sexo</strong></p>
+            <table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+              <thead class="text-primary">
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC"><strong>Descrição</strong></th> 
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC" align="center" width="10%"><strong>Valor</strong></th>       
+              </thead>
+              
+              <!--se quem estiver logado não for profissional ele exibe uma tabela diferente  -->
+              <tbody>                
+                <tr>                
+                <td>Masculino</td>
+                <td align="center">{{masculino_cont}}</td>
                 </tr>
-                <td>
-                  <!--arquivo com os devidos status da agenda-->
-                  {% if agenda.status == 'AG' %} <span class="btn btn-success btn-group btn-xs">Agendado</span>{% endif%} 
-                  {% if agenda.status == 'AT' %} <span class="btn btn-info btn-group btn-xs">Atendido</span>{% endif%} 
-                  {% if agenda.status == 'FN' %} <span class="btn btn-danger btn-group btn-xs">Falta não Justificada</span>{% endif%} 
-                  {% if agenda.status == 'DM' %} <span class="btn btn-default btn-group btn-xs">Desmarcado</span>{% endif%}  
-                </td>
-                <td><b>{{agenda.paciente|title}}</b></td>
-                <td>{{agenda.telefone}}</td>
-                <td>{{agenda.data|date:"d/m/Y"}}</td>
-                <td>{{agenda.profissional|title}}</td>
-                <td>{{agenda.hora}}H</td>
-                <td width="15%">
-                {% if agenda.status == 'AG' %} 
-                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar Agendamento"><i class="material-icons text-info">update</i></a>
-                        <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar Agendamento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
-                        <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
-                {%else%}
-                  <a href="{% url 'agenda_detalhe' agenda.id %}" title="Visualizar Atendimento"><i class="material-icons">visibility</i></a>
-                        {%endif%}
-                    
-                  </td>
-                  </tr>
-                {% endfor %}
+                <tr> 
+                <td>Feminino</td>               
+                <td align="center">{{feminino_cont}}</td>
+                </tr>                
               </tbody>
+            
+            </table>
+
+          </div>
+          <div class="col-md-6">
+            <p><strong>Atendimento por Unidade de Saúde</strong></p>
+            <table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+              <thead class="text-primary">
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC"><strong>Descrição</strong></th> 
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC" align="center" width="10%"><strong>Valor</strong></th>       
+              </thead>
+              
+              <!--se quem estiver logado não for profissional ele exibe uma tabela diferente  -->
+              <tbody>
+                                 {% for s in ubs_nome %}
+                                {% if s.total > 0 %}
+                                <tr>                        
+                                    <td>{{s.nome}}</td>
+                                    <td>{{s.total}}</td>
+                                </tr>
+                                {% endif%}
+                                {% empty %}
+                                <tr>
+                                    <td class="text-info"><p>Sem dados</p></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+          
+            </table>
+
+          </div>
+          <div class="col-md-6">
+            <p><strong>Atendimento por Procedimento</strong></p>
+            <table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+              <thead class="text-primary">
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC"><strong>Descrição</strong></th> 
+                <th style="border-style:solid; border-color:#fff;" bgcolor="#DCDCDC" align="center" width="10%"><strong>Valor</strong></th>       
+              </thead>
+              
+              <!--se quem estiver logado não for profissional ele exibe uma tabela diferente  -->
+              <tbody>
+                                 {% for proc in procedimento_nome %}
+                                {% if proc.total > 0 %}
+                                <tr>                        
+                                    <td>{{proc.descricao}}</td>
+                                    <td>{{proc.total}}</td>
+                                </tr>
+                                {% endif%}
+                                {% empty %}
+                                <tr>
+                                    <td class="text-info"><p>Sem dados</p></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
               {% endif %}
             </table>
+
+          </div>
+
+</div>
+
+
+
+
 
           </div>
         </div><!-- end content-->

@@ -1,7 +1,7 @@
 from django import forms
-from agenda.models import Agendamento
+from agenda.models import Agendamento, Odontograma, Procedimento, Vigilancia
 from controle_usuarios.models import Profissional
-from pacientes.models import Paciente
+from pacientes.models import Paciente, Ubs
 from django.core.exceptions import ValidationError
 
 
@@ -10,6 +10,9 @@ OP_CHOICES = (
     (True, 'Sim'),
     (False, 'Não')
 )
+
+
+    
 
 class AgendaForm(forms.ModelForm):
     #filtra apenas os profissionais que trabalham como fisioterapeutas
@@ -21,11 +24,31 @@ class AgendaForm(forms.ModelForm):
     #metodo para override de labels do pacientes
     @staticmethod
     def paciente_label(self):
-        return str(self.nome) + '--' + self.telefone
+        return str(self.nome) + ' -- ' + self.telefone + ' -- ' + str(self.ubs)
 
     @staticmethod
     def profissional_label(self):
         return str(self.nome) + '--' + str(self.especialidade)
+
+    odontograma = forms.ModelMultipleChoiceField(
+        queryset = Odontograma.objects.all(),
+        widget   =   forms.SelectMultiple(attrs={'class':'selectpicker',
+        'data-style':'select-with-transition','data-size':7,
+        'data-live-search':'true','multiple':'multiple','title':'Selecine'})
+    )
+
+    vigilancia = forms.ModelMultipleChoiceField(
+        queryset = Vigilancia.objects.all(),
+        widget   =   forms.CheckboxSelectMultiple(attrs={'class':'selectpicker',
+        'data-style':'select-with-transition','multiple':'multiple','title':'Selecione'})
+    )
+
+    procedimento = forms.ModelMultipleChoiceField(
+        queryset = Procedimento.objects.all(),
+        widget   =   forms.SelectMultiple(attrs={'class':'selectpicker',
+        'data-style':'select-with-transition','data-size':7,
+        'data-live-search':'true','multiple':'multiple','title':'Selecione'})
+    )
 
     class Meta:
         model   = Agendamento
@@ -34,13 +57,18 @@ class AgendaForm(forms.ModelForm):
             'data'        : forms.DateInput(attrs={'class': 'form-control','required': 'true'}),
             'hora' 		  : forms.TimeInput(attrs={'class': 'form-control input-rounded'}),
             'paciente'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
-                'data-size':7,'data-live-search':'true','required': 'true'}),
+                'data-size':5,'data-live-search':'true',}),
             'telefone'    : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
             'especialidade'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
-                'data-size':7,'data-live-search':'true','required': 'true'}),
+                'data-size':5,'data-live-search':'true','required': 'true'}),
             'profissional': forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
-                'data-size':7,'data-live-search':'true','required': 'true'}),
+                'data-size':5,'data-live-search':'true','required': 'true'}),
             'status'      : forms.Select(attrs={'class': 'selectpicker','data-style':'select-with-transition', 'required':'True'}),
-            'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "20", 'rows': "6",}),
+            'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "20", 'rows': "5",}),
+            'ubs'            : forms.Select(attrs={'class':'selectpicker',
+                'data-style':'select-with-transition','data-size':5,
+                'data-live-search':'true','onchange':'showDiv(this)','id':'id_ubs','required': 'true',}),
+            'tipoconsulta'            : forms.RadioSelect(attrs={'class':'selectpicker',
+                'data-style':'select-with-transition','required': 'true','title':'Selecione',}),
         }
     

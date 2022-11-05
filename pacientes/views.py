@@ -54,40 +54,40 @@ class PacienteListView(LoginRequiredMixin,ListView,DashboardMixin):
 class IniciadoListView(LoginRequiredMixin,ListView,DashboardMixin):
     model               = Paciente
     template_name       = 'trat_iniciado.html'
-    context_object_name = 'pacientes'
+    context_object_name = 'pacientes_ini'
     paginate_by = 50
     def get_queryset(self, **kwargs):
-        queryset = Paciente.objects.prefetch_related('profissional').all()
+        queryset = Paciente.objects.prefetch_related('profissional').filter(tratamento="IN")
         if self.request.GET.get('paciente'):
             paciente_search = self.request.GET.get('paciente')
             queryset = Paciente.objects.filter(
-                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
+                nome__icontains=paciente_search,tratamento="IN").prefetch_related('profissional').order_by('id')
         return queryset
 
 class ConcluidoListView(LoginRequiredMixin,ListView,DashboardMixin):
     model               = Paciente
     template_name       = 'trat_concluido.html'
-    context_object_name = 'pacientes'
+    context_object_name = 'pacientes_con'
     paginate_by = 50
     def get_queryset(self, **kwargs):
-        queryset = Paciente.objects.prefetch_related('profissional').all()
+        queryset = Paciente.objects.prefetch_related('profissional').filter(tratamento="CO")
         if self.request.GET.get('paciente'):
             paciente_search = self.request.GET.get('paciente')
             queryset = Paciente.objects.filter(
-                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
+                nome__icontains=paciente_search,tratamento="CO").prefetch_related('profissional').order_by('id')
         return queryset
 
 class LigacaoListView(LoginRequiredMixin,ListView,DashboardMixin):
     model               = Paciente
     template_name       = 'ligacao.html'
-    context_object_name = 'pacientes'
+    context_object_name = 'pacientes_lig'
     paginate_by = 50
     def get_queryset(self, **kwargs):
-        queryset = Paciente.objects.prefetch_related('profissional').all()
+        queryset = Paciente.objects.prefetch_related('profissional').filter(tratamento="RE")
         if self.request.GET.get('paciente'):
             paciente_search = self.request.GET.get('paciente')
             queryset = Paciente.objects.filter(
-                nome__icontains=paciente_search).prefetch_related('profissional').order_by('id')
+                nome__icontains=paciente_search,tratamento="RE").prefetch_related('profissional').order_by('id')
         return queryset
 
 class PacienteUpdateView(LoginRequiredMixin,UpdateView):
@@ -129,7 +129,7 @@ def paciente_historico(request,pk):
     profissional = ""
     atendente    = Profissional.prof_objects.filter(user=request.user,tipo=1)
     paciente              = get_object_or_404(Paciente,pk=pk)
-    agenda_obs= Agendamento.objects.filter(paciente=paciente)
+    agenda_obs= Agendamento.objects.filter(paciente=paciente,status='AT')
     ######################################################
 
     #quesyset apenas para condição no template

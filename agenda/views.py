@@ -21,6 +21,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from core.decorators import staff_member_required
 
 # @method_decorator(staff_member_required, name='dispatch')
+@login_required
+def AgendaListView(request):
+    agenda = Agendamento.objects.filter(status='AG')
+    context = {
+        'agenda':agenda,
+    }
+    return render(request,'agendas/agenda_open.html',context)
+
+
 class AgendaCreateView(LoginRequiredMixin,CreateView):
     model         = Agendamento
     template_name = 'agendas/agenda_add.html'
@@ -124,7 +133,7 @@ def agendamento(request):
 # @method_decorator(staff_member_required, name='dispatch')
 class AgendaUpdateView(LoginRequiredMixin,UpdateView):
     model         = Agendamento
-    template_name = 'agendas/agenda_add.html'
+    template_name = 'agendas/agenda_update.html'
     form_class    = AgendaForm
     success_url   = reverse_lazy('agendas')
 
@@ -134,6 +143,12 @@ class AgendaStatusView(LoginRequiredMixin,UpdateView):
     form_class    = AgendaForm
     success_url   = reverse_lazy('agendas')
 
+class AgendaOpenStatusView(LoginRequiredMixin,UpdateView):
+    model         = Agendamento
+    template_name = 'agendas/agenda_open_status.html'
+    form_class    = AgendaForm
+    success_url   = reverse_lazy('agenda_open')
+
 # @method_decorator(staff_member_required, name='dispatch')
 class AgendaDeleteView(LoginRequiredMixin,DeleteView):
     model         = Agendamento
@@ -141,9 +156,16 @@ class AgendaDeleteView(LoginRequiredMixin,DeleteView):
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
 
+class AgendaOpenDeleteView(LoginRequiredMixin,DeleteView):
+    model         = Agendamento
+    success_url   = reverse_lazy('agenda_open')
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
 @login_required
 def Agenda_detalhe(request,pk):
     agenda = Agendamento.objects.get(pk=pk)
+    print(agenda.vigilancia,"Detalhes do atendimento")
     context = {
         'agenda':agenda,
     }

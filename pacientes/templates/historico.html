@@ -40,9 +40,6 @@
                 </a>
               </li>
               {% endif %}
-              <li class="">
-                <h4><b>{{paciente.nome|upper}}</b></h4>
-              </li>
               <li class="pull-right">
                 <a href=""target="_blank"><i class="material-icons pull-right"> print </i> </a>
               </li>
@@ -86,7 +83,8 @@
                     }
                     </style>
                     <div class="col-md-12 ">
-                      <h4 class="text-center"><b>Linha do Tempo de Atendimentos</b><a href=""><i class="material-icons pull-right">print</i></a></h4>
+                      <h4><b>Paciente: {{paciente.nome|upper}}</b></h4>
+                      <p>&nbsp;</p>
                       <ul class="timelinep">
                         {% for agenda in linha_do_tempo %} 
                         <li>
@@ -104,8 +102,8 @@
                             </a> &nbsp;&nbsp;&nbsp;
                           </b>
                           <a href="#"class="float-right"><font color="black"> às {{agenda.hora}}H</font></a><br>
-                          <b class="pull-left">Profissional:</b> <b class="pull-right">{{agenda.profissional}}</b><br>
-                        <br>
+                          <b class="pull-left">Profissional:</b> <b class="pull-right">{{agenda.profissional}}</b>
+                        
                         </li>
                         <br>
                         {% endfor %}
@@ -126,10 +124,10 @@
                           <strong><i class="fa fa-mars margin-r-5"></i> Sexo</strong> <span class="pull-right">{{paciente.get_sexo_display}}</span>
                         </li>
                         <li class="list-group-item">
-                          <strong><i class="fa fa-map-marker margin-r-5"></i> Endereço</strong><span class="pull-right">{{paciente.cpf}}</span>
+                          <strong><i class="fa fa-map-marker margin-r-5"></i> UBS</strong><span class="pull-right">{{paciente.ubs}}</span>
                         </li>
                         <li class="list-group-item">
-                          <strong><i class="fa fa-map-marker margin-r-5"></i> CEP</strong> <span class="pull-right">{{paciente.sus}}</span>
+                          <strong><i class="fa fa-map-marker margin-r-5"></i> CNS</strong> <span class="pull-right">{{paciente.sus}}</span>
                         </li>
 
                         <li class="list-group-item"> <strong><i class="fa fa-phone margin-r-5"></i> Celular</strong><span class="pull-right">{{paciente.telefone}}</span></li>
@@ -155,12 +153,12 @@
                   </div>
                 </div>
                 <div class="col-md-12">
-                	<ul class="list-group list-group-unbordered">
-                	<li>
-                		
-                          <h4 class="text-center"><b>Atendimentos de {{paciente.nome}}</b><a href=""><i class="material-icons pull-right">print</i></a></h4>
-                          {% for ag_obs in agenda_obs%}
-                          	<p align="justify"><strong>Atendimento dia {{ag_obs.data}} às {{ag_obs.hora}}</strong> <br/><br/>{{ag_obs.observacao}}</p>
+                  <h4 class="text-center"><b>Atendimentos de {{paciente.nome}}</b><a href=""><i class="material-icons pull-right">print</i></a></h4>
+                	<ul class="timelinep">{% for ag_obs in agenda_obs%}
+                	<li>              		
+                          
+                          
+                          	<p align="justify"><strong>Atendimento dia {{ag_obs.data}} às {{ag_obs.hora}} por {{ag_obs.profissional}}</strong> <br/><br/>{{ag_obs.observacao}}</p>
                           	{%endfor%}
                         </li>
                         </ul>

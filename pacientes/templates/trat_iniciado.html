@@ -28,7 +28,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary" data-background-color="purple">
-            <h4 class="card-title">Tem <font size="+2">{{view.iniciado}}</font> pacientes com tratamento em andamento<a
+            <h4 class="card-title">Tem <font size="+2">{{view.iniciado}}</font> pacientes com tratamento Iniciado<a
                 class="btn btn-success pull-right btn-round btn-fab btn-fab-mini" href="{% url 'add_paciente' %}">
                 <i class="material-icons">person_add</i>
                 <div class="ripple-container"></div>
@@ -68,7 +68,7 @@
                   <th>Ação</th>
                 </thead>
                 <tbody>
-                  {% for p in pacientes  %}
+                  {% for p in pacientes_ini  %}
                   {% if p.tratamento == 'IN'%} 
                   <tr>
                     <td>{{forloop.counter}}</td>

@@ -20,25 +20,13 @@
             <div class="col-md-12">
               <div class="card">
                  <div class="card-header card-header-primary"data-background-color="purple">
-                   <h4 class="card-title ">Agenda de Atendimentos</h4>
+                   <h4 class="card-title ">Atendimento | {{agenda.atualizado_em}}</h4>
               </div>
 	              <div class="card-content">
 	                 <div class="col-md-12">
 				          <form>
 						    <div class="row">
-								<div class="col-md-2">
-									<div class="form-group">	
-									  <label>* Data</label></br>
-									  <input value="{{agenda.data|date:"d/m/Y"}}"class="form-control"disabled>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label>* Hora</label></br>
-										<input type="time" value="{{agenda.hora}}"class="form-control" disabled>
-									</div>
-								</div>
-				              <div class="col-md-8">
+				        <div class="col-md-5">
 								<div class="form-group">
 									<label class="bmd-label-floating">Paciente</label>
 									<select  class="form-control" disabled>
@@ -46,9 +34,12 @@
 									</select>
 								</div>
 								</div>
-
-				            </div>
-				            <div class="row">						
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Unidade de Saúde</label>
+										<input type="text" value="{{agenda.ubs}}"class="form-control" disabled>
+				          </div>
+								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label class="bmd-label-floating">Profissional</label>
@@ -57,39 +48,56 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-md-2">
+				      </div>
+				      <div class="row">						
+								<div class="col-md-4">
 									<div class="form-group">
-										<label class="bmd-label-floating">Status</label>
-										<select  class="form-control" disabled>
-											<option value="{agenda.get_status_display}}">{{agenda.get_status_display}}</option>
-										</select>
+										<label class="bmd-label-floating">Vigilância em saúde bucal</label>
+										<ul>
+											<li></li>										
+										{%for v in agenda.vigilancia.all%}
+										<li>- {{v}}</li>
+										{%endfor%}
+										</ul>
 									</div>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-4">
 									<div class="form-group">
-										<label class="bmd-label-floating">Data de Registro</label>
-										<input type="text" value="{{agenda.criado_em|date:'d/m/Y'}}"class="form-control" disabled>
-				                	</div>
+										<label class="bmd-label-floating">Procedimento</label>
+										<ul>
+											<li></li>										
+										{%for v in agenda.procedimento.all%}
+										<li>- {{v}}</li>
+										{%endfor%}
+										</ul>
+									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<div class="form-group">
-										<label class="bmd-label-floating">Data de Atualização</label>
-										<input type="text" value="{{agenda.atualizado_em}}"class="form-control" disabled>
-				                	</div>
+										<label class="bmd-label-floating">Odontograma</label>
+										<ul>
+											<li></li>										
+										{%for v in agenda.odontograma.all%}
+										<li>- {{v}}</li>
+										{%endfor%}
+										</ul>
 								</div>
-				            </div>
-				            <div class="row">
+							</div>
+				      <div class="row">
 								<div class="col-md-12">
+									<hr>
 									<div class="form-group">
 										<label>Observações:</label>
 										<div class="form-group">
 											<label class="bmd-label-floating"></label>
-											<textarea class="form-control" value="{{agenda.observacao}}" rows="3" disabled></textarea>
+											<p style="text-align:justify-all; padding: 5px;">
+											<textarea class="form-control" value="" rows="6" disabled>{{agenda.observacao}}</textarea>
+											</p>
 										</div>
 									</div>
 								</div>
-				            </div>
-							<a href="{% url 'agendas' %}" class="btn btn-info btn-group pull-right" onclick="return confirm('Deseja realmente cancelar?');">Voltar</a>
+				      </div>
+							<a href="javascript: history.back()" class="btn btn-info btn-group pull-right" onclick="return confirm('Deseja realmente cancelar?');">Voltar</a>
 				            <div class="clearfix"></div>
 				          </form>
 				        </div>

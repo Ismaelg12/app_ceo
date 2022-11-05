@@ -22,8 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('controle_usuarios.urls')),
     path('',include('core.urls')),
-    path('',include('produto.urls')),
-    path('',include('estoque.urls')),
     path('',include('pacientes.urls')),
     path('',include('agenda.urls')),
   

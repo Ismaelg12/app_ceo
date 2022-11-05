@@ -67,6 +67,46 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">contact_phone</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Contador de Atendimentos</p>
+         <h3 class="card-title">{{view.atendimentos_cont}}</h3>
+        </div>
+      </div>
+    </div>
+ 
+      <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">chrome_reader_mode</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Agendamentos Abertos</p>
+         <h3 class="card-title">{{view.agenda_cont}}</h3>
+        </div>
+        <div class="card-footer">
+           <a href="{% url 'agenda_open' %}"><span>VISUALIZAR</span> </a>
+        </div>
+      </div>
+    </div>
+  
+        <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        
+          <div class="card-content">
+            <p style="text-align: left;"><b>Atualização em 29 de outubro de 2022</b></p>
+          <p style="text-align: justify;">- Otimização da Lista de Espera, 
+          organização dos pacientes (tratamento inciado, concluido e aguardando ligaçao), contador de Atendimentos e de Agendamentos não finalizados;</br>
+        - Inclusão dos campos procedimento, odontograma e tipo de consulta no atendimento.</p>
+        </div>
+        </div>
+        
+     
+    </div>
     {% elif not atendente %}
     <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card card-stats">
@@ -124,13 +164,46 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">contact_phone</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Contador de Atendimentos</p>
+         <h3 class="card-title">{{view.atendimentos_cont}}</h3>
+        </div>
+      </div>
+    </div>
+    <a href="{% url 'agenda_open' %}">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">chrome_reader_mode</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Agendamentos Abertos</p>
+         <h3 class="card-title">{{view.agenda_cont}}</h3>
+        </div>
+      </div>
+    </div>
+  </a>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        
+          <div class="card-content">
+            <p style="text-align: left;"><b>Atualização em 29 de outubro de 2022</b></p>
+          <p style="text-align: justify;">- Otimização da Lista de Espera, 
+          organização dos pacientes, contador de Atendimentos e de agendamentos não finalizados</p>
+        </div>
+        </div>
     {%endif%}
     </div>
     </div>
   
   <footer class="footer">
   <div class="container-fluid">
-      <span class="text-muted text-center text-sm-left d-block d-sm-inline-block"> &copy; <script>document.write(new Date().getFullYear())</script> - PMP, Desenvolvido por <a href="http://buscatextual.cnpq.br/buscatextual/visualizacv.do?metodo=apresentar&id=K8452958T7" target="_blank">Ismael Sousa </a> - Todos os Direitos reservados.</span>
+      <span class="text-muted d-block d-sm-inline-block"> &copy; <script>document.write(new Date().getFullYear())</script> - PMP, Desenvolvido por <a href="http://buscatextual.cnpq.br/buscatextual/visualizacv.do?metodo=apresentar&id=K8452958T7" target="_blank">Ismael Sousa </a> - Todos os Direitos reservados | Versão 1.1</span>
   </div>
 </footer>
 </div>
