@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+<script src ="{% static "tables/jquery.min.js" %}"></script>
+<script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block container %}
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary"data-background-color="purple">
+						<h4 class="card-title ">Atualizando Agendamento</h4>
+					</div>
+					<div class="card-content">
+						<form method="post" id="agendaForm">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Hora</label></br>
+										{{form.hora}}
+										<span class="text-danger">{{form.non_field_errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2" id="ocultar_fields">	
+									<label>Status</label></br>							
+									{{form.status}}	
+									{{form.observacao}}
+									{{form.procedimento}}
+									{{form.odontograma}}
+									{{form.vigilancia}}
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Data</label></br>	
+										{{form.data}}
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label>* Paciente | Telefone | Unidade de Saúde</label></br>	
+									{{form.paciente}}
+									<span class="text-danger">{{form.paciente.errors}}</span>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Contato</label></br>	
+										{{form.telefone}}
+										<span class="text-danger">{{form.telefone.errors}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-3">
+									<label>* Profissional</label></br>	
+									{{form.profissional}}
+									<span class="text-danger">{{form.profissional.errors}}</span>
+								</div>
+								<div class="col-md-3">
+									<label>* Especialidade</label></br>	
+									{{form.especialidade}}
+									<span class="text-danger">{{form.especialidade.errors}}</span>
+								</div>
+								<div class="col-md-6">
+									<label>* Ubs (Selecione conforme está ao lado do nome do Peciente)</label></br>	
+									{{form.ubs}}
+									<span class="text-danger">{{form.ubs.errors}}</span>
+								</div>
+								<div class="col-md-6">
+									<label>* Tipo de Consulta</label></br>	
+									{{form.tipoconsulta}}
+									<span class="text-danger">{{form.tipoconsulta.errors}}</span>
+								</div>		
+							</div>
+
+<button type="submit" class="btn btn-primary btn-sm pull-right" id="submitButton"> Enviar</button>
+<a href="{% url 'agendas' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+<div class="clearfix"></div>
+</form>
+</div><!-- end content-->
+</div><!--  end card  -->
+</div> <!-- end col-md-12 -->
+</div> <!-- end row -->
+</div>
+</div>
+<script>
+function mostrar(){
+    let show = document.getElementById('#id_tipoconsulta_0')
+    if(show.style.display == 'none'){
+        show.style.display = 'block'
+    }
+    else{
+        show.style.display = 'none'
+    }
+}
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function()
+  {
+   
+     $("#ocultar_fields").hide();
+     $("#id_tipoconsulta_0").hide();
+
+
+  });
+</script>
+<script>
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+	$('#id_hora').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+		timePicker24Hour: true,
+		timePickerIncrement: 05,
+		timePickerSeconds: false,
+		minDate: ' 07:00:00',
+		maxDate: ' 17:00:00',
+		locale: {
+			format: 'HH:mm'
+		}
+	}).on('show.daterangepicker', function (ev, picker) {
+		picker.container.find(".calendar-table").hide();
+	});
+	$('#id_data').daterangepicker({
+		singleDatePicker: true,
+		showDropdowns: true,
+		"locale": {
+			"format": "DD/MM/YYYY",
+			"separator": " - ",
+			"applyLabel": "Aplicar",
+			"cancelLabel": "Cancelar",
+			"fromLabel": "De",
+			"toLabel": "Até",
+			"customRangeLabel": "Custom",
+			"daysOfWeek": [
+			"Dom",
+			"Seg",
+			"Ter",
+			"Qua",
+			"Qui",
+			"Sex",
+			"Sáb"
+			],
+			"monthNames": [
+			"Janeiro",
+			"Fevereiro",
+			"Março",
+			"Abril",
+			"Maio",
+			"Junho",
+			"Julho",
+			"Agosto",
+			"Setembro",
+			"Outubro",
+			"Novembro",
+			"Dezembro"
+			],
+			"firstDay": 0
+		}})});
+jQuery(function($){
+// Remove o  status atender e atendido 
+$('#id_telefone').mask('(00) 00000-0000');
+$("#id_paciente").change(function() {
+//seta o contato automaticamente conforme paciente
+var pacienteContato = $(this).find('option:selected').text();
+$('#id_telefone').val(pacienteContato.split('--')[1]);
+});
+$("#id_profissional").change(function() {
+//seta o contato automaticamente conforme paciente
+var profissionalEspecialidade = $(this).find('option:selected').text();
+$('#id_especialidade').val(profissionalEspecialidade.split('--')[1]);
+});    		
+});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+      $('#submitButton').on('click',function(){
+        $('#agendaForm').validate({
+          rules: {
+            hora: { required: true, },
+            data: { required: true,},
+            telefone: { required: true,},
+            profissional: { required: true,},
+            especialidade: { required: true,},
+          },
+          messages: {
+            hora: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            data: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            especialidade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+          },
+        });
+      });
+    });
+</script>
+{% endblock container %}
+
