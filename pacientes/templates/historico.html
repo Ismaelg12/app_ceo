@@ -39,6 +39,17 @@
                   <i class="material-icons">dns</i> Prontuario do Cidadão
                 </a>
               </li>
+              {%else%}
+              <li class="active">
+                <a href="#evolucoes" role="tab" data-toggle="tab" aria-expanded="true">
+                  <i class="material-icons">show_chart</i>Linha do Tempo
+                </a>
+              </li>
+              <li class="">
+                <a href="#prontuario" role="tab" data-toggle="tab" aria-expanded="true">
+                  <i class="material-icons">dns</i> Prontuario do Cidadão
+                </a>
+              </li>
               {% endif %}
               <li class="pull-right">
                 <a href=""target="_blank"><i class="material-icons pull-right"> print </i> </a>
@@ -158,7 +169,41 @@
                 	<li>              		
                           
                           
-                          	<p align="justify"><strong>Atendimento dia {{ag_obs.data}} às {{ag_obs.hora}} por {{ag_obs.profissional}}</strong> <br/><br/>{{ag_obs.observacao}}</p>
+                          	<p align="justify"><strong>Atendimento dia {{ag_obs.data}} às {{ag_obs.hora}} por {{ag_obs.profissional}}</strong></p> <br/><br/>
+              <div class="row">
+                <div class="col-md-4">
+                  <label class="bmd-label-floating">Procedimento:</label>
+                  <br/>
+                    {{ag_obs.procedimento}}
+                </div>
+                <div class="col-md-4">
+                  <label class="bmd-label-floating">Odontograma:</label>
+                  <br/>
+                    {{ag_obs.odontograma}}
+                </div>
+                <div class="col-md-4">
+                  <label class="bmd-label-floating">Vigilância em Saúde Bucal:</label>
+                  <br/>
+                    {{ag_obs.vigilancia}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label class="bmd-label-floating">Tipo Consulta:</label>
+                  <br/>
+                    {{ag_obs.tipoconsulta}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="bmd-label-floating">Tratamento:</label>
+                  <br/>
+                    {{ag_obs.observacao}}
+                </div>
+              </div>
+              <hr>
+
                           	{%endfor%}
                         </li>
                         </ul>

@@ -102,10 +102,10 @@ for (var i = 0; i < select.options.length; i++) {
 }
 </script>
 <script type="text/javascript">
-var text = 'Avaliação';
+var proc = 'Avaliação';
 var select = document.querySelector('#id_odontograma');
 for (var i = 0; i < select.options.length; i++) {
-    if (select.options[i].text === text) {
+    if (select.options[i].proc === proc) {
         select.selectedIndex = i;
         break;
     }
