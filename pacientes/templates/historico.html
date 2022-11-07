@@ -174,24 +174,35 @@
                 <div class="col-md-4">
                   <label class="bmd-label-floating">Procedimento:</label>
                   <br/>
-                    {{ag_obs.procedimento}}
+                  {%for proc in ag_obs.procedimento.all%}
+                    {{proc}}<br/>
+                  {%endfor%}
                 </div>
                 <div class="col-md-4">
                   <label class="bmd-label-floating">Odontograma:</label>
                   <br/>
-                    {{ag_obs.odontograma}}
+                   {%for odon in ag_obs.odontograma.all%}
+                    {{odon}}<br/>
+                  {%endfor%}
                 </div>
                 <div class="col-md-4">
-                  <label class="bmd-label-floating">Vigilância em Saúde Bucal:</label>
+                  <label class="floating">Vigilância em Saúde Bucal:</label>
                   <br/>
-                    {{ag_obs.vigilancia}}
+                    {%for vig in ag_obs.vigilancia.all%}
+                    {{vig}}<br/>
+                  {%endfor%}
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <label class="bmd-label-floating">Tipo Consulta:</label>
                   <br/>
                     {{ag_obs.tipoconsulta}}
+                </div>
+                <div class="col-md-6">
+                  <label class="bmd-label-floating">Equipe de Origem:</label>
+                  <br/>
+                    {{ag_obs.ubs}}
                 </div>
               </div>
               <hr>

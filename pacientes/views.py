@@ -150,7 +150,7 @@ def paciente_historico(request,pk):
     agendamentos_AT_count = Agendamento.objects.filter(paciente=paciente,status='AT').count()
     agendamentos_FN_count = Agendamento.objects.filter(paciente=paciente,status='FN').count()
     agendamentos_DM_count = Agendamento.objects.filter(paciente=paciente,status='DM').count()
-
+    
 
     context = {
         'profissional':profissional,
