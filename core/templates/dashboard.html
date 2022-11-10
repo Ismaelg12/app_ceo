@@ -93,15 +93,29 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">chrome_reader_mode</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Relatórios</p>
+        </div>
+        <div class="card-footer">
+           <a href="{% url 'relatorios' %}"><span>VISUALIZAR</span> </a>
+        </div>
+      </div>
+    </div>
   
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card card-stats">
         
           <div class="card-content">
             <p style="text-align: left;"><b>Atualização em 29 de outubro de 2022</b></p>
           <p style="text-align: justify;">- Otimização da Lista de Espera, 
           organização dos pacientes (tratamento inciado, concluido e aguardando ligaçao), contador de Atendimentos e de Agendamentos não finalizados;</br>
-        - Inclusão dos campos procedimento, odontograma e tipo de consulta no atendimento.</p>
+        - Inclusão dos campos procedimento, odontograma e tipo de consulta no atendimento;</br>
+        - Inclusão de Relatórios 10/11/2022</p>
         </div>
         </div>
         
@@ -175,8 +189,7 @@
         </div>
       </div>
     </div>
-    <a href="{% url 'agenda_open' %}">
-      <div class="col-lg-3 col-md-6 col-sm-6">
+         <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card card-stats">
         <div class="card-header" data-background-color="purple">
           <i class="material-icons">chrome_reader_mode</i>
@@ -190,14 +203,29 @@
         </div>
       </div>
     </div>
-  </a>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">chrome_reader_mode</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Relatórios</p>
+        </div>
+        <div class="card-footer">
+           <a href="{% url 'relatorios' %}"><span>VISUALIZAR</span> </a>
+        </div>
+      </div>
+    </div>
         <div class="col-lg-6 col-md-6 col-sm-6">
       <div class="card card-stats">
         
           <div class="card-content">
             <p style="text-align: left;"><b>Atualização em 29 de outubro de 2022</b></p>
           <p style="text-align: justify;">- Otimização da Lista de Espera, 
-          organização dos pacientes, contador de Atendimentos e de agendamentos não finalizados</p>
+          organização dos pacientes (tratamento inciado, concluido e aguardando ligaçao), contador de Atendimentos e de Agendamentos não finalizados;</br>
+        - Inclusão dos campos procedimento, odontograma e tipo de consulta no atendimento;</br>
+        - Inclusão de Relatórios 10/11/2022</p>
+          
         </div>
         </div>
     {%endif%}

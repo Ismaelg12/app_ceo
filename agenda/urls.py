@@ -3,6 +3,7 @@ from agenda import views
 
 urlpatterns = [
 	path('agendas/',views.agendamento,name='agendas'),
+	path('relatorios/',views.Relatorio,name='relatorios'),
 	path('agenda/open/',views.AgendaListView,name='agenda_open'),
 	path('adicionar/agenda/',views.AgendaCreateView.as_view(),name='add_agenda'),
 	path('atualizar/agenda/<int:pk>/',views.AgendaUpdateView.as_view(),name='update_agenda'),

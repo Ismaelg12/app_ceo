@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+<script src ="{% static "tables/jquery.min.js" %}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+
+<!-- If you use the default popups, use this. -->
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'home' %}">
+    <i class="material-icons">dashboard</i>
+    <p>Dashboard</p>
+  </a>
+</li>
+<li class="nav-item active  ">
+  <a class="nav-link" href="#">
+   <i class="material-icons">calendar_today</i>
+   <p>Agenda</p>
+ </a>
+</li>
+{% endblock menu_li %}
+{% block container %}
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary"data-background-color="purple">
+
+
+            <h4 class="card-title"> Relatório de Atendimento  
+              </h4>
+
+            </div>
+            <div class="card-content">
+             <div class="col-md-12">
+              <form method="GET"name="search">
+                <div class="row">
+                  <div class="col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <input name="date_ranger"class="form-control"required>
+                    </div>
+                  </div>
+                  {% if not profissional %}
+                  <!--se quem estiver logado não for profissional ele mostra o select -->
+                  <div class="col-md-5 col-sm-3">
+                    <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7"data-live-search="true">
+                      <option value="">Selecione o Profissional</option>
+                      {% for p in pf %}
+                      <option value="{{p.nome}}">{{p.nome}} {{p.sobrenome}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  {% endif %}
+                 <div class="col-md-1 col-sm-1">
+                   <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
+                 </div>
+               </div>
+             </form>
+           </div>
+           {% if not date_range%}
+            <div class="content">
+              <div class="container-fluid">
+              <div class="row text-center">
+                <div class="col-md-12 alert alert-rose alert-with-icon" data-notify="container">
+                  <i class="material-icons" data-notify="icon">notifications</i>
+                  <span data-notify="message">Informe o período e o Profissional, se quiser buscar o total de um perído, faça a busca sem o Profissional</span>
+                </div>
+              </div>
+              </div>
+              </div>
+            
+           
+           {%else%}
+           <p>&nbsp;</p>
+           <p><b>FILTROS: Período: </b>{{date_range}} | <b>Profissional: </b> {{profissional_search}}</p>
+           <p>&nbsp;</p>
+           <div class="row">
+           		<div class="col-md-12 text-center">
+           			<h4><b>Relatório de atendimento individual</b></h4>
+           		</div>
+       		</div>
+           <div class="row">
+           <div class="col-md-6">
+           	<p><b>Resumo de produção</b></p>
+           	<table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+           		<tr>
+                	<th>Descrição</th>
+                	<th style="text-align: right;">Quantidade</th>
+              	</tr>
+              	<tr>
+                	<td>Atendimentos Registrados</td>
+                	<td style="text-align: right;">{{atendimentos_cont}}</td>
+                </tr>
+            </table>
+           </div>
+           <div class="col-md-6">
+           	<p><b>Sexo</b></p>
+           	<table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+           		<tr>
+                	<th>Descrição</th>
+                	<th style="text-align: right;">Quantidade</th>
+              	</tr>
+              	<tr>
+                	<td>Masculino</td>
+                	<td style="text-align: right;">{{masculino_cont}}</td>
+                </tr>
+                <tr>                	
+                	<td>Feminino</td>
+                	<td style="text-align: right;">{{feminino_cont}}</td>                	
+                </tr>
+            </table>
+           </div>
+           <div class="col-md-6">
+           	<p><b>Resumo de produção</b></p>
+           	<table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+           		<tr>
+                	<th>Descrição</th>
+                	<th style="text-align: right;">Quantidade</th>
+              	</tr>
+              	{% for s in ubs_nome %}
+                     {% if s.ubs_cont > 0 %}
+              	<tr>
+                	<td>{{s.nome}}</td>
+                	<td style="text-align: right;">{{s.ubs_cont}}</td>
+                </tr>
+                {% endif%}
+                                {% empty %}
+                                <tr>
+                                    <td class="text-center"><h4>Sem registro</h4></td>
+                                </tr>
+
+                                {% endfor %}
+            </table>
+           </div>
+           <div class="col-md-6">
+           	<p><b>Procedimentos</b></p>
+           	<table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+           		<tr>
+                	<th>Descrição</th>
+                	<th style="text-align: right;">Quantidade</th>
+              	</tr>
+              	{% for s in proc_nome %}
+                     {% if s.proc_cont > 0 %}
+              	<tr>
+                	<td>{{s.descricao}}</td>
+                	<td style="text-align: right;">{{s.proc_cont}}</td>
+                </tr>
+                {% endif%}
+                                {% empty %}
+                                <tr>
+                                    <td class="text-center"><h4>Sem procedimentos</h4></td>
+                                </tr>
+
+                                {% endfor %}
+            </table>
+           </div>
+           <div class="col-md-6">
+           	<p><b>Vigilância em Saúde bucal</b></p>
+           	<table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+           		<tr>
+                	<th>Descrição</th>
+                	<th style="text-align: right;">Quantidade</th>
+              	</tr>
+              	{% for s in vig_nome %}
+                     {% if s.vig_cont > 0 %}
+              	<tr>
+                	<td>{{s.descricao}}</td>
+                	<td style="text-align: right;">{{s.vig_cont}}</td>
+                </tr>
+                {% endif%}
+                                {% empty %}
+                                <tr>
+                                    <td class="text-center"><h4>Sem registro</h4></td>
+                                </tr>
+
+                                {% endfor %}
+            </table>
+           </div>
+           <div class="col-md-6">
+           	<p><b>Odontograma</b></p>
+           	<table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+           		<tr>
+                	<th>Descrição</th>
+                	<th style="text-align: right;">Quantidade</th>
+              	</tr>
+              	{% for s in odon_nome %}
+                     {% if s.odon_cont > 0 %}
+              	<tr>
+                	<td>{{s.descricao}}</td>
+                	<td style="text-align: right;">{{s.odon_cont}}</td>
+                </tr>
+                {% endif%}
+                                {% empty %}
+                                <tr>
+                                    <td class="text-center"><h4>Sem registro</h4></td>
+                                </tr>
+
+                                {% endfor %}
+            </table>
+           </div>
+           <div class="col-md-6">
+           	<p><b>Tipo de Consulta</b></p>
+           	<table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%">
+           		<tr>
+                	<th>Descrição</th>
+                	<th style="text-align: right;">Quantidade</th>
+              	</tr>
+              	{% for s in tc_nome %}
+                     {% if s.tc_cont > 0 %}
+              	<tr>
+                	<td>{{s.descricao}}</td>
+                	<td style="text-align: right;">{{s.tc_cont}}</td>
+                </tr>
+                {% endif%}
+                                {% empty %}
+                                <tr>
+                                    <td class="text-center"><h4>Sem registro</h4></td>
+                                </tr>
+
+                                {% endfor %}
+            </table>
+           </div>
+           </div>
+
+{%endif%}
+        </div><!-- end content-->
+      </div><!--  end card  -->
+    </div> <!-- end col-md-12 -->
+  </div> <!-- end row -->
+</div>
+</div>
+<script type="text/javascript">
+  /*
+  function liberarPaciente(){
+    confirm('Liberar paciente e imprimir confirmação!');
+    swal({ title:"Pré Atendimento", 
+      text:"Ação Executada com Sucesso! ",
+      type:"success",
+      showConfirmButton: true,
+      allowOutsideClick: false,
+    }).then(function(){
+      window.location.reload(true);
+    })
+
+  }
+  function reiprimirPDF(){
+    swal({ 
+      text:"Impressão Executada com Sucesso! ",
+      type:"success",
+      showConfirmButton: true,
+      allowOutsideClick: false,
+    }).then(function(){
+      window.location.reload(true);
+    })
+  }
+  */
+$('input[name="date_ranger"]').daterangepicker({
+  "timePicker": false,
+  "startDate": moment(),
+  "endDate": moment(),
+  "ranges": {
+    'Hoje': [moment(), moment()],
+    'Ontem': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    'Ultimos 7 Dias': [moment().subtract(6, 'days'), moment()],
+    'Ultimos 30 Dias': [moment().subtract(29, 'days'), moment()],
+    'Esse Mês': [moment().startOf('month'), moment().endOf('month')],
+    'Último Mês': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+  },
+  showDropdowns: true,
+  "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " / ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Customizado",
+    "daysOfWeek": [
+    "Dom",
+    "Seg",
+    "Ter",
+    "Qua",
+    "Qui",
+    "Sex",
+    "Sáb"
+    ],
+    "monthNames": [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+    ],
+    "firstDay": 0
+  }
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+
+});
+$(document).ready(function() {
+  $('#datatables').DataTable({
+    "pagingType": "full_numbers",
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    responsive: true,
+    searching: false, 
+    "language": {
+      "sProcessing":   "Processando...",
+      "sLengthMenu":   " _MENU_ ",
+      "sZeroRecords":  "<b><center>Não foram encontrados resultados</center><b>",
+      "info": "Pág _PAGE_ de _PAGES_",
+      "sInfoEmpty":    "",
+      "sInfoFiltered": "",
+      "sInfoPostFix":  "",
+      "sSearch":       "",
+      "sUrl":          "",
+      "oPaginate": {
+        "sFirst":    "Primeiro",
+        "sPrevious": "",
+        "sNext":     "",
+        "sLast":     "Último"
+      }
+    }
+  });
+
+
+  var table = $('#datatables').DataTable();
+
+    // Edit record
+    table.on( 'click', '.edit', function () {
+      $tr = $(this).closest('tr');
+
+      var data = table.row($tr).data();
+      alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
+    } );
+
+    // Delete a record
+    table.on( 'click', '.remove', function (e) {
+      $tr = $(this).closest('tr');
+      table.row($tr).remove().draw();
+      e.preventDefault();
+    } );
+
+    //Like record
+    table.on( 'click', '.like', function () {
+      alert('You clicked on Like button');
+    });
+
+    $('.card .material-datatables label').addClass('form-group');
+  });
+
+</script>
+{% endblock container %}
