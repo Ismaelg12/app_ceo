@@ -45,4 +45,5 @@ URGENTE = (
 LIGACAO = (
     ('A', 'Aguardando'),
     ('N', 'Não atendeu'),   
+    ('L', 'Retornar Ligação'),   
 )

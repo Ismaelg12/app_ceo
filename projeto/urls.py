@@ -24,5 +24,6 @@ urlpatterns = [
     path('',include('core.urls')),
     path('',include('pacientes.urls')),
     path('',include('agenda.urls')),
+    path('api/', include('api.urls')),
   
 ]

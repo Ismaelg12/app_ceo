@@ -5,7 +5,8 @@ from core.models import *
 from controle_usuarios.models import Profissional
 from django.urls import reverse 
 from datetime import datetime
-
+import os
+from binascii import hexlify
 
 
 class Ubs(models.Model):
@@ -20,23 +21,32 @@ class Ubs(models.Model):
 
 class Paciente(models.Model):
 	#informações basicas do paciente
-	nome              = models.CharField('Nome',max_length=60)
-	data_nascimento   = models.DateField(blank=True,null=True)
-	sexo              = models.CharField('Sexo', max_length=1, choices=SEXO, blank=True)
-	cpf               = models.CharField(max_length=14,unique=True,blank=True,null=True)
-	sus               = models.CharField(max_length=18,unique=True,blank=True,null=True)
+	def generate_id():
+		possible = hexlify(os.urandom(4))
+		try:
+			Paciente.objects.get(id=possible)
+		except Paciente.DoesNotExist:
+			return possible
+		else:
+			return self.generate_id()
+	id = models.CharField(max_length=8, primary_key=True, editable=False, default=generate_id)
+	nome              	= models.CharField('Nome',max_length=60)
+	data_nascimento   	= models.DateField(blank=True,null=True)
+	sexo              	= models.CharField('Sexo', max_length=1, choices=SEXO, blank=True)
+	cpf               	= models.CharField(max_length=14,unique=True,blank=True,null=True)
+	sus               	= models.CharField(max_length=18,unique=True,blank=True,null=True)
 	#endereco
-	telefone          = models.CharField('Telefone Principal',max_length=20)
-	telefone_fixo     = models.CharField('Telefone Fixo',max_length=20,blank=True)
-	#complemento
-	#profissional      = models.ForeignKey(Profissional ,on_delete=models.SET_NULL,null=True)
-	profissional      = models.ManyToManyField(Profissional)
-	ubs		      	  = models.ForeignKey(Ubs,on_delete=models.PROTECT,null=True,blank=True)
+	cidade      		= models.CharField(max_length=100,blank=True)
+	rua   				= models.CharField(max_length=100,blank=True)
+	numero   			= models.CharField(max_length=6,blank=True)
+	bairro      		= models.CharField(max_length=100,blank=True)
+	telefone         	= models.CharField('Celular',max_length=15)
+	ubs		      	  	= models.ForeignKey(Ubs,on_delete=models.PROTECT,null=True,blank=True)
 	#convenios
-	observacao        = models.TextField(max_length=500,blank=True)
-	atualizado_em     = models.DateTimeField('Atualizado em', auto_now=True)
-	criado_em         = models.DateTimeField('Criado em', auto_now_add=True)
-	tratamento		  = models.CharField('tratamento', max_length=2, choices=TRATAMENTO, blank=True, default='RE')
+	observacao        	= models.TextField(max_length=500,blank=True)
+	atualizado_em     	= models.DateTimeField('Atualizado em', auto_now=True)
+	criado_em         	= models.DateTimeField('Criado em', auto_now_add=True)
+	
 
 
 	class Meta:

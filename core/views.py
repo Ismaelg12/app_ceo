@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from core.mixins import DashboardMixin
 from django.utils import timezone
 from datetime import date, datetime, timedelta
-from core.models import Clinica,ListaEspera
+from core.models import Clinica,ListaEspera, Novidade
 from controle_usuarios.models import Profissional
 from pacientes.models import Paciente
 from django.contrib import messages
@@ -31,6 +31,7 @@ class DashboardView(TemplateView,DashboardMixin):
         """
         
         context['clinica']          = Clinica.objects.all()[:1]        
+        context['novidade']         = Novidade.objects.all().order_by('-criado_em')
         return context
 
 

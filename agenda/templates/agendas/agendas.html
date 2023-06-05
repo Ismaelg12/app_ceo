@@ -37,7 +37,7 @@
           <div class="card-header card-header-primary"data-background-color="purple">
             <h4 class="card-title"> Agenda de Atendimentos do Dia  
               <a class="btn btn-raised btn-success btn-xs pull-right" href="{% url 'add_agenda' %}">
-                <i class="material-icons">calendar_today</i> Novo</a>
+                <i class="material-icons">person_add</i> Novo</a>
               </h4>
 
             </div>
@@ -46,7 +46,7 @@
               <form method="GET"name="search">
                 {% csrf_token %}
                 <div class="row">
-                  <div class="col-md-3 col-sm-3">
+                  <div class="col-md-2 col-sm-3">
                     <div class="form-group">
                       <input name="date_ranger"class="form-control"required>
                     </div>
@@ -70,8 +70,8 @@
                   <div class="col-md-3">
                    <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente"value="{{request.GET.paciente}}">
                  </div>
-                 <div class="col-md-1 col-sm-1">
-                   <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
+                 <div class="col-md-2 col-sm-1">
+                   <button type="submit" class="btn btn-primary pull-right"><i class="material-icons">search</i> Buscar</button>
                  </div>
                </div>
              </form>
@@ -106,7 +106,7 @@
                 <td>{{agenda.hora}}H</td>
                 <td width="15%"> 
                 {% if agenda.status == 'AG' %} 
-                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
+                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar"><i class="material-icons text-info">edit</i></a>
                         <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
                         <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
                 {%else%}
@@ -135,7 +135,7 @@
                 <td>{{agenda.hora}}H</td>
                 <td width="15%">
                 {% if agenda.status == 'AG' %} 
-                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar Agendamento"><i class="material-icons text-info">update</i></a>
+                      <a href="{% url 'update_agenda' agenda.id %}" title="Editar Agendamento"><i class="material-icons text-info">edit</i></a>
                         <a href="{% url 'deletar_agenda' agenda.id %}" title="deletar Agendamento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
                         <a href="{% url 'agenda_status' agenda.id %}" title="Registrar Atendimento" ><i class="material-icons  text-success">touch_app</i></a>
                 {%else%}

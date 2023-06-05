@@ -45,7 +45,7 @@
                             <td>{{prof.user.profissional.especialidade}}</td>
                             <td>
                                 <a href="{% url 'profissional_detalhe' prof.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
-                                <a href="{% url 'atualizar_profissional' prof.id %}" title="Editar"><i class="material-icons">sync</i>
+                                <a href="{% url 'atualizar_profissional' prof.id %}" title="Editar"><i class="material-icons">edit</i>
                                 </a>
                                 <a href="{% url 'deletar_profissional' prof.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
                             </td>

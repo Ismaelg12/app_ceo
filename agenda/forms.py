@@ -21,6 +21,12 @@ class AgendaForm(forms.ModelForm):
         self.fields['profissional'].queryset = Profissional.objects.filter(tipo=2,ativo=True)
         self.fields['paciente'].label_from_instance = self.paciente_label
         self.fields['profissional'].label_from_instance = self.profissional_label
+    #campo select ajax    
+        self.fields['paciente'].queryset = Paciente.objects.none()
+        if 'paciente' in self.data:
+            self.fields['paciente'].queryset = Paciente.objects.all()
+        elif self.instance.pk:
+            self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
     #metodo para override de labels do pacientes
     @staticmethod
     def paciente_label(self):
@@ -56,19 +62,16 @@ class AgendaForm(forms.ModelForm):
         widgets = {
             'data'        : forms.DateInput(attrs={'class': 'form-control','required': 'true'}),
             'hora' 		  : forms.TimeInput(attrs={'class': 'form-control input-rounded'}),
-            'paciente'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
-                'data-size':5,'data-live-search':'true',}),
+            'paciente'    : forms.Select(attrs={'class':'form-select','required': 'true'}),
             'telefone'    : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
-            'especialidade'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
-                'data-size':5,'data-live-search':'true','required': 'true'}),
-            'profissional': forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
-                'data-size':5,'data-live-search':'true','required': 'true'}),
-            'status'      : forms.Select(attrs={'class': 'selectpicker','data-style':'select-with-transition', 'required':'True'}),
+            'especialidade'    : forms.Select(attrs={'class':'form-select','required': 'true'}),
+            'profissional': forms.Select(attrs={'class':'form-select','required': 'true'}),
+            'status'      : forms.Select(attrs={'class': 'form-select','data-style':'select-with-transition', 'required':'True'}),
             'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "20", 'rows': "5",}),
-            'ubs'            : forms.Select(attrs={'class':'selectpicker',
-                'data-style':'select-with-transition','data-size':5,
-                'data-live-search':'true','onchange':'showDiv(this)','id':'id_ubs','required': 'true',}),
-            'tipoconsulta'            : forms.RadioSelect(attrs={'class':'selectpicker',
-                'data-style':'select-with-transition','required': 'true','title':'Selecione',}),
+            'ubs'            : forms.Select(attrs={'class':'form-select','required': 'true',}),
+            'tipoconsulta'            : forms.RadioSelect(attrs={'class':'selectpicker','required': 'true','title':'Selecione',}),
         }
+
+
+        
     

@@ -7,9 +7,9 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style type="text/css">
-<!--
-.normal { border: 1px solid #000000; }
-.destaca { border: 1px solid #ff0000; }
+  <!--
+  .normal { border: 1px solid #000000; }
+  .destaca { border: 1px solid #ff0000; }
 -->
 </style>
 {% endblock datepicker %}
@@ -22,22 +22,22 @@
 </li>
 <li class="nav-item active ">
   <a class="nav-link" href="{% url 'lista_pacientes' %}">
-   <i class="material-icons">accessible</i>
-   <p>Pacientes</p>
- </a>
+    <i class="material-icons">accessible</i>
+    <p>Pacientes</p>
+  </a>
 </li>
 {% endblock menu_li %}
 {% block container %}
 <style> 
-#valor{
-  display: none;
-}
-#numero_carteira{
-  display: none;
-}
-#validade{
-  display: none;
-}
+  #valor{
+    display: none;
+  }
+  #numero_carteira{
+    display: none;
+  }
+  #validade{
+    display: none;
+  }
 </style>
 <div class="content">
   <div class="container-fluid">
@@ -51,24 +51,19 @@
            <form method="POST" id="paciente_form">
             {% csrf_token %}
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label class="bmd-label-floating">*Nome Completo</label>
                   {{form.nome}}
                   <span class="text-danger"> {{form.non_field_errors}}</span>
                 </div>
               </div>
+              <div class="col-md-2">                
+                <label class="bmd-label-floating">* Sexo</label>
+                {{form.sexo}}
+                {{form.sexo.errors}}              
+              </div>
               <div class="col-md-2">
-                  <label class="bmd-label-floating">*Unidade de Saúde</label>
-                  {{form.ubs}}
-                  <span class="text-danger"> {{form.non_field_errors}}</span>
-              </div>
-               <div class="col-md-3">            
-                  <label class="bmd-label-floating">*Profissional</label>
-                  {{form.profissional}}
-                   {{form.profissional.errors}}               
-              </div>
-               <div class="col-md-2">
                 <div class="form-group">
                   <label class="bmd-label-floating">CPF</label>
                   {{form.cpf}}                 
@@ -82,147 +77,178 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-2">
-                
-                  <label class="bmd-label-floating">* Sexo</label>
-                  {{form.sexo}}
-                  {{form.sexo.errors}}
-              
+              <div class="col-md-4">
+                <label class="bmd-label-floating">Cidade</label>
+                {{form.cidade}}
+                {{form.cidade.errors}}
+              </div>
+              <div class="col-md-3">
+                <label class="bmd-label-floating">Bairro</label>
+                {{form.bairro}}
+                {{form.bairro.errors}}
+              </div>
+              <div class="col-md-3">
+                <label class="bmd-label-floating">Rua</label>
+                {{form.rua}}
+                {{form.rua.errors}}
               </div>
               <div class="col-md-2">
+                <label class="bmd-label-floating">Número</label>
+                {{form.numero}}
+                {{form.numero.errors}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="bmd-label-floating">*Unidade de Saúde</label>
+                {{form.ubs}}
+                {{form.ubs.errors}}
+              </div>
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="bmd-label-floating">* Cartão do Sus</label>
                   {{form.sus}}
                   {{form.sus.errors}}
                 </div>
               </div>            
-          <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">* Celular</label>
-              {{form.telefone}}
-            </div>
-          </div>
-           <div class="col-md-2">
-            <div class="form-group">
-              <label class="bmd-label-floating">Tel. Fixo</label>
-              {{form.telefone_fixo}}
-            </div>
-          </div>
-          <div class="col-md-4 data-background-color">
-            <div class="form-group">
-              <label class="bmd-label-floating">* Status do Tratamento</label>
-              {{form.tratamento}}
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <label>Observações:</label>
-              <div class="form-group">
-                <label class="bmd-label-floating"> </label>
-                  {{form.observacao}}
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="bmd-label-floating">* Telefone</label>
+                  {{form.telefone}}
+                </div>
               </div>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary pull-right" id="submitButton">Salvar</button>
-        <button type="submit" class="btn btn-success pull-right" id="submitButton1" name="adicionar_outro">Salvar E Adicionar Outro</button>
-        <a href="{% url 'lista_pacientes' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
-        <div class="clearfix"></div>
-      </form>
-    </div><!-- end content-->
-  </div><!--  end card  -->
-</div> <!-- end col-md-12 -->
-</div> <!-- end row -->
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label>Observações:</label>
+                <div class="form-group">
+                  <label class="bmd-label-floating"> </label>
+                  {{form.observacao}}
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right" id="submitButton">Salvar</button>
+            <button type="submit" class="btn btn-success pull-right" id="submitButton1" name="adicionar_outro">Salvar E Adicionar Outro</button>
+            <a href="{% url 'lista_pacientes' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+            <div class="clearfix"></div>
+          </form>
+        </div><!-- end content-->
+      </div><!--  end card  -->
+    </div> <!-- end col-md-12 -->
+  </div> <!-- end row -->
 </div>
 </div>
 <script>
-jQuery(function($){
-  $('#id_sus').mask('000.0000.0000.0000');
-  $('#id_telefone').mask('(00) 00000-0000');
-  $('#id_telefone_fixo').mask('(00) 00000-0000');
-  $('#id_cpf').mask('000.000.000-00', {reverse: true});
-});
-$('#id_data_nascimento').daterangepicker({
-  singleDatePicker: true,
-  showDropdowns: true,
-  "locale": {
-    "format": "DD/MM/YYYY",
-    "separator": " - ",
-    "applyLabel": "Aplicar",
-    "cancelLabel": "Cancelar",
-    "fromLabel": "De",
-    "toLabel": "Até",
-    "customRangeLabel": "Custom",
-    "daysOfWeek": [
-    "Dom",
-    "Seg",
-    "Ter",
-    "Qua",
-    "Qui",
-    "Sex",
-    "Sáb"
-    ],
-    "monthNames": [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro"
-    ],
-    "firstDay": 0
-  }});
-</script>
-<script>  
-  $(document).ready(function() {
-    $('#submitButton').on('click',function(){
-    $('#paciente_form').validate({
-      rules: {
-        nome: { required: true, },
-        profissional: { required: true,},
-        sus: { required: true,},
-        telefone: { required: true,},
-        tratamento: { required: true,},
-        ubs: { required: true,},
-      },
-      messages: {
-        nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        sus: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        ubs: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-      },
-    });
+  jQuery(function($){
+    $('#id_sus').mask('000 0000 0000 0000');
+    $('#id_cpf').mask('000.000.000-00', {reverse: true});
   });
-  });
+  $('#id_data_nascimento').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    "locale": {
+      "format": "DD/MM/YYYY",
+      "separator": " - ",
+      "applyLabel": "Aplicar",
+      "cancelLabel": "Cancelar",
+      "fromLabel": "De",
+      "toLabel": "Até",
+      "customRangeLabel": "Custom",
+      "daysOfWeek": [
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sáb"
+        ],
+      "monthNames": [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+        ],
+      "firstDay": 0
+    }});
+  </script>
+  <script>  
     $(document).ready(function() {
-    $('#submitButton1').on('click',function(){
-    $('#paciente_form').validate({
-      rules: {
-        nome: { required: true, },
-        profissional: { required: true,},
-        sus: { required: true,},
-        telefone: { required: true,},
-        tratamento: { required: true,},
-        ubs: { required: true,},
-      },
-      messages: {
-        nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        sus: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-        ubs: { required: '<span class="text-danger">Prencha esse Campo</span>' },
-      },
+      $('#submitButton').on('click',function(){
+        $('#paciente_form').validate({
+          rules: {
+            nome: { required: true, },
+            profissional: { required: true,},
+            sus: { required: true,},
+            telefone: { required: true,},
+            tratamento: { required: true,},
+            ubs: { required: true,},
+            sexo: { required: true,},
+          },
+          messages: {
+            nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            sus: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            ubs: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            sexo: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+          },
+        });
+      });
     });
-  });
-  });
-</script>
-{% endblock container %}
+    $(document).ready(function() {
+      $('#submitButton1').on('click',function(){
+        $('#paciente_form').validate({
+          rules: {
+            nome: { required: true, },
+            profissional: { required: true,},
+            sus: { required: true,},
+            telefone: { required: true,},
+            tratamento: { required: true,},
+            ubs: { required: true,},
+          },
+          messages: {
+            nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            sus: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            tratamento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+            ubs: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+          },
+        });
+      });
+    });
+  </script>
+  <script>
+    function mascaraFone(event) {
+      var valor = document.getElementById("id_telefone").attributes[0].ownerElement['value'];
+      var retorno = valor.replace(/\D/g, "");
+      retorno = retorno.replace(/^0/, "");
+      if (retorno.length > 10) {
+retorno = retorno.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+      } else if (retorno.length > 5) {
+        if (retorno.length == 6 && event.code == "Backspace") { 
+// necessário pois senão o "-" fica sempre voltando ao dar backspace
+          return; 
+        } 
+retorno = retorno.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+      } else if (retorno.length > 2) {
+        retorno = retorno.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+      } else {
+        if (retorno.length != 0) {
+          retorno = retorno.replace(/^(\d*)/, "($1");
+        }
+      }
+      document.getElementById("id_telefone").attributes[0].ownerElement['value'] = retorno;
+    }
+  </script> 
+  {% endblock container %}

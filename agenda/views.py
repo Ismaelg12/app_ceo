@@ -30,26 +30,39 @@ def AgendaListView(request):
     return render(request,'agendas/agenda_open.html',context)
 
 
-class AgendaCreateView(LoginRequiredMixin,CreateView):
-    model         = Agendamento
-    template_name = 'agendas/agenda_add.html'
-    form_class    = AgendaForm
-    success_url   = reverse_lazy('agendas')
+# class AgendaCreateView(LoginRequiredMixin,CreateView):
+#     model         = Agendamento
+#     template_name = 'agendas/agenda_add.html'
+#     form_class    = AgendaForm
+#     success_url   = reverse_lazy('agendas')
 
-    #salvar e adicionar novo
-    def post(self, request, *args, **kwargs):
-        save_action = None
-        if "cancelar" in request.POST:
-            return HttpResponseRedirect(reverse('agendas'))
-        else:
-            save_action = super(AgendaCreateView, self).post(request, *args, **kwargs)
-            agen = ListaEspera.objects.filter(nome__id=request.POST['paciente'],
-                especialidade_id=request.POST['especialidade']).delete()
-        if "adicionar_outro" in request.POST:
-            messages.success(request,'Agendamento Cadastrado com Sucesso! ')
-            return HttpResponseRedirect(reverse('add_agenda'))    
-        return save_action
+#     #salvar e adicionar novo
+#     def post(self, request, *args, **kwargs):
+#         save_action = None
+#         if "cancelar" in request.POST:
+#             return HttpResponseRedirect(reverse('agendas'))
+#         else:
+#             save_action = super(AgendaCreateView, self).post(request, *args, **kwargs)
+#             agen = ListaEspera.objects.filter(nome__id=request.POST['paciente'],
+#                 especialidade_id=request.POST['especialidade']).delete()
+#         if "adicionar_outro" in request.POST:
+#             messages.success(request,'Agendamento Cadastrado com Sucesso! ')
+#             return HttpResponseRedirect(reverse('add_agenda'))    
+#         return save_action
 
+@login_required
+def AgendaCreateView(request):
+    form = AgendaForm(request.POST or None)
+    if request.is_ajax():
+        term = request.GET.get('term')
+        pacientes = Paciente.objects.all().filter(nome__icontains=term)
+        return JsonResponse(list(pacientes.values()), safe=False)
+    if request.method == 'POST':
+        form = AgendaForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('agendas')
+    return render(request, 'agendas/agenda_add.html', {'form': form})
 
 @login_required
 def agendamento(request):

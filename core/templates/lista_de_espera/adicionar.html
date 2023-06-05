@@ -68,7 +68,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
+                    <label class="bmd-label-floating"> Informe aqui, melhor horário para ligação / Data das ligações realizadas e outras informações importantes!</label>
                     {{form.observacao}}
                   </div>
                 </div>
@@ -88,7 +88,6 @@
   jQuery(function($){
     $('#id_sus').mask('000.0000.0000.0000');
     $('#id_telefone').mask('(00) 00000-0000');
-    $('#id_telefone_fixo').mask('(00) 00000-0000');
     $('#id_cpf').mask('000.000.000-00', {reverse: true});
   });
   $('#id_data_nascimento').daterangepicker({

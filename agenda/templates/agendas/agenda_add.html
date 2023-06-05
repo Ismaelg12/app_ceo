@@ -1,94 +1,139 @@
-{% extends "base.html" %}
 {% load static %}
-{% block datepicker %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Somos um serviço de odontologia.">
+    <meta name="keywords" content="Odontologia,Parnaiba, Especialidades">
+    <title>Adicionar Agendamento</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/jumbotron/">    
+
+    <!-- Bootstrap core CSS -->
+<link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet">
+
+    <!-- Favicons -->
+<link rel="icon" type="image/png" href="{% static "img/favicon.png" %}">
 <script src ="{% static "tables/jquery.min.js" %}"></script>
 <script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-{% endblock datepicker %}
-{% block container %}
-<div class="content">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="card">
-					<div class="card-header card-header-primary"data-background-color="purple">
-						<h4 class="card-title ">Adicionando Agendamento</h4>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+<meta name="theme-color" content="#7952b3">
+<link rel="stylesheet" href="{% static "assets/css/material-dashboard.css" %}"/>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      #id_paciente {
+        width: 100%;
+    	}
+      header{
+      	background: linear-gradient(60deg, #ab47bc, #8e24aa);
+      	padding: 16px;
+      	text-align: left;
+      	color: white;
+      	border-radius: 3px;
+      }
+      .container-fluid{
+      	background-color: white;
+      	border-radius: 5px;
+      }
+      body{
+      	text-transform: uppercase;
+      }
+    </style>
+
+    
+  </head>
+  <body>
+    
+<main>
+  	<div class="container">
+  		<p></p>
+  		<div class="container-fluid">
+		    <header class="pb-3 mb-4 border-bottom">
+		            <span class="fs-5">Adicionar agendamento</span>
+		    </header>
+			<form method="POST" id="agendaForm" action="{% url 'add_agenda' %}">
+				{% csrf_token %}
+		      	<div class="row g-3">
+			        <div class="col-sm-2">
+			          <label><span class="text-danger">*</span> Hora</label>
+			          	{{form.hora}}
+						<span class="text-danger">{{form.non_field_errors}}</span>
+			        </div>
+			        <div class="col-sm-2">
+			          <label><span class="text-danger">*</span> Data</label>
+			          {{form.data}}
+			        </div>
+			        <div id="ocultar_fields">							
+						{{form.status}}	
+						{{form.observacao}}
+						{{form.procedimento}}
+						{{form.odontograma}}
+						{{form.vigilancia}}
 					</div>
-					<div class="card-content">
-						<form method="post" id="agendaForm">
-							{% csrf_token %}
-							<div class="row">
-								<div class="col-md-2">
-									<div class="form-group">
-										<label>* Hora</label></br>
-										{{form.hora}}
-										<span class="text-danger">{{form.non_field_errors}}</span>
-									</div>
-								</div>
-								<div class="col-md-2" id="ocultar_fields">	
-									<label>Status</label></br>							
-									{{form.status}}	
-									{{form.observacao}}
-									{{form.procedimento}}
-									{{form.odontograma}}
-									{{form.vigilancia}}
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label>* Data</label></br>	
-										{{form.data}}
-									</div>
-								</div>
-								<div class="col-md-6">
-									<label>* Paciente | Telefone | Unidade de Saúde</label></br>	
-									{{form.paciente}}
-									<span class="text-danger">{{form.paciente.errors}}</span>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label>* Contato</label></br>	
-										{{form.telefone}}
-										<span class="text-danger">{{form.telefone.errors}}</span>
-									</div>
-								</div>
-							</div>
-							<div class="row">
+			        <div class="col-sm-6">
+			          <label class="form-label"><span class="text-danger">*</span> Paciente</label>
+			          {{form.paciente}}
+			          <span class="text-danger">{{form.paciente.errors}}</span>
+			        </div>
 
-								<div class="col-md-3">
-									<label>* Profissional</label></br>	
-									{{form.profissional}}
-									<span class="text-danger">{{form.profissional.errors}}</span>
-								</div>
-								<div class="col-md-3">
-									<label>* Especialidade</label></br>	
-									{{form.especialidade}}
-									<span class="text-danger">{{form.especialidade.errors}}</span>
-								</div>
-								<div class="col-md-6">
-									<label>* Ubs (Selecione conforme está ao lado do nome do Peciente)</label></br>	
-									{{form.ubs}}
-									<span class="text-danger">{{form.ubs.errors}}</span>
-								</div>
-								<div class="col-md-6">
-									<label>* Tipo de Consulta)</label></br>	
-									{{form.tipoconsulta}}
-									<span class="text-danger">{{form.tipoconsulta.errors}}</span>
-								</div>						
-							</div>
+			        <div class="col-sm-2">
+			          <label><span class="text-danger">*</span> Telefone</label>
+			          {{form.telefone}}
+			          <span class="text-danger">{{form.telefone.errors}}</span>
+			        </div>
+			        <div class="row g-3">
+			            <div class="col-sm-5">
+							<label class="form-label"><span class="text-danger">*</span> Profissional</label>	
+							{{form.profissional}}
+							<span class="text-danger">{{form.profissional.errors}}</span>
+						</div>
+						<div class="col-sm-3">
+							<label class="form-label"><span class="text-danger">*</span> Especialidade</label>	
+							{{form.especialidade}}
+							<span class="text-danger">{{form.especialidade.errors}}</span>
+						</div>
+						<div class="col-sm-4">
+							<label class="form-label"><span class="text-danger">*</span> Unidade Básica de Saúde</label>	
+							{{form.ubs}}
+							<span class="text-danger">{{form.ubs.errors}}</span>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<label class="form-check-label"><span class="text-danger">*</span> Tipo de Consulta)</label>	
+						{{form.tipoconsulta}}
+						<span class="text-danger">{{form.tipoconsulta.errors}}</span>
+					</div>
+				</div>
+		      	<hr class="my-4">
+		      	<button type="submit" class="btn btn-success" id="submitButton">SALVAR AGENDAMENTO</button>
+				<a href="{% url 'agendas' %}" class="btn btn-danger" onclick="return confirm('Deseja realmente cancelar?');">Cancelar Agendamento</a>
+					<div class="clearfix"></div>
+		    </form>
+	</div>
+	</div>
+</main>
 
-<button type="submit" class="btn btn-primary btn-sm pull-right" id="submitButton"> Enviar</button>
-<a href="{% url 'agendas' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
-<div class="clearfix"></div>
-</form>
-</div><!-- end content-->
-</div><!--  end card  -->
-</div> <!-- end col-md-12 -->
-</div> <!-- end row -->
-</div>
-</div>
-<script type="text/javascript">
+
+  </body>
+  <script type="text/javascript">
 document.querySelector("#id_vigilancia_6").checked = true;
 </script>
 <script type="text/javascript">
@@ -217,5 +262,33 @@ $('#id_especialidade').val(profissionalEspecialidade.split('--')[1]);
       });
     });
 </script>
-{% endblock container %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#id_especialidade').select2();
+    $('#id_profissional').select2();
+    $('#id_ubs').select2();
+});
+</script>
+<script>
+    $(document).ready(function () {
+        $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'add_agenda' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.nome};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 2
+        });
+    });
+</script>
+</html>
 

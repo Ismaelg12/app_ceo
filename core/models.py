@@ -54,3 +54,16 @@ class Clinica(models.Model):
         
     def __str__(self):
         return self.clinica
+
+class Novidade(models.Model):
+    versao        = models.CharField(max_length=16,blank=True)
+    descricao     = models.TextField(max_length=600,blank=True)
+    atualizado_em   = models.DateTimeField('Atualizado em', auto_now=True)
+    criado_em       = models.DateTimeField('Criado em', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Versão '
+        verbose_name_plural = 'Versões'
+        
+    def __str__(self):
+        return self.versao
