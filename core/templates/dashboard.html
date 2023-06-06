@@ -214,7 +214,7 @@
   
   <footer class="footer">
   <div class="container-fluid">
-      <span class="text-muted d-block d-sm-inline-block"> &copy; <script>document.write(new Date().getFullYear())</script> - Todos os Direitos reservados | V.1.8</span>
+      <span class="text-muted d-block d-sm-inline-block"> &copy; <script>document.write(new Date().getFullYear())</script> - Todos os Direitos reservados | {% for v in vers%}{{v.versao}}{%endfor%}</span>
   </div>
 </footer>
 </div>

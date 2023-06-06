@@ -32,6 +32,7 @@ class DashboardView(TemplateView,DashboardMixin):
         
         context['clinica']          = Clinica.objects.all()[:1]        
         context['novidade']         = Novidade.objects.all().order_by('-criado_em')
+        context['vers']         = Novidade.objects.all().order_by('-criado_em')[:1] 
         return context
 
 
