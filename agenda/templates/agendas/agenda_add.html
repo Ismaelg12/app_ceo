@@ -24,6 +24,9 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
 <meta name="theme-color" content="#7952b3">
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link rel="stylesheet" href="{% static "assets/css/material-dashboard.css" %}"/>
     <style>
       .bd-placeholder-img {
@@ -89,7 +92,7 @@
 						{{form.vigilancia}}
 					</div>
 			        <div class="col-sm-6">
-			          <label class="form-label"><span class="text-danger">*</span> Paciente</label>
+			          <label class="form-label"><span class="text-danger">*</span> Paciente | CPF | CNS</label>
 			          {{form.paciente}}
 			          <span class="text-danger">{{form.paciente.errors}}</span>
 			        </div>
@@ -124,8 +127,8 @@
 				</div>
 		      	<hr class="my-4">
 		      	<button type="submit" class="btn btn-success" id="submitButton">SALVAR AGENDAMENTO</button>
-				<a href="{% url 'agendas' %}" class="btn btn-danger" onclick="return confirm('Deseja realmente cancelar?');">Cancelar Agendamento</a>
-					<div class="clearfix"></div>
+		      	<button class="btn btn-danger" id="alert" type="button">Cancelar Agendamento</button>
+						<div class="clearfix"></div>
 		    </form>
 	</div>
 	</div>
@@ -281,7 +284,7 @@ $('#id_especialidade').val(profissionalEspecialidade.split('--')[1]);
                 processResults: function (data) {
                     return {
                         results: $.map(data, function (item) {
-                            return {id: item.id, text: item.nome};
+                            return {id: item.id, text: item.nome + ' | ' + item.cpf + ' | ' + item.sus};
                         })
                     };
                 }
@@ -289,6 +292,24 @@ $('#id_especialidade').val(profissionalEspecialidade.split('--')[1]);
             minimumInputLength: 2
         });
     });
+</script>
+<script type="text/javascript">
+    $("#alert").click(function() {
+  swal({
+    title: "Atenção!",
+    text: "As alterações realizadas serão perdidas.",
+    icon: "warning",
+    buttons: true,
+    confirmButtonColor: '#d33',
+  	cancelButtonColor: '#3085d6',
+  }).then(function(result) {
+    if (result) {
+      window.location.href="{% url 'agendas' %}"
+    } else {
+      return;
+    }
+  });
+});
 </script>
 </html>
 
